@@ -1,0 +1,21 @@
+.mainDiv{
+    width:700px;
+    height:700px;
+    background-color:lightblue;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 100px 100px 100px ;
+    justify-items: center;
+    align-items: center;
+}
+
+.subdiv{
+    width: 40px;
+    height: 40px;
+    /* border-radius: 20px; */
+    background-color: blue;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

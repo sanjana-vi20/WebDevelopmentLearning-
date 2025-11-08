@@ -1,0 +1,27 @@
+.btn{
+    width: 100px;
+    border-radius: 20px;
+    background-color: rgb(10, 219, 226);
+}
+#a{
+    display: inline;
+}
+#b{
+    display: none;
+}
+
+.btn:hover{
+    #a{
+    display: none;
+}
+#b{
+    display: inline;
+}
+}
+
+#d1,#d2{
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+}

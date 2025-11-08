@@ -7,20 +7,29 @@
   </head>
   <link rel="stylesheet" href="style.css" />
   <body>
-    <div class="mainBody">
-      <h1 id="heading">UserLogin</h1>
+    <div class="mainbody">
+      <div class="loginform">
+        <h1 id="heading">Login</h1>
+        <div class="loginfield">
+            <img src="https://cdn-icons-png.flaticon.com/128/2604/2604334.png" alt="">
+          <input type="email" placeholder="Enter your email " id="emailfield" />
+          <br />
+          <hr />
+         <img src="https://cdn-icons-png.flaticon.com/128/19026/19026011.png" alt="" srcset=""> <input type="password" placeholder="Enter your password" id="pass" /> <img src="https://cdn-icons-png.flaticon.com/128/19025/19025997.png" alt="" class="eye">
+          <hr />
+        </div>
+        <div class="remember">
+         <input type="checkbox" /> <span id="reme">Remember me</span>
+          <a href="#"">
+            Forget password?</a
+          >
+        </div>
+        <div class="submit">
+          <button id="loginbutton">Login Now</button>
+        </div>
 
-      <div class="formfield">
-        <label for="Username">Username</label>
-        <input type="text" id="username" /> <br />
-        <label for="Password">Password</label>
-        <input type="password" id="password" />
+        <p id="Signup">Don't have an account? <a href="#">Signup now</a></p>
       </div>
-
-      <div class="formControll">
-        <button id="cancelbutton">Cancel</button>
-        <button id="loginbutton">Login</button>
       </div>
-    </div>
   </body>
 </html>
