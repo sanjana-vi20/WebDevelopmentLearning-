@@ -1,0 +1,102 @@
+/* #d1{
+    width: 400px;
+    height: 50px;
+    border: 1px solid black;
+     border-radius: 3px;
+    
+}
+#d1:hover{
+    #d2{
+       width: 400px;
+       background-color: green;
+       transition: width 5s ease-in-out , background-color 5s ease-in-out;
+    }
+}
+
+#d2{
+    background-color: red ;
+    width: 10px;
+    height: 50px;  
+}
+
+#d3{
+    width: 400px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 3px;
+    
+}
+#d3:hover{
+    #d4{
+      animation: animi 5s linear;
+      
+    }
+}
+
+#d4{
+    height: 50px;  
+}
+
+@keyframes animi {
+    0%{
+        width: 0%;
+        background-color: red;
+    }
+    50%{
+        width: 50%;
+        background-color: yellowgreen;
+    }
+    100%{
+        width: 100%;
+        background-color: green;
+    }
+} */
+.outerBox{
+    width: 500px;
+    height:500px;
+    position: relative;
+}
+
+#box{
+    width: 100px;
+    height : 100px;
+    background-color: blue;
+    position: absolute;
+    animation: move 5s linear infinite ;
+}
+
+@keyframes move {
+    0%{
+        top: 0px;
+        left: 0px;
+        background-color: aqua;
+    }
+
+    25%{
+       top: 0px;
+       left: 500px;
+       background-color: aquamarine;
+    }
+
+    50%{
+       top: 500px;
+       left: 500px;
+       background-color: yellowgreen;
+    }
+
+    75%{
+       top: 500px;
+       left: 0px;
+       background-color: greenyellow;
+    }
+
+    100%{
+       top: 0px;
+       left: 0px;
+    }
+
+    
+
+  
+}
+
