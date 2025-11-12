@@ -1,17 +1,460 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <link rel="stylesheet" href="style.css" />
+  <body>
     <div class="mainBody">
-
-        <div>
-            <h2>Material Tailwind</h2>
-            <img src="" alt="">
+      <section id="navBar">
+        <h2 style="text-align: center">Material Tailwind</h2>
+        <div class="navItems">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/657/657038.png"
+            alt=""
+            class="icon"
+          /><span>Pages</span>
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/9581/9581121.png"
+            alt=""
+            class="icon"
+          /><span>Contact</span>
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/7544/7544562.png"
+            alt=""
+            class="icon"
+          /><span>Docs</span>
         </div>
+
+        <div id="">
+          <button id="signbtn">SIGN IN</button>
+          <button id="block">BLOCKS</button>
+        </div>
+      </section>
+
+      <!-- hero section -->
+
+      <section class="s1">
+        <div id="textSection">
+          <h1>Welcome to my Web Development Portfolio!</h1>
+          <p id="des">
+            I'm Lily Smith, a passionate web developer based in USA. Here,
+            you'll get a glimpse of my journey in the world of web development,
+            where creativity meets functionality.
+          </p>
+          <div>
+            <label for="email">Your email</label> <br />
+            <input type="email" id="email" placeholder="Enter your email" />
+            <span><button id="requirebtn">REQUIRE OFFER</button></span>
+          </div>
+          <p id="terms">Read my Terms and Conditions</p>
+        </div>
+
+        <img
+          src="https://as1.ftcdn.net/jpg/02/89/71/32/1000_F_289713269_uxRxOg22CuQJXJ7fFcT0UF22UdvdgRzR.jpg"
+          alt=""
+          id="myPhoto"
+        />
+      </section>
+      <!-- second section -->
+      <section id="s2">
+        <p id="clients">My awesome clients</p>
+        <div id="image">
+          <img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-coinbase.svg"
+            alt=""
+          />
+          <img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-spotify.svg"
+            alt=""
+          /><img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-pinterest.svg"
+            alt=""
+          /><img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-google.svg"
+            alt=""
+          /><img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-amazon.svg"
+            alt=""
+          /><img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-netflix.svg"
+            alt=""
+          />
+        </div>
+
+        <div id="skillText">
+          <p id="clients">MY SKILLS</p>
+          <h1>What I Do</h1>
+          <p id="doing">
+            I'm not just a developer; I'm a digital dreamweaver. Crafting
+            immersive online experiences is not just a job but my calling.
+            Discover below how I can help you.
+          </p>
+        </div>
+      </section>
+
+      <!-- Cards Section -->
+
+      <section id="s3">
+        <div id="gridSection">
+          <div id="Cards">
+            <div id="myImage">
+              <img src="gridview.png" alt="img1" />
+            </div>
+            <h2>Frontend Web Development:</h2>
+            <p>
+              Creating beautiful and functional web experiences is my forte.
+              Using the latest technologies and best practices, I design and
+              build websites that captivate and engage users.
+            </p>
+          </div>
+          <div id="Cards">
+            <div id="myImage">
+              <img src="fingerprint.png" alt="img1" />
+            </div>
+            <h2>Mobile App Development</h2>
+            <p>
+              I specialize in creating responsive and intuitive mobile apps that
+              work seamlessly across iOS & Android devices. From concept to
+              deployment, I handle every stage of the development process.
+            </p>
+          </div>
+          <div id="Cards">
+            <div id="myImage">
+              <img src="paint.png" alt="img1" />
+            </div>
+            <h2>Technology Stack</h2>
+            <p>
+              I'm well-versed in the industry's most popular frontend
+              technologies, including HTML5, CSS3, JavaScript, and frameworks
+              like React and React Native.
+            </p>
+          </div>
+          <div id="Cards">
+            <div id="myImage">
+              <img src="hashtag.png" alt="img1" />
+            </div>
+            <h2>Web Optimization</h2>
+            <p>
+              Performance matters. I optimize websites and apps for speed,
+              ensuring your users enjoy a fast and responsive experience, which
+              in turn boosts user satisfaction and SEO rankings
+            </p>
+          </div>
+          <div id="Cards">
+            <div id="myImage">
+              <img src="eye.png" alt="img1" />
+            </div>
+            <h2>User-Centric Design</h2>
+            <p>
+              My development goes hand-in-hand with an eye for design. I create
+              user interfaces that are not only functional but also
+              aesthetically pleasing, providing a seamless and enjoyable user
+              journey.
+            </p>
+          </div>
+          <div id="Cards">
+            <div id="myImage">
+              <img src="google-docs (1).png" alt="img1" />
+            </div>
+            <h2>Testing and Quality Assurance</h2>
+            <p>
+              I rigorously test and debug applications to guarantee a bug-free
+              and secure environment for users. Your peace of mind is as
+              important to me as the functionality of your project.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- projects section -->
+
+      <section id="s4">
+        <h1>My Projects</h1>
+        <p id="myProject">
+          Whether you have a mobile app idea that needs to come to life or a
+          website that requires a facelift, I'm here to turn your digital dreams
+          into reality.
+        </p>
+        <div id="grid">
+          <div id="items">
+            <img
+              src="https://miro.medium.com/1*Vmj8l7Y3_cha3iwga3Sqyg.png"
+              alt=""
+            />
+
+            <h2>Mobile App Development</h2>
+            <p>
+              Mobile app designed to help users discover and explore local
+              restaurants and cuisines.
+            </p>
+            <button id="Details">SEE DETAILS</button>
+          </div>
+          <div id="items">
+            <img
+              src="https://miro.medium.com/1*Vmj8l7Y3_cha3iwga3Sqyg.png"
+              alt=""
+            />
+
+            <h2>Mobile App Development</h2>
+            <p>
+              Mobile app designed to help users discover and explore local
+              restaurants and cuisines.
+            </p>
+            <button id="Details">SEE DETAILS</button>
+          </div>
+          <div id="items">
+            <img
+              src="https://miro.medium.com/1*Vmj8l7Y3_cha3iwga3Sqyg.png"
+              alt=""
+            />
+
+            <h2>Mobile App Development</h2>
+            <p>
+              Mobile app designed to help users discover and explore local
+              restaurants and cuisines.
+            </p>
+            <button id="Details">SEE DETAILS</button>
+          </div>
+          <div id="items">
+            <img
+              src="https://miro.medium.com/1*Vmj8l7Y3_cha3iwga3Sqyg.png"
+              alt=""
+            />
+
+            <h2>Mobile App Development</h2>
+            <p>
+              Mobile app designed to help users discover and explore local
+              restaurants and cuisines.
+            </p>
+            <button id="Details">SEE DETAILS</button>
+          </div>
+          <div id="items">
+            <img
+              src="https://miro.medium.com/1*Vmj8l7Y3_cha3iwga3Sqyg.png"
+              alt=""
+            />
+
+            <h2>Mobile App Development</h2>
+            <p>
+              Mobile app designed to help users discover and explore local
+              restaurants and cuisines.
+            </p>
+            <button id="Details">SEE DETAILS</button>
+          </div>
+          <div id="items">
+            <img
+              src="https://miro.medium.com/1*Vmj8l7Y3_cha3iwga3Sqyg.png"
+              alt=""
+            />
+
+            <h2>Mobile App Development</h2>
+            <p>
+              Mobile app designed to help users discover and explore local
+              restaurants and cuisines.
+            </p>
+            <button id="Details">SEE DETAILS</button>
+          </div>
+          <div id="items">
+            <img
+              src="https://miro.medium.com/1*Vmj8l7Y3_cha3iwga3Sqyg.png"
+              alt=""
+            />
+
+            <h2>Mobile App Development</h2>
+            <p>
+              Mobile app designed to help users discover and explore local
+              restaurants and cuisines.
+            </p>
+            <button id="Details">SEE DETAILS</button>
+          </div>
+          <div id="items">
+            <img
+              src="https://miro.medium.com/1*Vmj8l7Y3_cha3iwga3Sqyg.png"
+              alt=""
+            />
+
+            <h2>Mobile App Development</h2>
+            <p>
+              Mobile app designed to help users discover and explore local
+              restaurants and cuisines.
+            </p>
+            <button id="Details">SEE DETAILS</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- resume -->
+
+      <section id="s5">
+        <div id="resume">
+          <h1>My Resume</h1>
+          <p>
+            Highly skilled and creative Web Developer with 5+ years of
+            experience in crafting visually stunning and functionally robust
+            websites and web applications.
+          </p>
+
+          <button>VIEW MORE -></button>
+        </div>
+        <div id="education">
+          <div id="content">
+            <img src="growth.png" alt="" />
+            <p>Bachelor of Science in Computer Science</p>
+            <br />
+          </div>
+
+          <div id="content">
+            <img src="puzzle-piece.png" alt="" />
+            <p>Certified Web Developer</p>
+            <br />
+          </div>
+          <div id="content">
+            <img src="cursor.png" alt="" />
+            <p>Frontend Framework Proficiency Certification</p>
+            <br />
+          </div>
+        </div>
+      </section>
+      <!-- 
+      clients section -->
+
+      <section id="s6">
+        <h1>What Clients Say</h1>
+        <p id="myProject">
+          Discover what clients have to say about their experiences working with
+          me. My client's satisfaction is my greatest achievement!
+        </p>
+
+        <div id="profile">
+          <div id="d1">
+            <h2>Mobile App Development</h2>
+            <p id="p1">
+              I had the pleasure of working with Lily on a critical web
+              development project, and I can confidently say that their
+              expertise and professionalism exceeded my expectations.
+            </p>
+
+            <p id="p2">Michael - Technical Manager</p>
+            <p id="p1">Marketing @ APPLE INC</p>
+          </div>
+          <div id="d2">
+            <img
+              src="https://as1.ftcdn.net/jpg/02/89/71/32/1000_F_289713269_uxRxOg22CuQJXJ7fFcT0UF22UdvdgRzR.jpg"
+              alt=""
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- trusted -->
+
+      <section id="s7">
+        <p>POPULAR CLIENTS</p>
+        <h1>Trusted by over 10,000+ clients</h1>
+        <div id="image1">
+          <img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-coinbase.svg"
+            alt=""
+          />
+          <img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-spotify.svg"
+            alt=""
+          /><img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-pinterest.svg"
+            alt=""
+          /><img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-google.svg"
+            alt=""
+          /><img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-amazon.svg"
+            alt=""
+          /><img
+            src="https://themewagon.github.io/Next.js-Tailwind-CSS-Portfolio-Template/logos/logo-netflix.svg"
+            alt=""
+          />
+        </div>
+      </section>
+
+      <!-- contact us -->
+
+      <section id="s8">
+        <h1>Contact Us</h1>
+        <p id="myProject1">
+          Ready to get started? Feel free to reach out through the contact form,
+          and let's embark on a journey of innovation and success
+        </p>
+
+        <div id="contactform">
+          <div id="part1">
+            <h2>Contact Information</h2>
+            <p id="p1">
+              Fill up the form and our Team will get back to you within 24
+              hours.
+            </p>
+            <div id="content">
+              <img src="phone-call.png" alt="" />
+              <p>+1(424) 535 3523</p>
+              <br />
+            </div>
+
+            <div id="content">
+              <img src="mail.png" alt="" />
+              <p>hello@mail.com</p>
+              <br />
+            </div>
+            <div id="content">
+              <img src="ticket.png" alt="" />
+              <p>Open Support Ticket</p>
+              <br />
+            </div>
+          </div>
+
+          <div id="formSection">
+            <div id="text">
+              <label for="name"> First Name</label>
+              <label for="name"> Last Name</label>
+              <input type="text" placeholder="eg Lucas" />
+              <input type="text" placeholder="eg Lucas" />
+
+              <label for="name"> Email</label><br />
+              <input type="email" placeholder="eg Lucas@email.com" />
+            </div>
+
+            <p>What are you interested on?</p>
+            <div id="rad">
+              <input type="radio" /><span>Design</span>
+              <input type="radio" /><span>Devolopment</span>
+              <input type="radio" /><span>Support</span>
+              <input type="radio" /><span>Other</span>
+            </div>
+
+            <p>Your Message</p>
+            <textarea name="" id="textarea" cols="70" rows="5"></textarea><br />
+
+            <button id="requirebtn" style="margin-left: 500px;">
+              SEND MESSAGE
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="f1">
+          © 2025 Made with Material Tailwind by Creative Tim. Distributed by
+          ThemeWagon
+        </div>
+        <div class="f2">
+          <div>Home</div>
+          <div>About</div>
+          <div>Blog</div>
+          <div>Service</div>
+
+          <button>SUBSCRIBE</button>
+        </div>
+      </footer>
     </div>
-</body>
+  </body>
 </html>
