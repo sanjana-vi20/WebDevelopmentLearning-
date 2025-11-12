@@ -538,6 +538,7 @@ footer {
   font-size: small;
   color: var(--text-head);
   gap: 2rem;
+  font-size: 15px;
 }
 
 button {
