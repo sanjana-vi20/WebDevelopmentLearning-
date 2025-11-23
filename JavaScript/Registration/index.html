@@ -16,7 +16,7 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
   />
   <body class="bg-light">
-    <header>
+    <header class="sticky-top top-0 z-3">
       <div class="d-flex bg-primary justify-content-between p-1">
         <div class="container-fluid d-flex">
           <img
@@ -44,28 +44,33 @@
           >
           <div class="d-flex flex-column gap-3">
             <div class="d-flex">
-              <label for="Full name" class="form-label w-25"> Full Name: <sup class="text-danger">*</sup></label
+              <label for="Full name" class="form-label w-25">
+                Full Name: <sup class="text-danger">*</sup></label
               ><br />
-              <input type="text " class="form-control" required />
+              <input type="text " class="form-control" id="fullName" required />
             </div>
             <div class="d-flex">
               <label for="email" class="form-label w-25"> Email:</label><br />
-              <input type="email " class="form-control" required />
+              <input type="email " class="form-control" id="email" required />
             </div>
             <div class="d-flex">
-              <label for="conatact" class="form-label w-25">Mobile Number:</label
+              <label for="conatact" class="form-label w-25"
+                >Mobile Number:</label
               ><br />
-              <input type="number" class="form-control" required />
+              <input type="number" class="form-control" id="contact" required />
             </div>
 
             <div class="d-flex">
-              <label for="conatact" class="form-label w-25">D O B :</label><br />
-              <input type="date" class="form-control" required />
+              <label for="conatact" class="form-label w-25">D O B :</label
+              ><br />
+              <input type="date" class="form-control" id="dob" required />
             </div>
           </div>
         </div>
         <!-- Academic Details -->
-        <div class="border border-dark-subtle p-4 rounded-2 position-relative mt-5">
+        <div
+          class="border border-dark-subtle p-4 rounded-2 position-relative mt-5"
+        >
           <span
             class="position-absolute fs-5 px-2 bg-white text-primary"
             style="top: -15px"
@@ -73,9 +78,15 @@
           >
           <div class="d-flex flex-column gap-3">
             <div class="d-flex">
-              <label for="Full name" class="form-label w-25"> Qualification:</label
+              <label for="Full name" class="form-label w-25">
+                Qualification:</label
               ><br />
-              <select name="qualification"  id="" class="form-select" required>
+              <select
+                name="qualification"
+                id="qualification"
+                class="form-select"
+                required
+              >
                 <option value="">--Select--</option>
                 <option value="10">Secondary Schooling</option>
                 <option value="12">Senior Secondary Schooling</option>
@@ -85,52 +96,110 @@
               </select>
             </div>
             <div class="d-flex">
-              <label for="email" class="form-label w-25"> Percentage/Grade :</label><br />
-              <input type="email " class="form-control" required />
+              <label for="email" class="form-label w-25">
+                Percentage/Grade :</label
+              ><br />
+              <input type="number " class="form-control" id="Grade" required />
             </div>
           </div>
         </div>
 
         <!-- course Details -->
 
-        <div class="border border-dark-subtle p-4 rounded-2 position-relative mt-5">
+        <div
+          class="border border-dark-subtle p-4 rounded-2 position-relative mt-5"
+        >
           <span
             class="position-absolute fs-5 px-2 bg-white text-primary"
             style="top: -15px"
-            >Course Details</span
+            >Address Details</span
           >
+
           <div class="d-flex flex-column gap-3">
-            <div class="d-flex">
-              <label for="Full name" class="form-label w-25">Courses:</label
-              ><br />
-              <select name="qualification"  id="" class="form-select" required>
-                <option value="">--Select--</option>
-                <option value="FSD">full stack development</option>
-                <option value="DSA">Data structure</option>
-                <option value="DA"> Data Analytics</option>
-                <option value="JDS">Java Programming</option>
-                <option value="PDSA">Python DSA</option>
-              </select>
-            </div> 
-            <div class="d-flex">
-
-              <label for="email" class="form-label w-25"> Preferred Batch :</label><br />
-
-               <div class="d-flex gap-3">
-                <input type="checkbox" name="batch" id="morning" class="form-check-input " style="accent-color: black;" /><span>Morning</span>
-                <input type="checkbox" name="batch" id="morning" class="form-check-input" /><span>AfterNoon</span>
-                <input type="checkbox" name="batch" id="morning" class="form-check-input" /><span>Evening</span>
-                <input type="checkbox" name="batch" id="morning" class="form-check-input" /><span>Weekends</span>
-               </div>
+            <div class="d-flex gap-3">
+              <label for="Address">Address:</label>
+              <textarea
+                name="address"
+                id="address"
+                placeholder="bhopal"
+                class="form-control"
+              ></textarea>
             </div>
-           
+            <div class="d-flex gap-5">
+              <label for="city">City:</label>
+              <input
+                type="text"
+                placeholder="bhopal"
+                id="city"
+                class="form-control"
+              />
+            </div>
+
+            <div class="d-flex gap-3">
+              <label for="pin">PinCode:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="PinCode"
+                placeholder=" 6-digit"
+              />
+            </div>
           </div>
         </div>
 
-        <button class="btn btn-dark text-light m-3">Submit</button>
+        <!-- Guardian Details -->
+
+        <div
+          class="border border-dark-subtle p-4 rounded-2 position-relative mt-5"
+        >
+          <span
+            class="position-absolute fs-5 px-2 bg-white text-primary"
+            style="top: -15px"
+            >Guardian Details</span
+          >
+
+          <div class="d-flex gap-3 flex-column">
+            <div class="d-flex">
+              <label for="GuardianName" class="w-25">Guardian Name:</label>
+              <input type="text" class="form-control" id="Gname" />
+            </div>
+
+            <div class="d-flex">
+              <label for="GuardianContact" class="w-25"
+                >Guardian conatact:</label
+              >
+              <input type="number" class="form-control" id="Gnumber" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Information -->
+
+        <div
+          class="border border-dark-subtle p-4 rounded-2 position-relative mt-5"
+        >
+          <span
+            class="position-absolute fs-5 px-2 bg-white text-primary"
+            style="top: -15px"
+            >Additional Information</span
+          >
+
+          <p>How did you hear about us?</p>
+
+          <select name="source" id="source" class="form-control">
+            <option value="Friends">Friends</option>
+            <option value="Online Ad">Online Ads</option>
+            <option value="Newspaper">Newspaper</option>
+            <option value="Social Media">Social Media</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+
+        <button class="btn btn-dark text-light m-3" onclick="submit()">
+          Submit
+        </button>
       </div>
     </main>
-
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
