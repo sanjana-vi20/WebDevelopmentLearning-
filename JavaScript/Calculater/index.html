@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-info ">
+    <div class="d-flex justify-content-center">
+        
+      <div
+        class="bg-black d-flex flex-column m-5 text-light px-4 py-4 border rounded-4 shadow p-3 mb-5 bg-body-dark h-50 z-9"
+      >  
+      
+        <input type="text" id = "display" class="bg-light text-dark p-3 fs-4 border rounded-3" placeholder="0"/>
+
+
+        <div class="px-2 my-3 d-flex flex-column gap-2">
+          <div class="d-flex justify-content-between gap-2">
+            <input type="button" value="7" id="7" class="py-3 px-4 rounded-2 border fs-4" onclick="input('7')" />
+            <input type="button" value="8" id="8" class="py-3 px-4 rounded-2 border fs-4" onclick="input('8')"/>
+            <input type="button" value="9" id="9" class="py-3 px-4 rounded-2 border fs-4" onclick="input('9')"/>
+            <input type="button" value="/" id="divide" class="py-3 px-4 rounded-2 border fs-4" onclick="input('/')"/>
+          </div>
+          <div class="d-flex justify-content-between">
+            <input type="button" value="4" id="4" class="py-3 px-4 rounded-2 border fs-4"  onclick="input('4')"/>
+            <input type="button" value="5" id="5" class="py-3 px-4 rounded-2 border fs-4" onclick="input('5')"/>
+            <input type="button" value="6" id="6" class="py-3 px-4 rounded-2 border fs-4" onclick="input('6')"/>
+            <input type="button" value="*" id="multi" class="py-3 px-4 rounded-2 border fs-4" onclick="input('*')"/>
+          </div>
+          <div class="d-flex justify-content-between">
+            <input type="button" value="1" id="1" class="py-3 px-4 rounded-2 border fs-4" onclick="input('1')"/>
+            <input type="button" value="2" id="2" class="py-3 px-4 rounded-2 border fs-4" onclick="input('2')"/>
+            <input type="button" value="3" id="3" class="py-3 px-4 rounded-2 border fs-4" onclick="input('3')"/>
+            <input type="button" value="-" id="subt" class="py-3 px-4 rounded-2 border fs-4" onclick="input('-')" />
+          </div>
+          <div class="d-flex justify-content-between">
+            <input type="button" value="." id="dot" class="py-3 px-4 rounded-2 border fs-4" onclick="input('.')"/>
+            <input type="button" value="0" id="0" class="py-3 px-4 rounded-2 border fs-4" onclick="input('0')"/>
+            <input type="button" value="+" id="add" class="py-3 px-4 rounded-2 border fs-4"onclick = "input('+')"/>
+            <input type="button" onclick="input('C')" value="C" id="clear" class="py-3 px-4 bg-danger text-white border-0 rounded-2 border fs-4"/>
+          </div>
+        </div>
+
+        <button onclick="input('=')" class="bg-danger text-center text-light p-2 fs-4 border rounded-3 border-0" id="equalsto" onclick = "input('=')">
+          =
+        </button>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
