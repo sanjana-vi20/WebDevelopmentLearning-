@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <link rel="stylesheet" href="style.css" />
+  <body>
+    <div id="bulb"></div>
+    <input type="color" name="color" id="color" />
+    <button onclick="On()">On</button>
+    <button onclick="Off()">Off</button>
+    <button onclick="red()">Red</button>
+    <button onclick="blue()">Blue</button>
+    <button onclick="green()">Green</button>
+
+    <hr />
+    <div id="smartBulb"></div>
+    <button onclick="SB_Control()" id="sb_btn">On</button>
+
+    <hr />
+    <hr />
+
+    <div id="MainB">
+      <div id="text">
+        <h1 id="Heading">This is heading</h1>
+        <p id="para">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint autem
+          cupiditate odio blanditiis quam nesciunt ducimus saepe veritatis
+          soluta tempora.
+        </p>
+      </div>
+
+      <div id="colors">
+        <div><label for="Bg">BackGround:</label>
+        <input type="color" id="Bgcolor"></div>
+        <div>
+            <label for="heading">Heading color:</label>
+            <input type="color" id="headColor">
+        </div>
+        <div>
+            <label for="para" id="paraColor">Paragraph color:</label>
+        <input type="color">
+        </div>
+
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
