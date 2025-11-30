@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+  />
+  <body>
+    <div>
+<img src="" alt="">
+        <div class="text-center bg-primary text-light p-2">
+            <h1>Dice Game</h1>
+        </div>
+      <div class="d-flex justify-content-center m-auto gap-5 p-5 w-75">
+        <div
+          class="border border-black  shadow d-flex flex-column align-items-center gap-5 rounded-1 justify-content-center"
+        >
+          <h1>Player 1</h1>
+          <img
+            src="https://www.svgrepo.com/show/344136/dice-6-fill.svg"
+            alt=""
+            class="w-25 h-25"
+            id="image1"
+          />
+          <button class="btn btn-primary w-25"  id="dice1" disabled onclick="p1Play()">Roll Dice</button>
+        </div>
+        <div
+          class="border border-black w-fit h-fit shadow d-flex flex-column align-items-center justify-content-center rounded-1 gap-5"
+        >
+          <h1 class="p-0 m-0">Player 2</h1>
+          <img
+            src="https://www.svgrepo.com/show/344136/dice-6-fill.svg"
+            alt=""
+            class="w-25 h-25"
+            id="image2"
+          />
+          <button class="btn btn-primary w-25" id="dice2" disabled onclick="p2Play()">Roll Dice</button>
+        </div>
+      </div>
+
+      <div class="text-center fw-bold">
+        <h1>Score Board</h1>
+
+        <div
+          class="d-flex gap-5 justify-content-around w-50 m-auto fs-4 h-auto align-content-center"
+        >
+          <div>
+            <p>Player 1</p>
+            <p id="score1">0</p>
+          </div>
+
+          <div>
+            <p>Player 2</p>
+            <p id="score2">0</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex w-25 m-auto justify-content-around">
+        <button class="btn btn-success" id="start" onclick="start()">Start Game</button>
+        <button class="btn btn-danger" id="restart" onclick="restart()" disabled>Restart Game</button>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
