@@ -15,7 +15,11 @@ function p1Play() {
   console.log(DF);
   let Score = Number(document.getElementById("score1").innerText);
 
-  if (DF == 6 ) {
+    if(Score == 100)
+    {
+      alert("Player1 is Win");
+    }
+    else if (DF == 6 ) {
     document.getElementById("dice2").disabled = false;
     document.getElementById("dice1").disabled = true;
 
@@ -34,7 +38,11 @@ function p2Play() {
  console.log(DF);
   let Score2 = Number(document.getElementById("score2").innerText);
 
-  if (DF == 6) {
+  if(Score2 == 100)
+    {
+      alert("Player2 is Win");
+    }
+    else if (DF == 6 ) {
     document.getElementById("dice2").disabled = true;
     document.getElementById("dice1").disabled = false;
   } else {
