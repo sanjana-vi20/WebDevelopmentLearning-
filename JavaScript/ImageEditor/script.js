@@ -109,7 +109,7 @@ function reset()
   document.getElementById("Saturate").value = "0";
   document.getElementById("Hue-rotate").value = "0";
   document.getElementById("Blur").value = "0";
-  document.getElementById("Invert").value = "0";
+  document.getElementById("Invert").value = "0"   ;
 
 }
 
