@@ -4,16 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+
+    <style>
+      .col{
+        height: 30px;
+        width: 30px;
+        padding: 10px;
+        border-radius: 50%;
+        border: 1px solid black;
+      }
+
+      .colors{
+        display: flex;
+        gap: 20px;
+      }
+    </style>
   </head>
   <link rel="stylesheet" href="style.css" />
   <body>
     <div id="bulb"></div>
-    <input type="color" name="color" id="color" />
-    <button onclick="On()">On</button>
-    <button onclick="Off()">Off</button>
-    <button onclick="red()">Red</button>
-    <button onclick="blue()">Blue</button>
-    <button onclick="green()">Green</button>
+    <div class="colors">
+      <div class="col" id="c1" style="background-color: red;">R</div>
+      <div class="col" id="c2" style="background-color: green;">G</div>
+      <div class="col" id="c3" style="background-color: blue;">B</div>
+      <div class="col" id="c4" style="background-color: yellow;">Y</div>
+      <div class="col" id="c5" style="background-color: orange;">O</div>
+      <div class="col" id="c6" style="background-color: violet ;">V</div>
+      <div class="col" id="c7" style="background-color: indigo;">i</div>
+    </div>
 
     <hr />
     <div id="smartBulb"></div>
@@ -22,7 +40,7 @@
     <hr />
     <hr />
 
-    <div id="MainB">
+    <!-- <div id="MainB">
       <div id="text">
         <h1 id="Heading">This is heading</h1>
         <p id="para">
@@ -44,7 +62,7 @@
         <input type="color">
         </div>
 
-      </div>
+      </div> -->
     </div>
 
     <script src="script.js"></script>
