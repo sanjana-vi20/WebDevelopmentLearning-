@@ -65,7 +65,7 @@ function SB_Control()
 
 document.getElementById("c1").addEventListener("mouseover" , () => {
   fillcolor("red");
-})
+});
 
 document.getElementById("c1").addEventListener("mouseleave", () => {
   fillcolor("white");
@@ -73,22 +73,22 @@ document.getElementById("c1").addEventListener("mouseleave", () => {
 
 document.getElementById("c2").addEventListener("mouseover" , () => {
   fillcolor("green");
-})
+});
 document.getElementById("c3").addEventListener("mouseover" , () => {
   fillcolor("blue");
-})
+});
 document.getElementById("c4").addEventListener("mouseover" , () => {
   fillcolor("yellow");
-})
+});
 document.getElementById("c5").addEventListener("mouseover" , () => {
   fillcolor("orange");
-})
+});
 document.getElementById("c6").addEventListener("mouseover" , () => {
   fillcolor("violet");
-})
+});
 document.getElementById("c7").addEventListener("mouseover" , () => {
   fillcolor("indigo");
-})
+});
 
 function fillcolor(color)
 {

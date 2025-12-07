@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+  />
+  <body>
+    <div class="m-auto w-50 border shadow p-5 d-flex flex-column gap-4 mt-4">
+
+        <h1>Registration Form</h1>
+      <form id="form">
+
+        <div class="p-2 m-2">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" class="form-control" required>
+        </div>
+         <div class="p-2 m-2">
+            <label for="college" class="form-label"></label>>College</label>
+            <input type="text" class="form-control" required>
+        </div>
+         <div class="p-2 m-2">
+            <label for="branch" class="form-label"></label>>Branch</label>
+            <input type="text" class="form-control" required>
+        </div>
+         <div class="p-2 m-2">
+            <label for="semister" class="form-label"></label>>Semester</label>
+            <input type="text"class="form-control" required>
+        </div>
+         <div class="p-2 m-2">
+            <label for="mobile.no" class="form-label"></label>>Phone Number</label>
+            <input type="text" class="form-control" required>
+        </div>
+         <div class="p-2 m-2">
+            <label for="email" class="form-label"></label>>Email</label>
+            <input type="email" class="form-control" required>
+        </div>
+         <div class="p-2 m-2">
+            <label for="Gender" class="form-label"></label>>Gender</label>
+            <input type="text" class="form-control" required>
+        </div>
+         <div class="p-2 m-2">
+            <label for="course name" class="form-label"></label>>Course Name</label>
+            <input type="text" class="form-control" required>
+        </div>
+
+        <div class="m-auto" onclick="formSubmit()"><button class="btn btn-success">Submit</button></div>
+      </form>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
