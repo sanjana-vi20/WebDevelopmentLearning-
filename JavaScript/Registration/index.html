@@ -17,7 +17,7 @@
   />
   <body class="bg-light">
     <header class="sticky-top top-0 z-3">
-      <div class="d-flex bg-primary justify-content-between p-1">
+      <div class="d-flex bg-primary justify-content-around p-2">
         <div class="container-fluid d-flex">
           <img
             src="cursor.png"
@@ -26,10 +26,10 @@
             height="50px"
             class="pt-2"
           />
-          <h1 class="text-light py-1 px-3">Registration Form</h1>
+          <h1 class="text-light py-1 px-3 w-75">Registration Form</h1>
         </div>
-        <div>
-          <button class="btn btn-info">Student Login</button>
+        <div class="w-25 d-flex justify-content-center align-items-center">
+          <button class="btn btn-info text-light h-75">Student Login</button>
         </div>
       </div>
     </header>
@@ -49,9 +49,15 @@
               ><br />
               <input type="text " class="form-control" id="fullName" required />
             </div>
+            <div>
+              <span class="text-danger float-end errors" id="nameError"></span>
+            </div>
             <div class="d-flex">
               <label for="email" class="form-label w-25"> Email:</label><br />
               <input type="email " class="form-control" id="email" required />
+            </div>
+            <div>
+              <span class="text-danger float-end errors" id="emailError"></span>
             </div>
             <div class="d-flex">
               <label for="conatact" class="form-label w-25"
@@ -59,11 +65,20 @@
               ><br />
               <input type="number" class="form-control" id="contact" required />
             </div>
+            <div>
+              <span
+                class="text-danger float-end errors"
+                id="contactError"
+              ></span>
+            </div>
 
             <div class="d-flex">
               <label for="conatact" class="form-label w-25">D O B :</label
               ><br />
               <input type="date" class="form-control" id="dob" required />
+            </div>
+            <div>
+              <span class="text-danger float-end errors" id="doberror"></span>
             </div>
           </div>
         </div>
@@ -95,17 +110,61 @@
                 <option value="PHD">Phd</option>
               </select>
             </div>
+            <div>
+              <span class="text-danger float-end errors" id="qError"></span>
+            </div>
             <div class="d-flex">
               <label for="email" class="form-label w-25">
                 Percentage/Grade :</label
               ><br />
               <input type="number " class="form-control" id="Grade" required />
             </div>
+            <div>
+              <span class="text-danger float-end errors" id="gError"></span>
+            </div>
           </div>
         </div>
 
         <!-- course Details -->
 
+        <div
+          class="border border-dark-subtle p-4 rounded-2 position-relative mt-5"
+        >
+          <span
+            class="position-absolute fs-5 px-2 bg-white text-primary"
+            style="top: -15px"
+            >Course Details</span
+          >
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex">
+              <label for="course" class="form-label w-25">
+                Prefered Course:</label
+              ><br />
+              <select name="courses" id="course" class="form-select" required>
+                <option value="">--Select--</option>
+                <option value="IIT-JEE">IIT-JEE</option>
+                <option value="NEET">NEET</option>
+                <option value="Banking Exams">Banking Exams</option>
+                <option value="UPSC">UPSC</option>
+              </select>
+            </div>
+            <div>
+              <span class="text-danger float-end errors" id="cError"></span>
+            </div>
+            <div class="d-flex">
+              <label for="email" class="form-label w-25"> Batch Timing :</label
+              ><br />
+              <div class="d-flex gap-3">
+                <input type="radio" /><span>Morning</span>
+                <input type="radio" /><span>Evening</span>
+                <input type="radio" /><span>Afternoon</span>
+                <input type="radio" /><span>Weekend</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Address  -->
         <div
           class="border border-dark-subtle p-4 rounded-2 position-relative mt-5"
         >
@@ -125,6 +184,9 @@
                 class="form-control"
               ></textarea>
             </div>
+            <div>
+              <span class="text-danger float-end errors" id="aError"></span>
+            </div>
             <div class="d-flex gap-5">
               <label for="city">City:</label>
               <input
@@ -134,7 +196,9 @@
                 class="form-control"
               />
             </div>
-
+            <div>
+              <span class="text-danger float-end errors" id="cityError"></span>
+            </div>
             <div class="d-flex gap-3">
               <label for="pin">PinCode:</label>
               <input
@@ -143,6 +207,9 @@
                 id="PinCode"
                 placeholder=" 6-digit"
               />
+            </div>
+            <div>
+              <span class="text-danger float-end errors" id="pinError"></span>
             </div>
           </div>
         </div>
@@ -163,12 +230,21 @@
               <label for="GuardianName" class="w-25">Guardian Name:</label>
               <input type="text" class="form-control" id="Gname" />
             </div>
+            <div>
+              <span class="text-danger float-end errors" id="GnameError"></span>
+            </div>
 
             <div class="d-flex">
               <label for="GuardianContact" class="w-25"
                 >Guardian conatact:</label
               >
               <input type="number" class="form-control" id="Gnumber" />
+            </div>
+            <div>
+              <span
+                class="text-danger float-end errors"
+                id="GcontactError"
+              ></span>
             </div>
           </div>
         </div>
@@ -193,6 +269,9 @@
             <option value="Social Media">Social Media</option>
             <option value="Others">Others</option>
           </select>
+        </div>
+        <div>
+          <span class="text-danger float-end errors" id="sourceError"></span>
         </div>
 
         <button class="btn btn-dark text-light m-3" onclick="submit()">

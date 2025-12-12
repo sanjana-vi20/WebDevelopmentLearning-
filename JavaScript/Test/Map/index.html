@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+  <body class="bg-primary">
+    <div class="d-flex gap-3 m-3 justify-content-center">
+      <select name="" id="states" class="form-control w-25">
+        <option value="">--Select--</option>
+        <option value="jammuandkashmir">jammu and kashmir</option>
+        <option value="laddakh">laddakh</option>
+        <option value="himachalpradesh">himachal pradesh</option>
+        <option value="punjab">punjab</option>
+        <option value="uttrakhand">uttrakhand</option>
+        <option value="haryana">haryana</option>
+        <option value="delhi">delhi</option>
+        <option value="rajasthan">rajasthan</option>
+        <option value="uttarpradesh">uttar pradesh</option>
+        <option value="madhyapradesh">madhya pradesh</option>
+        <option value="gujrat">gujrat</option>
+        <option value="bihar">bihar</option>
+        <option value="sikkim">sikkim</option>
+        <option value="westBengal">westBengal</option>
+        <option value="jharkhand">jharkhand</option>
+        <!-- <option value="bangladesh">bangladesh</option> -->
+        <option value="assam">Assam</option>
+        <option value="meghalaya">meghalaya</option>
+        <option value="arunachalPradesh">arunachalPradesh</option>
+        <option value="nagaland">nagaland</option>
+        <option value="manipur">manipur</option>
+        <option value="mizoram">mizoram</option>
+        <option value="chhattisgarh">chhattisgarh</option>
+        <option value="odisa">odisa</option>
+        <option value="maharashtra">maharashtra</option>
+        <option value="tripura">tripura</option>
+        <option value="karnatak">karnatak</option>
+        <option value="andhrapradesh">andhra pradesh</option>
+        <option value="tamilNadu">tamilNadu</option>
+        <option value="kerela">kerela</option>
+        <option value="goa">goa</option>
+      </select>
+      <button class="btn btn-dark" onclick="search()">Search</button>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center mx-auto">
+      <div
+        class="h-100 position-relative overflow-hidden"
+        style="height: 600px !important"
+      >
+        <img src="Map (1).jpg" id="image" class="w-100 h-100" />
+        <!-- <i class="bi bi-flag-fill" id="bangladesh"></i> -->
+        <div>
+          <i class="bi bi-flag-fill icon" id="delhi"></i>
+          <i class="bi bi-flag-fill icon" id="laddakh"></i>
+          <i class="bi bi-flag-fill icon" id="jammuandkashmir"></i>
+          <i class="bi bi-flag-fill icon" id="himachalpradesh"></i>
+          <i class="bi bi-flag-fill icon" id="punjab"></i>
+          <i class="bi bi-flag-fill icon" id="uttrakhand"></i>
+          <i class="bi bi-flag-fill icon" id="haryana"></i>
+          <i class="bi bi-flag-fill icon" id="rajasthan"></i>
+          <i class="bi bi-flag-fill icon" id="uttarpradesh"></i>
+          <i class="bi bi-flag-fill icon" id="bihar"></i>
+          <i class="bi bi-flag-fill icon" id="madhyapradesh"></i>
+          <i class="bi bi-flag-fill icon" id="gujrat"></i>
+          <i class="bi bi-flag-fill icon" id="jharkhand"></i>
+          <i class="bi bi-flag-fill icon" id="sikkim"></i>
+          <i class="bi bi-flag-fill icon" id="assam"></i>
+          <i class="bi bi-flag-fill icon" id="meghalaya"></i>
+          <i class="bi bi-flag-fill icon" id="nagaland"></i>
+          <i class="bi bi-flag-fill icon" id="andhrapradesh"></i>
+          <i class="bi bi-flag-fill icon" id="manipur"></i>
+          <i class="bi bi-flag-fill icon" id="tripura"></i>
+          <i class="bi bi-flag-fill icon" id="mizoram"></i>
+          <i class="bi bi-flag-fill icon" id="chhattisgarh"></i>
+          <i class="bi bi-flag-fill icon" id="odisa"></i>
+          <i class="bi bi-flag-fill icon" id="westBengal"></i>
+          <i class="bi bi-flag-fill icon" id="maharashtra"></i>
+          <!-- <i class="bi bi-flag-fill" id="telangana"></i> -->
+          <i class="bi bi-flag-fill icon" id="karnatak"></i>
+          <i class="bi bi-flag-fill icon" id="arunachalPradesh"></i>
+          <!-- <i class="bi bi-flag-fill" id="ponducherry"></i> -->
+          <i class="bi bi-flag-fill icon" id="tamilNadu"></i>
+          <i class="bi bi-flag-fill icon" id="kerela"></i>
+          <i class="bi bi-flag-fill icon" id="goa"></i>
+          <i class="bi bi-flag-fill icon" id="assam"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-3 gap-3">
+      <button class="btn btn-success" onclick="viewAll()">View All</button>
+      <button type="" class="btn btn-danger" onclick="clearAll()">
+        Clear All
+      </button>
+    </div>
+
+    <audio id="flagSound">
+      <source src="mixkit-correct-answer-tone-2870.wav" type="audio/wav">
+    </audio>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
