@@ -18,7 +18,7 @@
 
   <body>
     <div
-      class=" d-flex justify-content-center align-items-center rounded-2 m-auto border w-50 p-4 d-flex flex-column justify-content-center align-items-center gap-3"
+      class="d-flex justify-content-center align-items-center rounded-2 m-auto border w-50 p-4 d-flex flex-column justify-content-center align-items-center gap-3"
     >
       <h1 class="">Guess The Number</h1>
 
@@ -29,13 +29,15 @@
 
       <div>
         <label for="number" class="form-label">Enter a Guess:</label>
-        <input type="number" class="form-control" id="guess">
+        <input type="number" class="form-control" id="guess" />
       </div>
 
-     <button class="btn btn-primary text-light" onclick="submit()">Submit Guess</button>
-    <div class="text-center fs-4 fw-bold" id="years">
+      <button class="btn btn-primary text-light" onclick="submit()">
+        Submit Guess
+      </button>
+      <div class="text-center fs-4 fw-bold" id="years">
         <h1 id="guesses"></h1>
-    </div>
+      </div>
     </div>
 
     <script

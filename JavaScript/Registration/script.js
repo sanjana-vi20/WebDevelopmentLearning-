@@ -12,7 +12,7 @@ function submit() {
   const guardianContact = document.getElementById("Gnumber").value.trim();
   const sources = document.getElementById("source").value.trim();
   const course = document.getElementById("course").value.trim();
-
+  const time = document.getElementById("timing").value.trim();
 
   document.querySelectorAll(".errors").forEach((element) => {
     element.innerHTML = "";
@@ -61,6 +61,11 @@ function submit() {
   if (!course) {
     document.getElementById("cError").innerText =
       "Please select a course";
+  }
+
+  if (!time) {
+    document.getElementById("timeError").innerText =
+      "Please select a time";
   }
 
   if (!grade) {

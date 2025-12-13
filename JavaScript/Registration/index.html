@@ -152,13 +152,27 @@
               <span class="text-danger float-end errors" id="cError"></span>
             </div>
             <div class="d-flex">
-              <label for="email" class="form-label w-25"> Batch Timing :</label
+              <label for="email" class="form-label w-25">Batch Timing :</label
               ><br />
               <div class="d-flex gap-3">
-                <input type="radio" /><span>Morning</span>
-                <input type="radio" /><span>Evening</span>
-                <input type="radio" /><span>Afternoon</span>
-                <input type="radio" /><span>Weekend</span>
+                <input type="radio" name="time" id="timing" value="Morning"/><span
+                  >Morning</span
+                >
+                <input type="radio" name="time" id="timing" value="Evening" /><span
+                  >Evening</span
+                >
+                <input type="radio" name="time" id="timing" value="Afternoon" /><span
+                  >Afternoon</span
+                >
+                <input type="radio" name="time" id="timing" value="Weekend"/><span
+                  >Weekend</span
+                >
+              </div>
+              <div>
+                <span
+                  class="text-danger float-end errors"
+                  id="timeError"
+                ></span>
               </div>
             </div>
           </div>
@@ -263,15 +277,16 @@
           <p>How did you hear about us?</p>
 
           <select name="source" id="source" class="form-control">
+            <option value="">--Select--</option>
             <option value="Friends">Friends</option>
             <option value="Online Ad">Online Ads</option>
             <option value="Newspaper">Newspaper</option>
             <option value="Social Media">Social Media</option>
             <option value="Others">Others</option>
           </select>
-        </div>
-        <div>
-          <span class="text-danger float-end errors" id="sourceError"></span>
+          <div>
+            <span class="text-danger float-end errors" id="sourceError"></span>
+          </div>
         </div>
 
         <button class="btn btn-dark text-light m-3" onclick="submit()">
