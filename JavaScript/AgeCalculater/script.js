@@ -13,6 +13,8 @@ const birthMonth = Number(birth.split("-")[1]);
 const year = curryear-birthyear;
 console.log(year);
 
+
+
 if(birthyear > curryear)
 {
     document.getElementById("error").innerText = "PLease enter a valid date";

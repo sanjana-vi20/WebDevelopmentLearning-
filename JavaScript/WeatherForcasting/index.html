@@ -16,22 +16,21 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
   />
   <body>
-    <div class="bg-primary text-light p-2 text-center fs-4 fw-bold">
-      Jokes ka pitara
-    </div>
-
-    <main>
-      <div class="container p-3 border shadow rounded-3 mt-3 w-50">
-        <p id="joke"></p>
-        <p id="punchLine"></p>
-        <br />
-        <hr />
-
-        <button class="btn btn-primary text-light" onclick="getJokes()">
-          Get Random Jokes
-        </button>
+    <header>
+      <div class="bg-primary text-center p-2 fs-4 text-light fw-bold">
+        Weather Forcasting 🌦️
       </div>
-    </main>
+    </header>
+    <div class="w-75 border m-auto p-4 mt-5">
+      <div class="d-flex gap-3">
+        <input type="text" class="form-control w-75" id="place"/>
+        <button class="btn btn-outline-success" onclick="getWeather()">Get Weather</button>
+      </div>
+
+      <div class="d-flex justify-content-around gap-4 p-4 " id="box">
+       
+      </div>
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
