@@ -15,22 +15,24 @@ async function getWeather() {
   const humidity = Data.main.humidity;
 
   console.log(Data);
-
-  document.getElementById("box").innerHTML = ` <div class="w-50">
+  
+  document.getElementById("box").innerHTML = ` <div class="w-50 pt-5">
           <p>Temperature : ${Math.floor(temp - 273.14)}℃</p>
         <p>Humadity : ${humidity}%</p>
-        <p>Descripton : ${des}</p>
          <p>Visibility : ${visibility}%</p>
 
         </div>
       
-      <div >
+      <div class = "h-50" >
         <img src="https://openweathermap.org/img/wn/${icon}@4x.png" alt="image" width="200px" height="200px">
-      </div>`;
+        <p>${des}</p>
+      </div>
+       `;
 }
 
 async function getLocation() {
   const place = document.getElementById("place").value;
+  document.getElementById("place").value = "";
   const response = await fetch(
     `https://geocoding-api.open-meteo.com/v1/search?name=${place}&count=1&language=en&format=json`
   );

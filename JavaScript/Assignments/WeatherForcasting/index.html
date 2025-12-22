@@ -23,13 +23,16 @@
     </header>
     <div class="w-75 border m-auto p-4 mt-5">
       <div class="d-flex gap-3">
-        <input type="text" class="form-control w-75" id="place"/>
-        <button class="btn btn-outline-success" onclick="getWeather()">Get Weather</button>
+        <div class="w-75 ">
+          <label for="">Enter Place:</label><br />
+          <input type="text" class="form-control w-75 mt-2" id="place" />
+        </div>
+        <button class="btn btn-outline-success" onclick="getWeather()">
+          Get Weather
+        </button>
       </div>
 
-      <div class="d-flex justify-content-around gap-4 p-4 " id="box">
-       
-      </div>
+      <div class="d-flex justify-content-around gap-4 p-4" id="box"></div>
     </div>
 
     <script
