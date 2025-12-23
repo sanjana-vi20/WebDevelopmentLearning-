@@ -4,7 +4,7 @@ function calculate() {
   let HRA = 0,
     DA = 0;
 
-  if (basicSalary === "" || basicSalary < 0) {
+  if (basicSalary == "" || basicSalary < 0) {
     document.getElementById("error").innerText = "please enter your salary ";
     document.getElementById("salary").value = "";
     return;
@@ -25,7 +25,7 @@ function calculate() {
             <p>DA (20%) : ₹${DA.toFixed(2)} </p>
             <hr>
             
-            <h6>Total Salary : ₹${grossSalary} </h4>
+            <h6>Total Salary : ₹${grossSalary.toFixed(2)} </h4>
         
         <button class="btn btn-outline-primary" onclick="clearResult()">Clear</button>`;
 }

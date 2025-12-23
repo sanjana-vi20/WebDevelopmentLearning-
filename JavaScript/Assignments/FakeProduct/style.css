@@ -1,0 +1,17 @@
+.card{
+    width: 300px !important;
+}
+
+.mainBody{
+    position: relative;
+    background-image: url("https://t4.ftcdn.net/jpg/02/32/16/07/360_F_232160763_FuTBWDd981tvYEJFXpFZtolm8l4ct0Nz.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+   
+}
+
+a:hover{
+    color: rgb(238, 53, 53) !important;
+}
+
