@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <>
       <div className="flex justify-between bg-blue-900 text-cyan-50 p-4 ">
-        <h1 className="text-4xl p-2">My Website</h1>
+        <h1 className="text-4xl p-2">MakeupStore</h1>
 
         <div className=" flex gap-4 items-center text-1xl ">
          <div className="flex items-center gap-1"> <IoHome /><Link to='/' >Home</Link></div>
