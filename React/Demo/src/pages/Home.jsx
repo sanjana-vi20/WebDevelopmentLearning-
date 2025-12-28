@@ -3,7 +3,7 @@ import React from 'react'
 function Home() {
   return (
     <>
-    <div className="bg-primary" id="body">
+    <div className="" id="body">
        
       </div>
       <p className='p-4'>
@@ -23,20 +23,6 @@ function Home() {
         est, praesentium aliquam fugiat, amet harum error distinctio eius
         dolorem voluptatum accusantium minus laborum necessitatibus dolor modi
         illo, eaque impedit excepturi. Inventore error tempora corrupti saepe
-        quidem, id nihil, dolor placeat natus libero impedit molestiae debitis
-        minus fugit eum, consequatur temporibus? Magni praesentium quod nostrum
-        quae? Labore repudiandae placeat rem officiis quasi velit! Commodi porro
-        illum, mollitia deserunt quaerat exercitationem, vitae esse alias
-        suscipit consequuntur officiis quibusdam maiores nulla repudiandae!
-        Soluta, saepe deserunt. Accusamus animi asperiores doloremque excepturi,
-        impedit soluta hic nulla ex quo dignissimos eos odio sed reprehenderit
-        labore deleniti suscipit commodi nesciunt molestiae optio consequatur
-        cum tempora. Quam debitis voluptate, autem corporis dolores, cum placeat
-        reiciendis eos, numquam ipsam hic optio veritatis eum est consectetur
-        error doloremque minima magnam soluta! Ipsum animi at ad temporibus
-        facere asperiores! Iusto ipsum voluptatem quis repudiandae quia saepe,
-        quo iste, eius praesentium similique consequatur? Aliquam hic, sequi
-        dolores enim recusandae atque debitis modi laborum corporis et
         reprehenderit perferendis repellat neque libero doloribus rerum officia
         sed. Laborum, sunt similique maiores veniam necessitatibus doloribus
         cupiditate eveniet totam optio nemo autem vel vero maxime deserunt
@@ -82,30 +68,7 @@ function Home() {
         delectus ea rerum quos vitae? Aliquam, magni aliquid consequuntur quis
         ipsa atque quod quia incidunt fuga blanditiis cum, molestiae dolor,
         similique odit cupiditate dignissimos quaerat sunt perspiciatis maxime
-        iusto commodi porro accusantium praesentium non. Assumenda voluptas
-        necessitatibus perspiciatis nesciunt quis ex iusto. Dignissimos porro
-        unde ut dolore perspiciatis deserunt odit officia architecto voluptates
-        cumque, velit voluptatibus quidem quos, debitis a suscipit numquam nihil
-        adipisci iste odio repudiandae est, quaerat nesciunt! Consectetur
-        corrupti ad mollitia voluptas dolorum provident repudiandae ex porro
-        architecto, similique ullam doloremque omnis minima tempore, voluptatum
-        rerum molestias eaque expedita. Sint dolorum maiores harum porro neque
-        aliquam, exercitationem quibusdam tenetur adipisci rem accusamus
-        recusandae asperiores quia minima repellendus facilis odit soluta
-        debitis, praesentium non quas cum. Molestias, vel at. Praesentium,
-        beatae ad. Sed delectus magnam labore quisquam? Quo expedita ad sed a
-        libero natus commodi, quos ea numquam nam iusto, facilis quisquam maxime
-        quam veritatis obcaecati. Corporis tempora qui provident molestiae
-        aliquam temporibus laudantium dolor, cum suscipit nihil, voluptas
-        architecto mollitia. Aliquid, sunt, doloremque asperiores amet ipsum
-        itaque sint, odio quis dicta nisi voluptatum adipisci. Et doloremque,
-        rem non voluptates officiis hic magni. Aut sapiente eius impedit, ex
-        maiores quidem consequatur non. Dolore ratione velit delectus, dicta
-        esse quibusdam eveniet nulla commodi a veritatis molestiae ut temporibus
-        assumenda cupiditate quisquam. Ad aspernatur quae suscipit libero quam
-        beatae ipsa, dolore blanditiis iste inventore expedita sint consectetur
-        repudiandae eius a vero, amet sed doloremque corrupti quo magni
-        dignissimos hic? Nisi at amet sapiente ipsam quidem temporibus ipsum
+
       </p>
       </>
     
