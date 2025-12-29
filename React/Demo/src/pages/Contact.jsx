@@ -1,34 +1,36 @@
 import React, { useState } from "react";
 
 function Contact() {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+    const [contactData, setContactData] = useState({
+      fullName: "",
+      email: "",
+      message: "",
+    });
+
+  const handleChange = (e) => {
+    const {name , value } = e.target;
+    setContactData((prev) => ({...prev , [name]: value}));
+  }
+
+  console.log(contactData)
+
   const clearForm = () => {
     setFullName("");
     setEmail("");
     setMessage("");
   };
 
-   const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://official-joke-api.appspot.com/jokes/random");
-      
-        const data = {
-          fullName,
-          email,
-          message,
-        };
-
-        console.log(data);
-
+  
     } catch (error) {
       console.log(error.message);
-    }finally{
+    } finally {
       setIsLoading(false);
     }
 
@@ -45,8 +47,8 @@ function Contact() {
               <input
                 type="text"
                 name="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                value={contactData.fullName}
+                onChange={handleChange}
                 placeholder="Enter your name"
                 className="border p-2 rounded-2xl"
                 required
@@ -57,8 +59,8 @@ function Contact() {
               <input
                 type="email"
                 name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={contactData.email}
+                onChange={handleChange}
                 placeholder="Enter your email"
                 className="border p-2 rounded-2xl "
                 required
@@ -70,8 +72,8 @@ function Contact() {
               <textarea
                 name="message"
                 id=""
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                value={contactData.message}
+                onChange={handleChange}
                 placeholder="Enter your message"
                 className="border p-2 rounded-2xl"
                 required
