@@ -11,7 +11,7 @@ const Header = () => {
 
         <div className=" flex gap-5 items-center text-2xl ">
          <div className="flex items-center gap-1"> <IoHome /><Link to='/' >Home</Link></div>
-         <div> <Link to='/about'>About</Link></div>
+         <div> <Link to='/registration'>Registration</Link></div>
           <div className="flex items-center gap-1"><FaCartShopping /><Link to='/product'>Product</Link></div>
           <Link to='/contact'>Contact</Link>
           <Link to='/signup'>Signup</Link>

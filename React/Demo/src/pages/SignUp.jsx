@@ -22,15 +22,15 @@ function SignUp() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-center">SignUp</h1>
+      <h1 className="text-3xl font-bold text-center mt-5">SignUp</h1>
       <form onSubmit={handleSubmit}>
-        <div className="border flex flex-col gap-5 justify-between items-center m-5 p-5">
+        <div className="border flex flex-col gap-5 w-2xl rounded-2xl m-auto items-center mt-5  mb-5 p-5">
           <div className="flex gap-6">
             <label htmlFor="fullName">FullName</label>
             <input
               type="text"
               name="fullName"
-              className="border p-2 rounded-2xl"
+              className="border p-2 rounded-2xl shadow-1xl hover:shadow-blue-600"
               value={signupData.fullName}
               onChange={handleChange}
               required

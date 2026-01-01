@@ -3,23 +3,47 @@ import React, { useState } from "react";
 function Contact() {
   const [isLoading, setIsLoading] = useState(false);
 
-    const [contactData, setContactData] = useState({
-      fullName: "",
-      email: "",
-      message: "",
-    });
+  const [contactData, setContactData] = useState({
+    fullName: "",
+    email: "",
+    message: "",
+    religion: "",
+    gender: "",
+    skill: [],
+  });
 
   const handleChange = (e) => {
-    const {name , value } = e.target;
-    setContactData((prev) => ({...prev , [name]: value}));
-  }
+    let temp = contactData.skill;
+    const { name, value, type, checked } = e.target;
 
-  console.log(contactData)
+    if (type === "checkbox") {
+      if (checked) {
+        temp.push(value);
+        setContactData((prev) => ({ ...prev, [name]: temp }));
+      } else {
+        let skills = Object.values(temp).filter((element) => element !== value);
+        setContactData((prev) => ({ ...prev, [name]: skills }));
+      }
+    } else {
+      setContactData((prev) => ({ ...prev, [name]: value }));
+    }
+    console.log(contactData);
+  };
+
+  // console.log(contactData);
 
   const clearForm = () => {
-    setFullName("");
-    setEmail("");
-    setMessage("");
+   setContactData({
+    fullName:"",
+    email: "",
+    message: "",
+    religion: "",
+    gender: "",
+    skill: [],
+
+   });
+
+    // setContactData("");
   };
 
   const handleSubmit = async (e) => {
@@ -27,7 +51,6 @@ function Contact() {
     setIsLoading(true);
 
     try {
-  
     } catch (error) {
       console.log(error.message);
     } finally {
@@ -65,6 +88,80 @@ function Contact() {
                 className="border p-2 rounded-2xl "
                 required
               />
+            </div>
+
+            <div className="flex gap-3 justify-between">
+              <label htmlFor="religion">Religion</label>
+              <select
+                name="religion"
+                id=""
+                className="border px-3 py-1"
+                onChange={handleChange}
+                value={contactData.religion}
+
+              >
+                <option value="hindu">Hindu</option>
+                <option value="christian">Christian</option>
+                <option value="sikkism">sikkism</option>
+                <option value="buddhu">Buddh</option>
+              </select>
+            </div>
+
+            <div className="flex gap-3 justify-between">
+              <label htmlFor="gender">Gender</label>
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                onChange={handleChange}
+                checked={contactData.gender === "male"}
+
+              />{" "}
+              Male
+              <input
+                type="radio"
+                name="gender"
+                value="female"
+                onChange={handleChange}
+                checked={contactData.gender === "female"}
+              />{" "}
+              female
+              <input
+                type="radio"
+                name="gender"
+                value="other"
+                onChange={handleChange}
+                checked={contactData.gender === "other"}
+              />{" "}
+              others
+            </div>
+
+            <div className="flex gap-3 justify-between">
+              <label htmlFor="course">Course</label>
+              <input
+                type="checkbox"
+                name="skill"
+                value="html"
+                onChange={handleChange}
+                checked={Object.values(contactData.skill).includes("html")}
+              />{" "}
+              Html
+              <input
+                type="checkbox"
+                name="skill"
+                value="CSS"
+                onChange={handleChange}
+                checked={Object.values(contactData.skill).includes("CSS")}
+              />{" "}
+              Css
+              <input
+                type="checkbox"
+                name="skill"
+                value="js"
+                onChange={handleChange}
+                checked={Object.values(contactData.skill).includes("js")}
+              />{" "}
+              js
             </div>
 
             <div className="flex gap-3">
