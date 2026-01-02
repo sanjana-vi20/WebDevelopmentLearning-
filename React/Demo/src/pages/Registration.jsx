@@ -42,8 +42,21 @@ function Registration() {
   };
 
   const validate = () =>{
+    let Error = {};
 
-     
+    if(formData.fullName.length < 3)
+    {
+      Error.fullName = "Name " 
+      if(!/^[A-Za-z ].+$/.test(formData.fullName))
+      {
+
+      }
+    }
+
+  }
+
+  const handleChange = ()=>{
+
   }
 
   const handleSubmit = (e) => {
