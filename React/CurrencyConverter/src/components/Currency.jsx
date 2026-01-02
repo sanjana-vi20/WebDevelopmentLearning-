@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CountryData from "../assets/CountryData.json";
 import toast from "react-hot-toast";
+import { AiOutlineSwap } from "react-icons/ai";
 import axios from "axios";
 
 function Currency() {
@@ -9,6 +10,13 @@ function Currency() {
   const [fromAmt, setFromAmt] = useState("");
   const [toAmt, setToAmt] = useState("");
 //   console.log(CountryData);
+
+  const swap = () =>
+  {
+    let temp = from;
+    setFrom(to);
+    setTo(temp);
+  }
 
   const Convert = async () => {
     if (!from || !to || !fromAmt) {
@@ -19,11 +27,12 @@ function Currency() {
     try {
       const res = await axios.get(
         `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${
-          from.split(" ")[1].toLowerCase
+          from.split(" ")[1].toLowerCase()
         }.json`
       );
 
       setToAmt(fromAmt*res.data[from.split(" ")[1].toLowerCase()][to.split(" ")[1].toLowerCase()])
+      console.log(toAmt);
     } catch(error) {
 
     }
@@ -33,7 +42,7 @@ function Currency() {
     <>
       <div className="bg-amber-50 h-screen p-5">
         <div className="bg-white border rounded shadow w-3xl mx-auto p-3">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="flex gap-5 items-center justify-center pt-2">
             <div className="flex border rounded px-3 ">
               {from && (
                 <img
@@ -46,7 +55,7 @@ function Currency() {
                 id=""
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
-                className="p-2 focus:outline-none "
+                className="w-2xs p-3 focus:outline-none "
               >
                 <option value="">--Select Country--</option>
                 {CountryData.map((country, idx) => (
@@ -58,6 +67,9 @@ function Currency() {
                   </option>
                 ))}
               </select>
+            </div>
+            <div>
+             <button className="text-2xl" onClick={swap}><AiOutlineSwap /></button>
             </div>
 
             <div className="flex border rounded px-3 ">
@@ -72,7 +84,7 @@ function Currency() {
                 id=""
                 value={to}
                 onChange={(e) => setTo(e.target.value)}
-                className="focus:outline-none p-2 rounded "
+                className="w-2xs focus:outline-none p-3 rounded "
               >
                 <option value="">--Select Country--</option>
                 {CountryData.map((country, idx) => (
@@ -94,7 +106,7 @@ function Currency() {
           </div>
 
           <div className="flex justify-center m-4">
-            <button className="bg-green-800 hover px-4 py-2 text-amber-50 rounded-2xl hover:shadow-md">
+            <button className="bg-green-800 hover px-4 py-2 text-amber-50 rounded-2xl hover:shadow-md" onClick={Convert}>
               Convert
             </button>
           </div>
