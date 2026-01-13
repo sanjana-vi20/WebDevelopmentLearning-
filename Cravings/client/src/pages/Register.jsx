@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../config/Api";
+import { IoPerson } from "react-icons/io5";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -82,24 +83,26 @@ function Register() {
 
   return (
     <>
-      <div className="bg-()">
-        <div className="m-auto bg-() shadow shadow-gray-400 p-5 mt-7 rounded-2xl w-4xl">
-          <h1 className="text-center font-bold text-4xl">
+      <div className="bg-(--bg-accent)">
+        <div className="m-auto bg-(--bg-light) shadow shadow-gray-400 p-5  rounded-2xl w-4xl">
+          <h1 className="text-center font-bold text-4xl text-(--text-primary)">
             Student Registration
           </h1>
           <form onSubmit={handleSubmit} onReset={handleClear}>
             <div className=" relative m-10">
               <div className="space-y-8 p-6">
                 <div className="flex flex-col justify-between">
-                  {/* <label htmlFor="fullName">FullName :</label> */}
+                  <label htmlFor="fullName" className="text-(--text-primary)">FullName :</label>
                   <input
+                    
                     type="text"
-                    className="border rounded border-gray-300 p-2 w-2xl  focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed disabled:bg-gray-200"
-                    name="fullname"
-                    placeholder="Enter your fullname"
+                    className="border rounded border-gray-300 p-2 w-2xl bg-(--text-secondary) focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed disabled:bg-gray-200"
+                    name="fullName"
+                    placeholder="Enter your name"
                     onChange={handleChange}
                     value={formData.fullName}
                     disabled={isLoading}
+                    
                   />
                    {validationError.fullName && (
                       <span className="text-xs text-red-500">
@@ -108,7 +111,7 @@ function Register() {
                     )}
                 </div>
                 <div className="flex flex-col justify-between">
-                  {/* <label htmlFor="fullName">Email :</label> */}
+                  <label htmlFor="fullName" className="text-(--text-primary)">Email :</label>
                   <input
                     type="email"
                     className="border rounded border-gray-300 p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
@@ -125,11 +128,11 @@ function Register() {
                     )}
                 </div>
                 <div className="flex flex-col justify-between">
-                  {/* <label htmlFor="fullName">Mobile Number :</label> */}
+                  <label htmlFor="fullName" className="text-(--text-primary)">Mobile Number :</label>
                   <input
                     type="number"
                     className="border rounded border-gray-300 p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                    name="mobNumber"
+                    name="mobnumber"
                     placeholder="Enter your Phone Number"
                     onChange={handleChange}
                     value={formData.mobnumber}
@@ -141,8 +144,8 @@ function Register() {
                       </span>
                     )}
                 </div>
-                <div className="flex justify-between">
-                  {/* <label htmlFor="fullName">Password :</label> */}
+                <div className="flex flex-col justify-between">
+                  <label htmlFor="fullName" className="text-(--text-primary)">Password :</label>
                   <input
                     type="password"
                     className="border rounded border-gray-300 p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
@@ -154,12 +157,12 @@ function Register() {
                   />
                    
                 </div>
-                <div className="flex justify-between">
-                  {/* <label htmlFor="fullName">confirm Password :</label> */}
+                <div className="flex flex-col justify-between">
+                  <label htmlFor="fullName" className="text-(--text-primary)">Confirm Password :</label>
                   <input
                     type="password"
                     className="border rounded border-gray-300 p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                    name="confirm-pass"
+                    name="confirmPass"
                     placeholder="Confirm Your Password"
                     onChange={handleChange}
                     value={formData.confirmPass}
