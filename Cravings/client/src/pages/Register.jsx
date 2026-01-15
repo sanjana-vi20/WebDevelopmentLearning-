@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../config/Api";
 import { IoPerson } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -75,7 +77,7 @@ function Register() {
       handleClear();
     } catch (error) {
       console.log(error);
-      toast.error(error.message);
+      toast.error(error?.response?.data?.message || "Unknown error");
     } finally {
       setIsLoading(false);
     }
@@ -84,10 +86,12 @@ function Register() {
   return (
     <>
       <div className="bg-(--bg-accent)">
-        <div className="m-auto bg-(--bg-light) shadow shadow-gray-400 p-5  rounded-2xl w-4xl">
-          <h1 className="text-center font-bold text-4xl text-(--text-primary)">
+
+         <h1 className="text-center font-bold p-7 text-4xl text-(--text-primary)">
             Student Registration
           </h1>
+        <div className="m-auto bg-(--bg-light) shadow shadow-gray-400 p-5  rounded-2xl w-4xl">
+         
           <form onSubmit={handleSubmit} onReset={handleClear}>
             <div className=" relative m-10">
               <div className="space-y-8 p-6">
@@ -187,7 +191,10 @@ function Register() {
                 {isLoading ? "Submitting" : "Submit"}
               </button>
             </div>
+
+            
           </form>
+          <div className="ml-80 mt-8">Already have Account?<button className="text-blue-700" onClick={() => navigate("/login")}>Login</button></div>
         </div>
       </div>
     </>
