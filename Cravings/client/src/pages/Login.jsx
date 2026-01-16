@@ -3,6 +3,9 @@ import toast from "react-hot-toast";
 import api from "../config/Api";
 import { IoPerson } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { BsSend } from "react-icons/bs";
+import { FiLock } from "react-icons/fi";
+import { IoMdPerson } from "react-icons/io";
 
 function Login() {
 
@@ -58,6 +61,7 @@ function Login() {
       // console.log(formData);
       const res = await api.post("/auth/login", formData);
       toast.success(res.data.message);
+      navigate("/user-dashboard")
       handleClear();
     } catch (error) {
       console.log(error);
@@ -81,15 +85,18 @@ function Login() {
               <div className="space-y-8 p-6">
                 <div className="flex flex-col justify-between">
                   <label htmlFor="fullName" className="text-(--text-primary)">Email :</label>
-                  <input
+                  <div className="flex border  border-gray-300 items-center px-3 rounded">
+                    <IoMdPerson className="text-(--text-primary) text-2xl" />
+                    <input
                     type="email"
-                    className="border rounded border-gray-300 p-2  focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
+                    className=" rounded p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
                     name="email"
                     placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleChange}
                     disabled={isLoading}
                   />
+                  </div>
                    {validationError.email && (
                       <span className="text-xs text-red-500">
                         {validationError.email}
@@ -99,25 +106,29 @@ function Login() {
                 
                 <div className="flex flex-col justify-between">
                   <label htmlFor="fullName" className="text-(--text-primary)">Password :</label>
-                  <input
+                  <div className="flex border  border-gray-300 items-center px-3 rounded">
+
+                    <input
                     type="password"
-                    className="border rounded border-gray-300 p-2  focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
+                    className=" rounded  p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
                     name="password"
                     placeholder="Enter Password"
                     onChange={handleChange}
                     value={formData.password}
                     disabled={isLoading}
                   />
+                  </div>
                    
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center items-center gap-4">
               <button
                 disabled={isLoading}
-                className="border px-7 py-2 bg-(--color-primary) hover:bg-(--color-primary-hover) trans text-amber-50 rounded-2xl transition duration-300 transform hover:scale-105  disabled:scale-100 disabled:cursor-not-allowed "
+                className="border flex items-center gap-2 px-7 py-2 bg-(--color-primary) hover:bg-(--color-primary-hover) trans text-amber-50 rounded-2xl transition duration-300 transform hover:scale-105  disabled:scale-100 disabled:cursor-not-allowed "
               >
+                <BsSend />
                 {isLoading ? "Submitting" : "Submit"}
               </button>
             </div>
