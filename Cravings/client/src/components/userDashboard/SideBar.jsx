@@ -4,70 +4,47 @@ import { IoCart } from "react-icons/io5";
 import { TbTransactionPound } from "react-icons/tb";
 import { MdOutlineHelpOutline } from "react-icons/md";
 import { CiGrid41 } from "react-icons/ci";
+import { GiHamburgerMenu } from "react-icons/gi";
 
-const SideBar = ({ active, setActive }) => {
+const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
+
+  const menuItems = [
+    {key : "overview" , title : "Overview" , icon :<CiGrid41 size={20}/>},
+    {key : "profile" , title : "Profile" , icon :<CgProfile size={20}/>},
+    {key : "order" , title : "Order" , icon :<IoCart size={20}/>},
+    {key : "transaction" , title : "Transaction" , icon :<MdOutlineHelpOutline size={20}/>},
+    {key : "helpdesk" , title : "Help desk" , icon :<MdOutlineHelpOutline size={20}/>},
+  ]
   return (
     <>
       <div className=" p-3">
-        <div className="text-xl font-bold">User Dashboard</div>
+        <div className="text-xl font-bold flex h-12 items-center gap-2 ">
+          <button
+            className="hover:scale-105"
+            onClick={() => setIsCollapse(!isCollapse)}
+          >
+            <GiHamburgerMenu className="ms-3" />
+          </button>
+          {!isCollapse && (<span className="overflow-hidden text-nowrap">User Dashboard</span>)}
+        </div>
         <hr />
 
-        <div className="flex flex-col gap-3 p-3">
-          <button
-            className={`flex items-center gap-2 p-2 rounded ${
-              active === "overview"
+        <div className="flex flex-col gap-3 mt-2 w-full">
+          
+          {menuItems.map((item, idx) => (
+            <button
+            className={`flex items-center gap-2 p-2 ${isCollapse ?'mx-auto' :''} rounded h-12 text-nowrap ${
+              active === item.key
                 ? "bg-(--bg-light)"
                 : " hover:bg-amber-50/70 hover:scale-105"
             }`}
-            onClick={() => setActive("overview")}
+            onClick={() => setActive(item.key)}
           >
-            <CiGrid41 />
-            Overview
+            {item.icon}
+            {isCollapse ? "" : item.title}
+            
           </button>
-          <button
-            className={`flex items-center gap-2 p-2 rounded ${
-              active === "profile"
-                ? "bg-(--bg-light)"
-                : " hover:bg-amber-50/70 hover:scale-105"
-            }`}
-            onClick={() => setActive("profile")}
-          >
-            <CgProfile />
-            Profiles
-          </button>
-          <button
-           className={`flex items-center gap-2 p-2 rounded ${
-              active === "order"
-                ? "bg-(--bg-light)"
-                : " hover:bg-amber-50/70 hover:scale-105"
-            }`}
-            onClick={() => setActive("order")}
-          >
-            <IoCart />
-            Orders
-          </button>
-          <button
-           className={`flex items-center gap-2 p-2 rounded ${
-              active === "transaction"
-                ? "bg-(--bg-light)"
-                : " hover:bg-amber-50/70 hover:scale-105"
-            }`}
-            onClick={() => setActive("transaction")}
-          >
-            <TbTransactionPound />
-            Transactions
-          </button>
-          <button
-            className={`flex items-center gap-2 p-2 rounded ${
-              active === "helpdesk"
-                ? "bg-(--bg-light)"
-                : " hover:bg-amber-50/60 hover:scale-105"
-            }`}
-            onClick={() => setActive("helpdesk")}
-          >
-            <MdOutlineHelpOutline />
-            Help Desk
-          </button>
+          ))}
         </div>
       </div>
     </>
