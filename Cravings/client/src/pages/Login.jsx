@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { BsSend } from "react-icons/bs";
 import { FiLock } from "react-icons/fi";
 import { IoMdPerson } from "react-icons/io";
+import { useAuth } from "../context/AuthContext.jsx";
 
 function Login() {
+  const { setUser, setIsLogin } = useAuth();
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -20,9 +22,8 @@ function Login() {
 
   const handleClear = () => {
     setFormData({
-     
       email: "",
-     
+
       password: "",
     });
   };
@@ -31,7 +32,7 @@ function Login() {
     let Error = {};
     if (
       !/^[\w\.]+@(gmail|outlook|ricr|yahoo)\.(com|in|co.in)$/.test(
-        formData.email
+        formData.email,
       )
     ) {
       Error.email = "Use Proper Email Format";
@@ -61,7 +62,10 @@ function Login() {
       // console.log(formData);
       const res = await api.post("/auth/login", formData);
       toast.success(res.data.message);
-      navigate("/user-dashboard")
+      setUser(res.data.data);
+      setIsLoading(true);
+      sessionStorage.setItem("CravingUser" , JSON.stringify(res.data.data));
+      navigate("/user-dashboard");
       handleClear();
     } catch (error) {
       console.log(error);
@@ -74,51 +78,51 @@ function Login() {
   return (
     <>
       <div className=" p-6 h-full">
-
-         <h1 className="text-center font-bold p-7 text-4xl text-(--text-primary)">
-           Student Login
-          </h1>
+        <h1 className="text-center font-bold p-7 text-4xl text-(--text-primary)">
+          Student Login
+        </h1>
         <div className="m-auto bg-(--bg-light) shadow shadow-gray-400 p-5  rounded-2xl w-2xl">
-         
           <form onSubmit={handleSubmit} onReset={handleClear}>
             <div className=" relative m-10">
               <div className="space-y-8 p-6">
                 <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">Email :</label>
+                  <label htmlFor="fullName" className="text-(--text-primary)">
+                    Email :
+                  </label>
                   <div className="flex border  border-gray-300 items-center px-3 rounded">
                     <IoMdPerson className="text-(--text-primary) text-2xl" />
                     <input
-                    type="email"
-                    className=" rounded p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                    name="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    disabled={isLoading}
-                  />
+                      type="email"
+                      className=" rounded p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
+                      name="email"
+                      placeholder="Enter your email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      disabled={isLoading}
+                    />
                   </div>
-                   {validationError.email && (
-                      <span className="text-xs text-red-500">
-                        {validationError.email}
-                      </span>
-                    )}
+                  {validationError.email && (
+                    <span className="text-xs text-red-500">
+                      {validationError.email}
+                    </span>
+                  )}
                 </div>
-                
-                <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">Password :</label>
-                  <div className="flex border  border-gray-300 items-center px-3 rounded">
 
+                <div className="flex flex-col justify-between">
+                  <label htmlFor="fullName" className="text-(--text-primary)">
+                    Password :
+                  </label>
+                  <div className="flex border  border-gray-300 items-center px-3 rounded">
                     <input
-                    type="password"
-                    className=" rounded  p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                    name="password"
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    value={formData.password}
-                    disabled={isLoading}
-                  />
+                      type="password"
+                      className=" rounded  p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
+                      name="password"
+                      placeholder="Enter Password"
+                      onChange={handleChange}
+                      value={formData.password}
+                      disabled={isLoading}
+                    />
                   </div>
-                   
                 </div>
               </div>
             </div>
@@ -133,7 +137,15 @@ function Login() {
               </button>
             </div>
           </form>
-          <div className="ml-50 mt-8">Don't have any Account? <button className="text-blue-700" onClick={() => navigate("/register")}>Register</button></div>
+          <div className="ml-50 mt-8">
+            Don't have any Account?{" "}
+            <button
+              className="text-blue-700"
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </button>
+          </div>
         </div>
       </div>
     </>

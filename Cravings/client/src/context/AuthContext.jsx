@@ -5,7 +5,7 @@ import { useState } from "react";
 const AuthContext = React.createContext();
 
 export const AuthProvider = (props) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("CravingUser")) || "");
   const [isLogin, setIsLogin] = useState(!!user);
 
   useEffect(() => {
