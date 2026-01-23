@@ -89,11 +89,11 @@ function Login() {
                   <label htmlFor="fullName" className="text-(--text-primary)">
                     Email :
                   </label>
-                  <div className="flex border  border-gray-300 items-center px-3 rounded">
+                  <div className="flex border-1  border-gray-300 items-center hover:border-blue-600 px-3 rounded">
                     <IoMdPerson className="text-(--text-primary) text-2xl" />
                     <input
                       type="email"
-                      className=" rounded p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
+                      className=" rounded p-2 w-2xl  focus:outline-none  disabled:cursor-not-allowed  disabled:bg-gray-200"
                       name="email"
                       placeholder="Enter your email"
                       value={formData.email}

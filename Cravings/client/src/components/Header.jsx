@@ -41,9 +41,9 @@ function Header() {
 
         <div className="flex gap-4 text-2xs">
           {isLogin ? (
-            <span>{user.fullName}</span>
+            <div className="cursor-pointer" onClick={() => navigate("/user-dashboard")}>{user.fullName}</div>
           ) : (
-            <div>
+            <div className="flex gap-3">
               <button
                 className="bg-(--color-accent) px-4 py-2 rounded text-(--text-primary) hover:text-(--color-secondary-hover)"
                 onClick={() => navigate("/login")}

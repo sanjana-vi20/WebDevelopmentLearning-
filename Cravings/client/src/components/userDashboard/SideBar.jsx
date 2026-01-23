@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { IoCart } from "react-icons/io5";
-import { TbTransactionPound } from "react-icons/tb";
+// import { TbTransactionPound } from "react-icons/tb";
 import { MdOutlineHelpOutline } from "react-icons/md";
 import { CiGrid41 } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
