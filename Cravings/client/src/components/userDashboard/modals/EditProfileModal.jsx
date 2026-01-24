@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { Mail, Phone, Save, Lock, User, X } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
-import  api  from "../../../config/Api";
-
+import api from '../../../config/Api'
+import toast from "react-hot-toast";
 const EditProfileModal = ({ onClose }) => {
-  const { user } = useAuth();
-  const [fromData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
+  const { user ,setUser } = useAuth();
+  const [formData, setFormData] = useState({
+    fullName: user.fullName,
+    email: user.email,
+    mobnumber: user.mobnumber,
   });
+
+   const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,21 +22,22 @@ const EditProfileModal = ({ onClose }) => {
 
     try {
       const res = await api.put("/user/update", formData);
-      // toast.success(res.data.message);
-      // setUser(res.data.data);
-      // setIsLoading(true);
+      toast.success(res.data.message);
+      setUser(res.data.data);
+      // setIsLoading(true); 
       sessionStorage.setItem("CravingUser" , JSON.stringify(res.data.data));
       // toast.success(res.data.message);
+      onClose()
     } catch (error) {
       console.log(error);
-      // toast.error(error?.response?.data?.message || "Unknown error");
+      toast.error(error?.response?.data?.message || "Unknown error");
     } 
   };
 
   return (
     <>
       <div className="fixed bg-black/80 inset-0 flex items-center justify-center">
-        <div className="bg-white max-h-[85vh] w-5xl overflow-y-auto z-100">
+        <div className="bg-white max-h-[55vh] w-5xl overflow-y-auto z-100">
           <div
             className="min-h-screen flex items-center justify-center"
             style={{ backgroundColor: "var(--color-background)" }}
@@ -77,9 +83,11 @@ const EditProfileModal = ({ onClose }) => {
                     <User size={18} style={{ color: "var(--color-primary)" }} />
                     <input
                       type="text"
-                      value={user.fullName}
+                      value={formData.fullName}
                       className="w-full bg-transparent outline-none"
-                      disabled
+                      onChange={handleChange}
+                      name="fullName"
+
                       style={{ color: "var(--color-text-primary)" }}
                     />
                   </div>
@@ -100,9 +108,12 @@ const EditProfileModal = ({ onClose }) => {
                     <Mail size={18} style={{ color: "var(--color-primary)" }} />
                     <input
                       type="email"
-                      value={user.email}
-                      className="w-full bg-transparent outline-none"
+                      value={formData.email}
+                      className="w-full bg-transparent outline-none cursor-not-allowed"
+                      disabled
+                      onChange={handleChange}
                       style={{ color: "var(--color-text-primary)" }}
+                      name="email"
                     />
                   </div>
                 </div>
@@ -125,8 +136,10 @@ const EditProfileModal = ({ onClose }) => {
                     />
                     <input
                       type="tel"
-                      value={user.mobnumber}
+                      value={formData.mobnumber}
                       className="w-full bg-transparent outline-none"
+                      onChange={handleChange}
+                      name="mobnumber"
                       style={{ color: "var(--color-text-primary)" }}
                     />
                   </div>

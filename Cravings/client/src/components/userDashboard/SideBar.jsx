@@ -33,6 +33,7 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
           
           {menuItems.map((item, idx) => (
             <button
+            key={idx}
             className={`flex items-center gap-2 p-2 ${isCollapse ?'mx-auto' :''} rounded h-12 text-nowrap ${
               active === item.key
                 ? "bg-(--bg-light)"

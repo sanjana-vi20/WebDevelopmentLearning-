@@ -9,12 +9,12 @@ const UserProfile = () => {
   return (
     <>
     <div
-      className="min-h-screen flex items-center justify-center"
-      style={{ backgroundColor: "var(--color-background)" }}
+      className="min-h-screen flex "
+      style={{ backgroundColor: "var(--color-light)" }}
     >
       <div
         className="w-full max-w-md rounded-3xl shadow-xl p-8 flex flex-col items-center text-center"
-        style={{ backgroundColor: "var(--color-surface)" }}
+        style={{ backgroundColor: "var(--color-light)" }}
       >
         {/* Avatar */}
         <div
@@ -32,7 +32,7 @@ const UserProfile = () => {
           className="text-2xl font-semibold"
           style={{ color: "var(--color-text-primary)" }}
         >
-          {user.fullname}
+          {user.fullName}
         </h2>
 
         <p
@@ -52,7 +52,7 @@ const UserProfile = () => {
             <Mail size={18} style={{ color: "var(--color-primary)" }} />
             <span
               className="text-sm font-medium"
-              style={{ color: "var(--color-text-primary)" }}
+              style={{ color: "var(--text-primary)" }}
             >
               {user.email}
             </span>
@@ -66,9 +66,9 @@ const UserProfile = () => {
             <Phone size={18} style={{ color: "var(--color-primary)" }} />
             <span
               className="text-sm font-medium"
-              style={{ color: "var(--color-text-primary)" }}
+              style={{ color: "var(--text-primary)" }}
             >
-              {user.phone}
+              {user.mobnumber}
             </span>
           </div>
         </div>

@@ -15,7 +15,7 @@ export const Protect = async(req ,res ,next) => {
         }
         console.log(tea);
 
-        const verifyUser = await findById(tea.id);
+        const verifyUser = await User.findById(tea.id);
         if(!verifyUser)
         {
             const error= new Error("Unauthorized User");

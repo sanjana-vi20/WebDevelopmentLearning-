@@ -13,10 +13,10 @@ const UserDashboard = () => {
   return (
     <>
       <div className="flex w-full h-[86vh]">
-        <div className={`border border-green-500 bg-(--bg-accent) duration-300 ${isCollapse ? "w-3/60" : "w-12/60"} `}>
+        <div className={` bg-(--bg-accent) duration-300 ${isCollapse ? "w-3/60" : "w-12/60"} `}>
           <SideBar active={active} setActive={setActive} isCollapse= {isCollapse} setIsCollapse = {setIsCollapse} />
         </div>
-        <div className={`border border-red-500  ${isCollapse ? "w-57/60" : "w-48/60"}`}>
+        <div className={`  ${isCollapse ? "w-57/60" : "w-48/60"}`}>
         {active === 'overview' && <UserOverview/>}
         {active === 'profile' && <UserProfile/>}
         {active === 'order' && <UserOrder/>}

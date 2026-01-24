@@ -23,7 +23,6 @@ function Login() {
   const handleClear = () => {
     setFormData({
       email: "",
-
       password: "",
     });
   };
