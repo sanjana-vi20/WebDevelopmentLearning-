@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
+import {v2 as cloudinary} from 'cloudinary'
 
 cloudinary.config({
     cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
@@ -7,6 +8,6 @@ cloudinary.config({
     api_secret:process.env.CLOUDINARY_API_SECRET,
 })
 
-console.log("Cloudinary Configuration Done");
+console.log("Cloudinary Configuration ");
 
 export default cloudinary;
