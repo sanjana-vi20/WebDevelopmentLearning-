@@ -2,11 +2,48 @@ import React from "react";
 import circle from "../assets/cravings.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import toast from "react-hot-toast";
+import api from '../config/Api.jsx'
 
 function Header() {
-  const { user, isLogin } = useAuth();
+   const { user, isLogin, role, setIsLogin, setUser } = useAuth();
   const navigate = useNavigate();
 
+  const handleNavigate = () => {
+    switch (role) {
+      case "manager": {
+        navigate("/restaurant-dashboard");
+        break;
+      }
+      case "partner": {
+        navigate("/ride-dashboard");
+        break;
+      }
+      case "customer": {
+        navigate("/user-dashboard");
+        break;
+      }
+      case "admin": {
+        navigate("/admin-dashboard");
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
+   const handleLogout = async () => {
+    try {
+      const res = await api.get("/auth/logout"); // cookie clear
+      setUser(""); // user clear
+      setIsLogin(false); // login clear
+      sessionStorage.removeItem("CravingUser");
+      toast.success(res.data.message);
+    } catch (error) {
+      // console.log(error)
+      toast.error(error?.response?.data?.message || "Unknown Error");
+    }
+  };
   return (
     <>
       <div className="bg-(--color-primary) py-3  px-3 flex justify-between items-center">
@@ -41,7 +78,12 @@ function Header() {
 
         <div className="flex gap-4 text-2xs">
           {isLogin ? (
-            <div className="cursor-pointer" onClick={() => navigate("/user-dashboard")}>{user.fullName}</div>
+            <>
+            <div className="cursor-pointer text-center" onClick={()=>handleNavigate()}>{user.fullName}
+            </div>
+            <div role="button" onClick={handleLogout} className="px-5 py-2 bg-(--bg-light) text-black rounded">
+              Logout</div></>
+            
           ) : (
             <div className="flex gap-3">
               <button

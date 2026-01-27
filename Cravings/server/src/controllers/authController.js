@@ -4,9 +4,9 @@ import { genToken } from "../utils/authToken.js";
 
 export const UserRegister = async (req, res, next) => {
   try {
-    const { fullName, email, mobnumber, password } = req.body;
+    const { fullName, email, mobnumber, password , role} = req.body;
 
-    if (!fullName || !email || !mobnumber || !password) {
+    if (!fullName || !email || !mobnumber || !password || !role) {
       const error = new Error("All Fields are Required");
       error.statusCode = 400;
       return next(error);
@@ -23,6 +23,10 @@ export const UserRegister = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
+    const photoURL = `https://placehold.co/600x400?text=${fullName.charAt(0).toUpperCase()}`
+    const photo = {
+      url : photoURL,
+    }
     // save data to database
 
     const newUser = await User.create({
@@ -30,6 +34,8 @@ export const UserRegister = async (req, res, next) => {
       email,
       mobnumber,
       password: hashPassword,
+      role,
+      photo,
     });
 
     // send response to frontend
@@ -77,6 +83,7 @@ export const UserLogin = async (req, res, next) => {
 };
 export const UserLogout = async (req, res, next) => {
   try {
+    res.clearCookie("oreo");
     res.status(200).json({ mesasge: "Logout Successfully" });
   } catch (error) {
     console.log(error);

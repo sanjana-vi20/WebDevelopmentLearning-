@@ -2,10 +2,43 @@ import React, { useState } from 'react'
 import {useAuth} from "../../context/AuthContext"
 import EditProfileModal from './modals/EditProfileModal';
 import { Mail, Phone, User } from 'lucide-react';
+import { FaCamera } from "react-icons/fa";
+import toast from 'react-hot-toast';
+import profile from '../../assets/profile.jpg'
 
 const UserProfile = () => {
   const [isEditModal , setIsEditModalOpen] = useState(false);
+  const [photo , setPhoto] = useState("");
+  const [preview , setPreview] = useState();
   const {user} = useAuth();
+
+   const changePhoto = async () => {
+    const form_Data = new FormData();
+
+    form_Data.append("image", photo);
+    form_Data.append("imageURL", preview);
+
+    try {
+      const res = await api.patch("/user/photo-update", form_Data);
+
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Unknown Error");
+    }
+  };
+
+  const handlePhotoChange= async(e) =>{
+
+    const file = e.target.files[0];
+    const newPhoto = URL.createObjectURL(file);
+    setPreview(newPhoto);
+     setTimeout(() => {
+      setPhoto(file);
+      changePhoto();
+    }, 5000);
+  };
+
+
   return (
     <>
     <div
@@ -18,14 +51,27 @@ const UserProfile = () => {
       >
         {/* Avatar */}
         <div
-          className="w-24 h-24 rounded-full flex items-center justify-center mb-4"
+          className="w-24 relative h-24 rounded-full flex items-center justify-center mb-4"
           style={{ backgroundColor: "var(--color-accent)" }}
         >
-          <User
-            size={40}
-            style={{ color: "var(--color-primary)" }}
-          />
+          <img src={preview || user.photo.url || profile} alt="" className='object-cover' />
+         <div className="absolute bottom-2 left-[75%] border bg-white p-2 rounded-full group flex gap-3">
+                <label
+                  htmlFor="imageUpload"
+                  className="text-(--color-primary) group-hover:text-(--color-secondary)"
+                >
+                  <FaCamera />
+                </label>
+                <input
+                  type="file"
+                  id="imageUpload"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                />
+              </div>
         </div>
+         
 
         {/* Name */}
         <h2
@@ -51,7 +97,7 @@ const UserProfile = () => {
           >
             <Mail size={18} style={{ color: "var(--color-primary)" }} />
             <span
-              className="text-sm font-medium"
+              className="text-2xs font-medium"
               style={{ color: "var(--text-primary)" }}
             >
               {user.email}
@@ -65,8 +111,8 @@ const UserProfile = () => {
           >
             <Phone size={18} style={{ color: "var(--color-primary)" }} />
             <span
-              className="text-sm font-medium"
-              style={{ color: "var(--text-primary)" }}
+              className="text-2xs font-medium"
+              style={{ color: "var(- -text-primary)" }}
             >
               {user.mobnumber}
             </span>

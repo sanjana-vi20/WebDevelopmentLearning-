@@ -27,3 +27,16 @@ export const UserUpdate = async (req, res, next) => {
     next(error);
   }
 };
+
+export const UserPhotoUpdate = async(req ,res ,next) => {
+   try {
+    console.log("body: ", req.body);
+
+    console.log("file:", req.file);
+
+    res.status(200).json({ message: "Photo Updated" });
+  } catch (error) {
+    next(error);
+  }
+
+}

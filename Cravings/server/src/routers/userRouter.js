@@ -1,9 +1,12 @@
 import express from 'express';
-import { UserUpdate } from '../controllers/userController.js';
+import { UserPhotoUpdate, UserUpdate } from '../controllers/userController.js';
 import { Protect } from '../middleware/userMiddleware.js';
+import multer from 'multer';
 
 const router = express.Router();
+const upload = multer();
 
 router.put("/update" ,Protect, UserUpdate);
+router.patch("/photo-update" ,Protect, upload.single("image"), UserPhotoUpdate )
 
 export default router;
