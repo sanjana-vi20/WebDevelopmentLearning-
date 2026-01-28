@@ -10,7 +10,7 @@ const UserProfile = () => {
   const [isEditModal , setIsEditModalOpen] = useState(false);
   const [photo , setPhoto] = useState("");
   const [preview , setPreview] = useState();
-  const {user} = useAuth();
+  const {user , setUser} = useAuth();
 
    const changePhoto = async () => {
     const form_Data = new FormData();
@@ -22,6 +22,8 @@ const UserProfile = () => {
       const res = await api.patch("/user/photo-update", form_Data);
 
       toast.success(res.data.message);
+      setUser(res.data.data);
+      sessionStorage.setItem("Cravings", JSON.stringify(res.data.data));
     } catch (error) {
       toast.error(error?.response?.data?.message || "Unknown Error");
     }
