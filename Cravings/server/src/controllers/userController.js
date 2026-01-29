@@ -50,9 +50,9 @@ export const UserPhotoUpdate = async(req ,res ,next) => {
       await cloudinary.uploader.destroy(currentUser.photo.publicID)
     }
 
-    const b64 = Buffer.from(dp.buffer).toString("based64");
+    const b64 = Buffer.from(dp.buffer).toString("base64");
     console.log(b64.slice(0,100));
-    const dataURI = `data:${dp.mimetype};based64,${b64}`;
+    const dataURI = `data:${dp.mimetype};base64,${b64}`;
     console.log("Data URI" , dataURI.slice(0,100));
 
     const result = await cloudinary.uploader.upload(dataURI , {

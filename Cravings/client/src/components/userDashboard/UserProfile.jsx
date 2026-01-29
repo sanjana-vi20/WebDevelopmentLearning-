@@ -5,6 +5,7 @@ import { Mail, Phone, User } from 'lucide-react';
 import { FaCamera } from "react-icons/fa";
 import toast from 'react-hot-toast';
 import profile from '../../assets/profile.jpg'
+import api from '../../config/Api'
 
 const UserProfile = () => {
   const [isEditModal , setIsEditModalOpen] = useState(false);
@@ -12,18 +13,22 @@ const UserProfile = () => {
   const [preview , setPreview] = useState();
   const {user , setUser} = useAuth();
 
-   const changePhoto = async () => {
+   const changePhoto = async(fileUpload) => {
+    if (!fileUpload) return;
     const form_Data = new FormData();
 
-    form_Data.append("image", photo);
+    form_Data.append("image", fileUpload);
     form_Data.append("imageURL", preview);
 
     try {
       const res = await api.patch("/user/photo-update", form_Data);
+      setPreview(null)
 
       toast.success(res.data.message);
       setUser(res.data.data);
-      sessionStorage.setItem("Cravings", JSON.stringify(res.data.data));
+      console.log(res.data.data);
+      
+      sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
     } catch (error) {
       toast.error(error?.response?.data?.message || "Unknown Error");
     }
@@ -36,7 +41,7 @@ const UserProfile = () => {
     setPreview(newPhoto);
      setTimeout(() => {
       setPhoto(file);
-      changePhoto();
+      changePhoto(file);
     }, 5000);
   };
 
@@ -56,7 +61,7 @@ const UserProfile = () => {
           className="w-24 relative h-24 rounded-full flex items-center justify-center mb-4"
           style={{ backgroundColor: "var(--color-accent)" }}
         >
-          <img src={preview || user.photo.url || profile} alt="" className='object-cover' />
+          <img src={preview || user.photo.url || profile} alt="" className='object-cover w-full h-full rounded-full' />
          <div className="absolute bottom-2 left-[75%] border bg-white p-2 rounded-full group flex gap-3">
                 <label
                   htmlFor="imageUpload"
@@ -111,7 +116,7 @@ const UserProfile = () => {
             className="flex items-center gap-3 rounded-xl px-4 py-3"
             style={{ backgroundColor: "var(--color-background)" }}
           >
-            <Phone size={18} style={{ color: "var(--color-primary)" }} />
+            <Phone size={18} style={{ color:"var(--color-primary)" }} />
             <span
               className="text-2xs font-medium"
               style={{ color: "var(- -text-primary)" }}
