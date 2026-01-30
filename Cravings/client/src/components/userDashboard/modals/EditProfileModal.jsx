@@ -9,12 +9,38 @@ const EditProfileModal = ({ onClose }) => {
     fullName: user.fullName,
     email: user.email,
     mobnumber: user.mobnumber,
+    gender:user.gender,
+    dob : user.dob,
+    address:user.address,
+    city : user.city,
+    pin : user.pin,
+    documents: {
+      uidai: user.documents.uidai,
+      pan:user.documents.pan,
+    },
+    paymentDetails:{
+      upi:user.paymentDetails.upi,
+      account_number:user.paymentDetails.account_number,
+      ifs_code:user.paymentDetails.ifs_code,
+    },
+    geoLocation:{
+      lon:user.geoLocation.lon,
+      lat:user.geoLocation.lat,
+    }
   });
 
    const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const fectchLocation = (e) =>{
+    e.preventDefault();
+    console.log();
+    let result = navigator.geolocation();
+    
+    
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -144,6 +170,141 @@ const EditProfileModal = ({ onClose }) => {
                     />
                   </div>
                 </div>
+                {/* Phone */}
+                <div>
+                  <label
+                    className="text-sm font-medium"
+                    style={{ color: "var(--color-text-secondary)" }}
+                  >
+                    Gender
+                  </label>
+                  <div
+                    className="mt-1 flex items-center gap-2 rounded-lg border px-3 py-2"
+                    style={{ borderColor: "var(--color-accent-soft)" }}
+                  >
+                    <Phone
+                      size={18}
+                      style={{ color: "var(--color-primary)" }}
+                    />
+                    <input
+                      type="gender"
+                      value={formData.gender}
+                      className="w-full bg-transparent outline-none"
+                      onChange={handleChange}
+                      name="gender"
+                      style={{ color: "var(--color-text-primary)" }}
+                    />
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label
+                    className="text-sm font-medium"
+                    style={{ color: "var(--color-text-secondary)" }}
+                  >
+                    DOB
+                  </label>
+                  <div
+                    className="mt-1 flex items-center gap-2 rounded-lg border px-3 py-2"
+                    style={{ borderColor: "var(--color-accent-soft)" }}
+                  >
+                    <Phone
+                      size={18}
+                      style={{ color: "var(--color-primary)" }}
+                    />
+                    <input
+                      type="date"
+                      value={formData.dob}
+                      className="w-full bg-transparent outline-none"
+                      onChange={handleChange}
+                      name="dob"
+                      style={{ color: "var(--color-text-primary)" }}
+                    />
+                  </div>
+                </div>
+
+                {/* Phone */}
+                {/* <div>
+                  <label
+                    className="text-sm font-medium"
+                    style={{ color: "var(--color-text-secondary)" }}
+                  >
+                    Phone Number
+                  </label>
+                  <div
+                    className="mt-1 flex items-center gap-2 rounded-lg border px-3 py-2"
+                    style={{ borderColor: "var(--color-accent-soft)" }}
+                  >
+                    <Phone
+                      size={18}
+                      style={{ color: "var(--color-primary)" }}
+                    />
+                    <input
+                      type="tel"
+                      value={formData.mobnumber}
+                      className="w-full bg-transparent outline-none"
+                      onChange={handleChange}
+                      name="mobnumber"
+                      style={{ color: "var(--color-text-primary)" }}
+                    />
+                  </div>
+                </div> */}
+
+                {/* Phone */}
+               <div>
+                 <div>
+                  <label
+                    className="text-sm font-medium"
+                    style={{ color: "var(--color-text-secondary)" }}
+                  >
+                    Latitude
+                  </label>
+                  <div
+                    className="mt-1 flex items-center gap-2 rounded-lg border px-3 py-2"
+                    style={{ borderColor: "var(--color-accent-soft)" }}
+                  >
+                    <Phone
+                      size={18}
+                      style={{ color: "var(--color-primary)" }}
+                    />
+                    <input
+                      type="tel"
+                      value={formData.geoLocation.lat}
+                      className="w-full bg-transparent outline-none"
+                      onChange={handleChange}
+                      name="mobnumber"
+                      style={{ color: "var(--color-text-primary)" }}
+                    />
+                  </div>
+                </div>
+
+                 <div>
+                  <label
+                    className="text-sm font-medium"
+                    style={{ color: "var(--color-text-secondary)" }}
+                  >
+                    Longitude
+                  </label>
+                  <div
+                    className="mt-1 flex items-center gap-2 rounded-lg border px-3 py-2"
+                    style={{ borderColor: "var(--color-accent-soft)" }}
+                  >
+                    <Phone
+                      size={18}
+                      style={{ color: "var(--color-primary)" }}
+                    />
+                    <input
+                      type="lon"
+                      value={formData.geoLocation.lon}
+                      className="w-full bg-transparent outline-none"
+                      onChange={handleChange}
+                      name="lon"
+                      style={{ color: "var(--color-text-primary)" }}
+                    />
+                  </div>
+                </div>
+               </div>
 
                 {/* Password */}
                 {/* <div>

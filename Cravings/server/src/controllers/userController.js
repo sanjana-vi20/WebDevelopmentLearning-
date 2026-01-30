@@ -64,7 +64,7 @@ export const UserPhotoUpdate = async(req ,res ,next) => {
 
     console.log("Image Uploaded successfully :" , result);
     currentUser.photo.url=result.secure_url;
-    currentUser.photo.publicID=result.public_id;
+    currentUser.photo.publicId=result.public_id;
 
     await currentUser.save();
     res.status(200).json({ message: "Photo Updated" , data:currentUser });
