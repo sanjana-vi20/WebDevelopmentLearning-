@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
 import {useAuth} from "../../context/AuthContext"
-import EditProfileModal from './modals/EditProfileModal';
+// import EditProfileModal from './modals/EditProfileModal';
 import { Mail, Phone, User } from 'lucide-react';
 import { FaCamera } from "react-icons/fa";
 import toast from 'react-hot-toast';
 import profile from '../../assets/profile.jpg'
 import api from '../../config/Api'
-import ResetPasswordModal from './modals/ResetPasswordModal';
 
-const UserProfile = () => {
+const RestaurantProfile = () => {
   const [isEditModal , setIsEditModalOpen] = useState(false);
-  const [isResetPassword , setIsResetPassword] = useState(false);
   const [photo , setPhoto] = useState("");
   const [preview , setPreview] = useState();
   const {user , setUser} = useAuth();
@@ -129,8 +127,7 @@ const UserProfile = () => {
         </div>
 
         {/* Footer Button */}
-        <div className='flex gap-5'>
-          <button
+        <button
         onClick={() => setIsEditModalOpen(true)}
           className="mt-6 px-6 py-2 rounded-xl font-semibold transition"
           style={{
@@ -149,34 +146,13 @@ const UserProfile = () => {
         >
           Edit Profile
         </button>
-        <button
-        onClick={() => setIsResetPassword(true)}
-          className="mt-6 px-6 py-2 rounded-xl font-semibold transition"
-          style={{
-            backgroundColor: "var(--color-primary)",
-            color: "#fff",
-          }}
-          onMouseOver={(e) =>
-            (e.currentTarget.style.backgroundColor =
-              "var(--color-primary-hover)")
-          }
-          onMouseOut={(e) =>
-            (e.currentTarget.style.backgroundColor =
-              "var(--color-primary)")
-          }
-          
-        >
-          Reset Password
-        </button>
-        </div>
       </div>
     </div>
 
-    {isEditModal && <EditProfileModal onClose={()=> setIsEditModalOpen(false)}/>}
-    {isResetPassword && <ResetPasswordModal onClose={()=> setIsResetPassword(false)}/>}
+    {/* {isEditModal && <EditProfileModal onClose={()=> setIsEditModalOpen(false)}/>} */}
     
     </>
   )
 }
 
-export default UserProfile
+export default RestaurantProfile

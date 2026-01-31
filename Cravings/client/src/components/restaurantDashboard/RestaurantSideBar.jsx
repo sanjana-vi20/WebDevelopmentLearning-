@@ -8,15 +8,20 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLogout } from "react-icons/md";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
-import api from '../../config/Api'
-import {useNavigate} from 'react-router-dom'
+import api from "../../config/Api";
+import { useNavigate } from "react-router-dom";
 
-const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
+const RestaurantSideBar = ({
+  active,
+  setActive,
+  isCollapse,
+  setIsCollapse,
+}) => {
   const { setUser, setIsLogin } = useAuth();
   const menuItems = [
-    { key: "overview", title: "Overview", icon: <CiGrid41 size={20} /> },
-    { key: "profile", title: "Profile", icon: <CgProfile size={20} /> },
-    { key: "order", title: "Order", icon: <IoCart size={20} /> },
+    { key: "res-overview", title: "Overview", icon: <CiGrid41 size={20} /> },
+    { key: "res-profile", title: "Profile", icon: <CgProfile size={20} /> },
+    { key: "res-order", title: "Order", icon: <IoCart size={20} /> },
     {
       key: "transaction",
       title: "Transaction",
@@ -37,7 +42,7 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
       toast.success(res.data.message);
       setUser(""); // user clear
       setIsLogin(false); // login clear
-      navigate('/');
+      navigate("/");
       sessionStorage.removeItem("CravingUser");
     } catch (error) {
       // console.log(error)
@@ -57,13 +62,13 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
             </button>
             {!isCollapse && (
               <span className="overflow-hidden text-nowrap">
-                User Dashboard
+                Restaurant Dashboard
               </span>
             )}
           </div>
           <hr />
 
-          <div className="flex flex-col gap-3 mt-2 w-full">
+          <div className="flex flex-col justify-between gap-3 mt-2 w-full">
             {menuItems.map((item, idx) => (
               <button
                 key={idx}
@@ -79,21 +84,20 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
               </button>
             ))}
           </div>
-        </div>
-
-        <div>
-          <button
-            className={`flex items-center gap-2 p-2 ${isCollapse ? "mx-auto" : ""} rounded h-12 text-nowrap `}
-            onClick={handleLogout}
-          >
-            {""}
-            <MdLogout />
-            {!isCollapse && "Logout"}
-          </button>
+          <div className="mt-3 ">
+            <button
+              className={`flex items-center gap-2 p-2 ${isCollapse ? "mx-auto" : ""} rounded h-12 text-nowrap   hover:bg-amber-50/70 hover:scale-105 w-full`}
+              onClick={handleLogout}
+            >
+              {""}
+              <MdLogout />
+              {!isCollapse && "Logout"}
+            </button>
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default SideBar;
+export default RestaurantSideBar;
