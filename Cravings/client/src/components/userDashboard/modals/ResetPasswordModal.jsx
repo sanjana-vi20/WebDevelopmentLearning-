@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import api from '../../../config/Api'
+import toast from "react-hot-toast";
 
 const ResetPasswordModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -6,11 +8,36 @@ const ResetPasswordModal = ({ onClose }) => {
     newPassword: "",
     confirmPassword: "",
   });
+  const [isLoading ,setIsLoading] = useState(false);
+  const [error ,setErrors] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const handleSubmit = async(e) =>{
+    const newErrors = {}
+    e.preventDefault();
+    setIsLoading(true);
+
+    if(formData.newPassword !== formData.confirmPassword)
+    {
+        newErrors.newPassword = "Password not Matched";
+       setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    }
+    try {
+        const res = await api.patch("/user/resetPassword" , formData);
+    toast.success(res.data.message)
+    } catch (error) {
+        console.log(error); 
+         toast.error(error?.response?.data?.message || "Unknown Error");
+    }finally{
+        setIsLoading(false);
+    }
+
+  }
   return (
     <>
       <div className="fixed inset-0 bg-black/80 flex justify-center items-center">
@@ -71,7 +98,7 @@ const ResetPasswordModal = ({ onClose }) => {
 
           <div className="flex justify-center p-5">
             <button
-              // onClick={() => setIsResetPassword(true)}
+              onClick={handleSubmit}
               className="mt-6 px-6 py-2 rounded-xl font-semibold transition"
               style={{
                 backgroundColor: "var(--color-primary)",

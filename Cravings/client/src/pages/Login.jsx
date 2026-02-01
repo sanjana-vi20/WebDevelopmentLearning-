@@ -7,10 +7,11 @@ import { BsSend } from "react-icons/bs";
 import { FiLock } from "react-icons/fi";
 import { IoMdPerson } from "react-icons/io";
 import { useAuth } from "../context/AuthContext.jsx";
+import ForgetPasswordModal from "../components/publicModals/ForgetPasswordModal.jsx";
 
 function Login() {
-  const { setUser, setIsLogin , setRole} = useAuth();
-  
+  const { setUser, setIsLogin, setRole } = useAuth();
+  const [isForgetPassword, setIsForgetPassword] = useState(false);
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -64,28 +65,29 @@ function Login() {
       toast.success(res.data.message);
       setUser(res.data.data);
       setIsLogin(true);
-      sessionStorage.setItem("CravingUser" , JSON.stringify(res.data.data));
+      sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
       // navigate("/user-dashboard");
       handleClear();
-      switch(res.data.data.role)
-      {
-        case "manager":{
-           setRole("manager");
-           navigate("/restaurant-dashboard");
-           break;
-        }case "partner":{
-           setRole("partner");
-           navigate("/ride-dashboard");
-           break;
-        }case "customer":{
-           setRole("customer");
-           navigate("/user-dashboard");
-           break;
+      switch (res.data.data.role) {
+        case "manager": {
+          setRole("manager");
+          navigate("/restaurant-dashboard");
+          break;
         }
-        case "admin":{
-           setRole("admin");
-           navigate("/admin-dashboard");
-           break;
+        case "partner": {
+          setRole("partner");
+          navigate("/ride-dashboard");
+          break;
+        }
+        case "customer": {
+          setRole("customer");
+          navigate("/user-dashboard");
+          break;
+        }
+        case "admin": {
+          setRole("admin");
+          navigate("/admin-dashboard");
+          break;
         }
       }
     } catch (error) {
@@ -144,6 +146,17 @@ function Login() {
                       disabled={isLoading}
                     />
                   </div>
+
+                  <div className="text-blue-700 flex justify-end text-xs">
+                    <button
+                      onClick={(e) => {
+                        (e.preventDefault());
+                        setIsForgetPassword(true);
+                      }}
+                    >
+                      Forget Password?
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -169,6 +182,10 @@ function Login() {
           </div>
         </div>
       </div>
+
+      {isForgetPassword && (
+        <ForgetPasswordModal onClose={() => setIsForgetPassword(false)} />
+      )}
     </>
   );
 }
