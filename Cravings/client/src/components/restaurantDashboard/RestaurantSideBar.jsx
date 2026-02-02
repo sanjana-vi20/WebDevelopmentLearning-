@@ -68,7 +68,7 @@ const RestaurantSideBar = ({
           </div>
           <hr />
 
-          <div className="flex flex-col justify-between gap-3 mt-2 w-full">
+          <div className="flex flex-col justify- gap-3 mt-2 w-full">
             {menuItems.map((item, idx) => (
               <button
                 key={idx}
@@ -83,10 +83,8 @@ const RestaurantSideBar = ({
                 {isCollapse ? "" : item.title}
               </button>
             ))}
-          </div>
-          <div className="m-1 ">
-            <button
-              className={`flex items-center gap-2 p-2 ${isCollapse ? "mx-auto" : ""} rounded h-12 text-nowrap   hover:bg-amber-50/70 hover:scale-105 w-full`}
+             <button
+              className={`flex items-center gap-2 p-2 ${isCollapse ? "mx-auto" : ""} rounded h-12 text-nowrap   hover:bg-amber-50/70 hover:scale-105`}
               onClick={handleLogout}
             >
               {""}
@@ -94,6 +92,7 @@ const RestaurantSideBar = ({
               {!isCollapse && "Logout"}
             </button>
           </div>
+          
         </div>
       </div>
     </>

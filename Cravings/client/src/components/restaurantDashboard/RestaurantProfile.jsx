@@ -14,6 +14,7 @@ import { FaCamera } from "react-icons/fa";
 import toast from "react-hot-toast";
 import api from "../../config/Api";
 import EditResturantProfile from "./resturantModals/EditResturantProfile.jsx";
+import ResPasswordResetModal from "./resturantModals/ResPasswordResetModal.jsx";
 
 const RestaurantProfile = () => {
   const [isEditModal, setIsEditModalOpen] = useState(false);
@@ -234,6 +235,9 @@ const RestaurantProfile = () => {
 
       {isEditModal && (
         <EditResturantProfile onClose={() => setIsEditModalOpen(false)} />
+      )}
+      {openResetPasswordModal && (
+        <ResPasswordResetModal onClose={() => setOpenResetPasswordModal(false)} />
       )}
     </>
   );

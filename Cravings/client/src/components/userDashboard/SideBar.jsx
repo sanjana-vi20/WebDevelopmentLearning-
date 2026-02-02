@@ -8,8 +8,8 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdLogout } from "react-icons/md";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
-import api from '../../config/Api'
-import {useNavigate} from 'react-router-dom'
+import api from "../../config/Api";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
   const { setUser, setIsLogin } = useAuth();
@@ -37,7 +37,7 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
       toast.success(res.data.message);
       setUser(""); // user clear
       setIsLogin(false); // login clear
-      navigate('/');
+      navigate("/");
       sessionStorage.removeItem("CravingUser");
     } catch (error) {
       // console.log(error)
@@ -63,7 +63,7 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
           </div>
           <hr />
 
-          <div className="flex flex-col gap-3 mt-2 w-full">
+          <div className="flex flex-col gap-3 justify-center mt-2 w-full">
             {menuItems.map((item, idx) => (
               <button
                 key={idx}
@@ -78,19 +78,20 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
                 {isCollapse ? "" : item.title}
               </button>
             ))}
-          </div>
-        </div>
-
-        <div>
+          
           <button
-            className={`flex items-center gap-2 p-2 ${isCollapse ? "mx-auto" : ""} rounded h-12 text-nowrap `}
+            className={`flex items-center  p-2 gap-2 ${isCollapse ? "mx-auto" : ""} rounded h-12 hover:bg-amber-50/70 hover:scale-105 text-nowrap `}
             onClick={handleLogout}
           >
             {""}
-            <MdLogout />
+            <MdLogout size={20}/>
             {!isCollapse && "Logout"}
           </button>
+       
+          </div>
         </div>
+
+        
       </div>
     </>
   );
