@@ -1,7 +1,7 @@
 import cloudinary from "../config/cloudinary.js";
 import bcrypt from 'bcrypt'
 
-export const UserUpdate = async (req, res, next) => {
+export const ResUserUpdate = async (req, res, next) => {
   try {
     const {
       fullName,
@@ -57,7 +57,7 @@ export const UserUpdate = async (req, res, next) => {
   }
 };
 
-export const UserPhotoUpdate = async (req, res, next) => {
+export const ResUserPhotoUpdate = async (req, res, next) => {
   try {
     // console.log("body: ", req.body);
 
@@ -97,7 +97,7 @@ export const UserPhotoUpdate = async (req, res, next) => {
   }
 };
 
-export const UserResetPassword = async (req, res, next) => {
+export const ResUserResetPassword = async (req, res, next) => {
   try {
     const { oldPassword, newPassword } = req.body;
     const currentUser = req.user;

@@ -14,7 +14,7 @@ const RestaurantDashboard = () => {
   return (
     <>
       <div className="flex w-full h-[86vh]">
-        <div className={` bg-(--bg-accent) duration-300 ${isCollapse ? "w-3/60" : "w-12/60"} `}>
+        <div className={` bg-(--bg-accent) duration-300 ${isCollapse ? "w-3/60" : "w-12/60"} h-screen`}>
           <RestaurantSideBar active={active} setActive={setActive} isCollapse= {isCollapse} setIsCollapse = {setIsCollapse} />
         </div>
         <div className={`  ${isCollapse ? "w-57/60" : "w-48/60"}`}>

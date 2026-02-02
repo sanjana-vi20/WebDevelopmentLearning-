@@ -6,6 +6,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    restaurantName:{
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -32,7 +36,7 @@ const userSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female", "others", "N/A"],
+      enum: ["Male", "Female", "others", "N/A"],
       required: true,
       default: "N/A",
     },

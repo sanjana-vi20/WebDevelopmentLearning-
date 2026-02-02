@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import api from '../../config/Api'
+import api from "../../config/Api";
 import toast from "react-hot-toast";
 
 const ForgetPasswordModal = ({ onClose }) => {
@@ -20,32 +20,32 @@ const ForgetPasswordModal = ({ onClose }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       let res;
       if (isOtpSent) {
         if (isOtpVerified) {
-          console.log("OTP Verified");
+          res = await api.post("/auth/forgetPassword", formData);
+          toast.success(res.data.message);
           onClose();
         } else {
-          console.log("OTP Sent");
+          res = await api.post("/auth/verifyOtp", formData);
+          toast.success(res.data.message);
+          setIsOtpSend(true);
           setIsOtpVerified(true);
         }
-      }
-      else
-      {
+      } else {
         console.log("Sending OTP");
-        res = await api.post('/auth/getOtp' , formData);
+        res = await api.post("/auth/getOtp", formData);
         toast.success(res.data.message);
         setIsOtpSend(true);
       }
     } catch (error) {
-        console.log(error);
-        toast.error(error?.response?.data?.message || "Unknown Error")   
-    }
-    finally{
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Unknown Error");
+    } finally {
       setLoading(false);
     }
   };
@@ -131,7 +131,7 @@ const ForgetPasswordModal = ({ onClose }) => {
 
           <div className="flex justify-center p-5">
             <button
-                onClick={handleSubmit}
+              onClick={handleSubmit}
               className=" px-6 py-2 rounded-xl font-semibold transition"
               style={{
                 backgroundColor: "var(--color-primary)",

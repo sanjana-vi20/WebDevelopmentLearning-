@@ -84,13 +84,13 @@ const RestaurantSideBar = ({
               </button>
             ))}
           </div>
-          <div className="mt-3 ">
+          <div className="m-1 ">
             <button
               className={`flex items-center gap-2 p-2 ${isCollapse ? "mx-auto" : ""} rounded h-12 text-nowrap   hover:bg-amber-50/70 hover:scale-105 w-full`}
               onClick={handleLogout}
             >
               {""}
-              <MdLogout />
+              <MdLogout size={20}/>
               {!isCollapse && "Logout"}
             </button>
           </div>
