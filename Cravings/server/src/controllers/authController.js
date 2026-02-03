@@ -83,6 +83,7 @@ export const UserLogin = async (req, res, next) => {
     next(error);
   }
 };
+
 export const UserLogout = async (req, res, next) => {
   try {
     res.clearCookie("oreo");

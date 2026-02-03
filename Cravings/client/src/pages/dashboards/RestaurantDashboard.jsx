@@ -7,6 +7,9 @@ import RestaurantProfile from '../../components/restaurantDashboard/RestaurantPr
 import RestaurantOrder from '../../components/restaurantDashboard/RestaurantOrder';
 import UserTransaction from '../../components/userDashboard/UserTransaction';
 import UserHelp from '../../components/userDashboard/UserHelp';
+import RestaurantMenu from '../../components/restaurantDashboard/RestaurantMenu';
+import RestaurantTransaction from '../../components/restaurantDashboard/RestaurantTransaction';
+import RestaurantFeedback from '../../components/restaurantDashboard/RestaurantFeedback';
 
 const RestaurantDashboard = () => {
  const [active, setActive] = useState("res-overview");
@@ -20,9 +23,11 @@ const RestaurantDashboard = () => {
         <div className={`  ${isCollapse ? "w-57/60" : "w-48/60"}`}>
         {active === 'res-overview' && <ResturantOverview/>}
         {active === 'res-profile' && <RestaurantProfile/>}
+        {active === 'res-menu' && <RestaurantMenu/>}
+
         {active === 'res-order' && <RestaurantOrder/>}
-        {active === 'transaction' && <UserTransaction/>}
-        {active === 'helpdesk' && <UserHelp/>}
+        {active === 'res-transaction' && <RestaurantTransaction/>}
+        {active === 'res-feedback' && <RestaurantFeedback/>}
         </div>
       </div>
     </>

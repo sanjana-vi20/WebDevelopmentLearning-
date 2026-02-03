@@ -1,34 +1,24 @@
-import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext.jsx";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  CreditCard,
-  FileText,
-  Calendar,
-  Landmark,
-  BadgeCheck,
-} from "lucide-react";
+import React, { useState } from 'react';
+import { useAuth } from "../../context/AuthContext";
+import { 
+  Mail, Phone, MapPin, Calendar, Globe, Landmark, BadgeCheck, ShieldCheck 
+} from 'lucide-react';
 import { FaCamera } from "react-icons/fa";
-import toast from "react-hot-toast";
-import api from "../../config/Api";
-import EditResturantProfile from "./resturantModals/EditResturantProfile.jsx";
+import toast from 'react-hot-toast';
+import api from '../../config/Api';
+import EditResturantProfile from './resturantModals/EditResturantProfile.jsx';
 import ResPasswordResetModal from "./resturantModals/ResPasswordResetModal.jsx";
 
 const RestaurantProfile = () => {
   const [isEditModal, setIsEditModalOpen] = useState(false);
   const [openResetPasswordModal, setOpenResetPasswordModal] = useState(false);
-  const [photo, setPhoto] = useState("");
   const [preview, setPreview] = useState();
   const { user, setUser } = useAuth();
 
-  // --- Aapka Existing Logic (Retained) ---
   const changePhoto = async (fileUpload) => {
     if (!fileUpload) return;
     const form_Data = new FormData();
     form_Data.append("image", fileUpload);
-    form_Data.append("imageURL", preview);
 
     try {
       const res = await api.patch("/restaurant/photo-update", form_Data);
@@ -41,222 +31,123 @@ const RestaurantProfile = () => {
     }
   };
 
-  const handlePhotoChange = async (e) => {
+  const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const newPhoto = URL.createObjectURL(file);
-      setPreview(newPhoto);
-      setTimeout(() => {
-        setPhoto(file);
-        changePhoto(file);
-      }, 5000);
-    }
+    if (!file) return;
+    const tempUrl = URL.createObjectURL(file);
+    setPreview(tempUrl);
+    setTimeout(() => changePhoto(file), 3000);
   };
 
   return (
-    <>
-      <div className="min-h-screen bg-[#f8f9fa] py-10 px-4">
-        <div className="max-w-6xl mx-auto space-y-8">
-          {/* --- Section 1: Top Profile Header (Based on Screenshot) --- */}
-          <div
-            className="w-full rounded-[2.5rem] shadow-sm p-8 flex flex-col md:flex-row items-center justify-between gap-8 border border-gray-100"
-            style={{ backgroundColor: "var(--bg-light)" }}
-          >
-            <div className="flex items-center gap-8 flex-1">
-              {/* Avatar Logic */}
-              <div className="relative">
-                <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-[var(--color-accent)] shadow-md bg-gray-100">
-                  <img
-                    src={preview || user?.photo?.url || "/default-avatar.png"}
-                    alt="avatar"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <label
-                  htmlFor="imageUpload"
-                  className="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow-lg cursor-pointer hover:scale-110 transition-transform border border-gray-100"
-                >
-                  <FaCamera size={16} className="text-[#842A3B]" />
-                  <input
-                    type="file"
-                    id="imageUpload"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handlePhotoChange}
-                  />
-                </label>
-              </div>
+    <div className="min-h-screen bg-gradient-to-br m-4 rounded-2xl from-[var(--bg-accent)] via-white to-[var(--bg-accent)] py-12 px-6">
+      <div className="max-w-6xl mx-auto space-y-10">
 
-              {/* Status & Name */}
-              <div className="text-left space-y-1">
-                <h2 className="text-3xl font-bold text-gray-800 tracking-tight">
-                  
-                  
-                  {user?.fullName || ""}
-                </h2>
-                <div className="flex items-center gap-2 text-sm font-bold text-[#842A3B]">
-                  <BadgeCheck size={16} />
-                  Active{" "}
-                  {user?.role === "manager"
-                    ? "Manager"
-                    : user?.role || "Partner"}
-                </div>
-                <p className="text-xs text-gray-400 font-semibold tracking-wide">
-                  MEMBER SINCE{" "}
-                  {user?.createdAt ? user.createdAt.slice(0, 4) : "2026"}
-                </p>
-              </div>
+        {/* Header */}
+        <div className="bg-white/90 backdrop-blur rounded-[2.5rem] border border-slate-100 shadow-lg p-8 flex flex-col md:flex-row items-center gap-10">
+          <div className="relative">
+            <div className="w-32 h-32 rounded-full bg-[var(--color-accent)] p-1">
+              <img
+                src={preview || user?.photo?.url || "https://via.placeholder.com/150"}
+                className="w-full h-full rounded-full object-cover border-4 border-white"
+              />
             </div>
+            <label className="absolute bottom-1 right-1 bg-[var(--color-primary)] text-white p-2 rounded-full cursor-pointer">
+              <FaCamera size={14} />
+              <input type="file" hidden accept="image/*" onChange={handlePhotoChange} />
+            </label>
+          </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row md:flex-col gap-3 w-full md:w-auto">
-              <button
-                onClick={() => setIsEditModalOpen(true)}
-                className="px-10 py-3 rounded-2xl font-bold text-white shadow-md transition-all hover:bg-[#662222] active:scale-95"
-                style={{ backgroundColor: "var(--color-primary)" }}
-              >
-                Edit Profile
-              </button>
-              <button
-                onClick={() => setOpenResetPasswordModal(true)}
-                className="px-10 py-3 rounded-2xl font-bold text-white shadow-md transition-all hover:bg-[#662222] active:scale-95"
-                style={{ backgroundColor: "var(--color-primary)" }}
-              >
-                Reset Password
-              </button>
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-3xl font-bold text-[var(--text-primary)]">
+              {user?.fullName || "Restaurant Owner"}
+            </h1>
+            <div className="flex gap-3 mt-3 justify-center md:justify-start">
+              <span className="flex items-center gap-1 px-3 py-1 text-xs font-bold rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)]">
+                <BadgeCheck size={14} /> Active
+              </span>
+              <span className="text-xs text-gray-400">Joined {user?.createdAt?.slice(0,4)}</span>
             </div>
           </div>
 
-          {/* --- Section 2: Detailed Information Grid --- */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Left Column: Contact & Location */}
-            <div className="md:col-span-2 space-y-8">
-              {/* Contact Card */}
-              <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-50">
-                <h3 className="text-sm font-black  uppercase tracking-widest mb-6 flex items-center gap-2">
-                  <Mail size={16} className="text-[#842A3B]" /> Contact
-                  Information
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  <InfoBlock
-                    label="Email Address"
-                    value={user?.email}
-                    icon={<Mail size={16} />}
-                  />
-                  <InfoBlock
-                    label="Phone Number"
-                    value={user?.mobnumber}
-                    icon={<Phone size={16} />}
-                  />
-                  <InfoBlock
-                    label="Restaurant Name"
-                    value={user?.restaurantName || "N/A"}
-                    icon={<Landmark size={16} />}
-                  />
-                  <InfoBlock
-                    label="Gender"
-                    value={user?.gender || "Not Set"}
-                    icon={<Calendar size={16} />}
-                  />
-                </div>
-              </div>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setIsEditModalOpen(true)}
+              className="px-6 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold hover:bg-[var(--color-primary-hover)]"
+            >
+              Edit Profile
+            </button>
+            <button
+              onClick={() => setOpenResetPasswordModal(true)}
+              className="px-6 py-3 rounded-xl border text-[var(--color-primary)]"
+            >
+              Reset Password
+            </button>
+          </div>
+        </div>
 
-              {/* Address Card */}
-              <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-50">
-                <h3 className="text-sm font-black  uppercase tracking-widest mb-6 flex items-center gap-2">
-                  <MapPin size={16} className="text-[#842A3B]" /> Address
-                  Details
-                </h3>
-                <div className="space-y-6">
-                  <InfoBlock
-                    label="Full Address"
-                    value={user?.address || "N/A"}
-                  />
-                  <div className="grid grid-cols-2 gap-8">
-                    <InfoBlock label="City" value={user?.city || "N/A"} />
-                    <InfoBlock
-                      label="PIN Code"
-                      value={user?.pin || "N/A"}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <Card title="General Information" icon={<Globe size={18} />}
+              items={[
+                { label: 'Email', value: user?.email, icon: <Mail size={16} /> },
+                { label: 'Mobile', value: user?.mobnumber, icon: <Phone size={16} /> },
+                { label: 'Restaurant', value: user?.restaurantName, icon: <Landmark size={16} /> },
+                { label: 'DOB', value: user?.dob, icon: <Calendar size={16} /> },
+              ]}
+            />
 
-            {/* Right Column: Verification & Payment */}
-            <div className="space-y-8">
-              <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-50 h-full">
-                <h3 className="text-sm font-black  uppercase  mb-8 border-b pb-4">
-                  Account Verification
-                </h3>
+            <Card title="Location Details" icon={<MapPin size={18} />}
+              items={[
+                { label: 'Address', value: user?.address },
+                { label: 'City', value: user?.city },
+                { label: 'PIN', value: user?.pin || user?.pincode },
+              ]}
+            />
+          </div>
 
-                <div className="space-y-8">
-                  <section>
-                    <p className="text-[10px] font-bold text-[#842A3B] mb-4">
-                      DOCUMENTS
-                    </p>
-                    <InfoBlock
-                      label="Aadhaar (UIDAI)"
-                      value={user?.documents?.uidai || "Pending"}
-                      icon={<FileText size={16} />}
-                    />
-                    <div className="mt-6">
-                      <InfoBlock
-                        label="PAN Number"
-                        value={user?.documents?.pan || "Pending"}
-                        icon={<FileText size={16} />}
-                      />
-                    </div>
-                  </section>
-
-                  <section className="pt-6 border-t border-gray-50">
-                    <p className="text-[10px] font-bold text-[#842A3B] mb-4">
-                      PAYMENT SETTINGS
-                    </p>
-                    <InfoBlock
-                      label="UPI ID"
-                      value={user?.paymentDetails?.upi || "N/A"}
-                      icon={<CreditCard size={16} />}
-                    />
-                    <div className="mt-6">
-                      <InfoBlock
-                        label="Bank Account"
-                        value={user?.paymentDetails?.account_number || "N/A"}
-                        icon={<Landmark size={16} />}
-                      />
-                    </div>
-                  </section>
-                </div>
-              </div>
-            </div>
+          <div className="relative overflow-hidden bg-[var(--color-primary)] text-white rounded-[2.5rem] p-8 shadow-2xl">
+            <h3 className="font-bold mb-6 flex items-center gap-2">
+              <ShieldCheck size={18} /> Security & Payments
+            </h3>
+            <DarkItem label="UIDAI" value={user?.documents?.uidai} />
+            <DarkItem label="PAN" value={user?.documents?.pan} />
+            <DarkItem label="UPI" value={user?.paymentDetails?.upi} />
+            <DarkItem label="Account No" value={user?.paymentDetails?.account_number} />
           </div>
         </div>
       </div>
 
-      {isEditModal && (
-        <EditResturantProfile onClose={() => setIsEditModalOpen(false)} />
-      )}
-      {openResetPasswordModal && (
-        <ResPasswordResetModal onClose={() => setOpenResetPasswordModal(false)} />
-      )}
-    </>
+      {isEditModal && <EditResturantProfile onClose={() => setIsEditModalOpen(false)} />}
+      {openResetPasswordModal && <ResPasswordResetModal onClose={() => setOpenResetPasswordModal(false)} />}
+    </div>
   );
 };
 
-/* --- Reusable UI Component --- */
-const InfoBlock = ({ label, value, icon }) => (
-  <div className="group">
-    <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-tighter">
-      {label}
-    </label>
-    <div className="flex items-center gap-3 mt-1.5">
-      {icon && (
-        <span className="text-gray-300 group-hover:text-[#842A3B] transition-colors">
-          {icon}
-        </span>
-      )}
-      <p className="text-sm font-bold text-gray-700">{value || "—"}</p>
+const Card = ({ title, icon, items, cols = 'sm:grid-cols-2' }) => (
+  <div className="bg-white rounded-3xl p-8 border shadow-sm">
+    <h3 className="font-bold mb-6 flex items-center gap-2 text-[var(--color-primary)]">{icon}{title}</h3>
+    <div className={`grid ${cols} gap-6`}>
+      {items.map((item, i) => (
+        <Detail key={i} {...item} />
+      ))}
     </div>
+  </div>
+);
+
+const Detail = ({ label, value, icon }) => (
+  <div className="group">  <p className="text-[11px] uppercase tracking-wider text-gray-400 mb-1">{label}</p>
+    <div className="flex items-center gap-2 font-semibold text-gray-700 group-hover:text-[var(--color-primary)] transition">
+      {icon}{value || '—'}
+    </div>
+  </div>
+);
+
+const DarkItem = ({ label, value }) => (
+  <div className="mb-4">
+    <p className="text-xs uppercase text-white/60">{label}</p>
+    <p className="font-semibold">{value || 'Pending'}</p>
   </div>
 );
 

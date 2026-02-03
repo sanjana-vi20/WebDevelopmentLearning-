@@ -54,7 +54,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-[#f8f9fa] py-10 px-4">
+      <div className="min-h-screen bg-[#f8f9fa] py-10 px-4 scroll-smooth">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* --- Section 1: Top Profile Header (Based on Screenshot) --- */}
           <div

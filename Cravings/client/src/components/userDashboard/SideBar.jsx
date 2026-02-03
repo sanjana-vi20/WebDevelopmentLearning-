@@ -31,22 +31,23 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
 
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const handleLogout = async() => {
     try {
       const res = await api.get("/auth/logout"); // cookie clear
-      toast.success(res.data.message);
-      setUser(""); // user clear
+      console.log(res);
+      toast.success(res?.data?.message);
+      setUser(false); // user clear
       setIsLogin(false); // login clear
       navigate("/");
       sessionStorage.removeItem("CravingUser");
     } catch (error) {
       // console.log(error)
-      toast.error(error?.response?.data?.message || "Unknown Error");
+      toast.error(res?.response?.data?.message || "Unknown Error");
     }
   };
   return (
     <>
-      <div className="flex flex-col justify-between">
+      <div className="bg-(--bg-accent) h-screen flex flex-col justify-between">
         <div className=" p-3">
           <div className="text-xl font-bold flex h-12 items-center gap-2 ">
             <button

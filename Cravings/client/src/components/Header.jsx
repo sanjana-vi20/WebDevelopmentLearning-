@@ -46,7 +46,7 @@ function Header() {
   };
   return (
     <>
-      <div className="bg-(--color-primary) py-3  px-3 flex justify-between items-center">
+      <div className="bg-(--color-primary) sticky top-0 z-99 py-3  px-3 flex justify-between items-center">
         <Link to={"/"}>
           <img
             src={circle}

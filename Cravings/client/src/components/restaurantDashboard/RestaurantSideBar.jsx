@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CgProfile } from "react-icons/cg";
+import { MdMenuBook } from "react-icons/md";
 import { IoCart } from "react-icons/io5";
 import { TbTransactionRupee } from "react-icons/tb";
 import { MdOutlineHelpOutline } from "react-icons/md";
@@ -21,15 +22,16 @@ const RestaurantSideBar = ({
   const menuItems = [
     { key: "res-overview", title: "Overview", icon: <CiGrid41 size={20} /> },
     { key: "res-profile", title: "Profile", icon: <CgProfile size={20} /> },
-    { key: "res-order", title: "Order", icon: <IoCart size={20} /> },
+    { key: "res-menu", title: "Manage Menu", icon: <MdMenuBook size={20} /> },
+    { key: "res-order", title: "Manage Order", icon: <IoCart size={20} /> },
     {
-      key: "transaction",
-      title: "Transaction",
+      key: " res-transaction",
+      title: "Manage Transaction",
       icon: <TbTransactionRupee size={20} />,
     },
     {
-      key: "helpdesk",
-      title: "Help desk",
+      key: "res-feedback",
+      title: "Complaint & Feedback",
       icon: <MdOutlineHelpOutline size={20} />,
     },
   ];
