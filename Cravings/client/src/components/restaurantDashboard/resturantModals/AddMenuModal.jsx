@@ -36,7 +36,7 @@ const AddMenuModal = ({ onClose }) => {
 
     if(photo.length === 0)
     {
-      toast.error("Kam se kam ek photo upload karein.");
+      toast.error("Kam se kam ek photo upload karo.");
     }
 
     setloading(true);
@@ -45,8 +45,6 @@ const AddMenuModal = ({ onClose }) => {
     photo.forEach((file) => {
       form_data.append("image" , file);
     })
-
-
   }
 
   const handlePhotoUpload = (e) => {
