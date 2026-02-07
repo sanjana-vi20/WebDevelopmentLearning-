@@ -5,7 +5,7 @@ const menuSchema = mongoose.Schema(
     restaurantID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      // required: true,
     },
     dishName: {
       type: String,
@@ -32,8 +32,12 @@ const menuSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    availability: {
+    preparationTime: {
       type: String,
+      required: true,
+    },
+    availability: {
+      type: Boolean,
       required: true,
       enum:['available' , "unavailable", ],
       default: 'available',

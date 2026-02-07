@@ -1,5 +1,7 @@
 import cloudinary from "../config/cloudinary.js";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
+import { UploadMultipleToCloudinary } from "../utils/imageUploader.js";
+import Menu from "../models/menuSchema.js";
 
 export const ResUserUpdate = async (req, res, next) => {
   try {
@@ -122,6 +124,140 @@ export const ResUserResetPassword = async (req, res, next) => {
     await currentUser.save();
 
     res.status(200).json({ message: "Password Reset Successful" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const AddRestaurantMenuItem = async (req, res, next) => {
+  try {
+    const {
+      dishName,
+      cuisine,
+      description,
+      type,
+      availability,
+      price,
+      preparationTime,
+      servingsize,
+    } = req.body;
+
+    if (
+      !dishName ||
+      !description ||
+      !price ||
+      !type ||
+      !preparationTime ||
+      !availability ||
+      !servingsize ||
+      !cuisine
+    ) {
+      const error = new Error("All Fields are Required");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    const CurrentUser = req.user;
+    const image = await UploadMultipleToCloudinary(req.files);
+    console.log(image);
+
+    const newMenuItem = await Menu.create({
+      dishName,
+      description,
+      price,
+      type,
+      preparationTime,
+      availability,
+      servingsize,
+      cuisine,
+      image,
+      restaurantID: CurrentUser._id,
+    });
+
+    console.log( "newMenu" , newMenuItem);
+  
+    res.status(201).json({
+      message: "Menu Item Added Successfully",
+      data: newMenuItem,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const GetRestaurantMenuItem = async (req, res, next) => {
+  try {
+    const CurrentUser = req.user;
+    const menuItems = await Menu.find({ restaurantID: CurrentUser._id });
+    console.log( "menu " , menuItems);
+
+    res.status(200).json({
+      message: "Menu Items Fetched Successfully",
+      data: menuItems,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const RestaurantEditMenuItem = async (req, res, next) => {
+  try {
+    const {
+      dishName,
+      description,
+      price,
+      type,
+      preparationTime,
+      availability,
+      servingsize,
+      
+    } = req.body;
+
+    const { id } = req.params;
+
+    const CurrentUser = req.user;
+
+    if (
+      !dishName ||
+      !description ||
+      !price ||
+      !type ||
+      !preparationTime ||
+      !availability ||
+      !servingsize 
+      
+    ) {
+      const error = new Error("All Fields are Required");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    let image = [];
+    if (req.files) {
+      image = await UploadMultipleToCloudinary(req.files);
+      console.log(image);
+    }
+
+    const existingMenuItem = await Menu.findById(id);
+
+    existingMenuItem.dishName = dishName || existingMenuItem.dishName;
+    existingMenuItem.description = description || existingMenuItem.description;
+    existingMenuItem.price = price || existingMenuItem.price;
+    existingMenuItem.type = type || existingMenuItem.type;
+    existingMenuItem.preparationTime =
+      preparationTime || existingMenuItem.preparationTime;
+    existingMenuItem.availability =
+      availability || existingMenuItem.availability;
+    existingMenuItem.servingsize = servingsize || existingMenuItem.servingsize;
+    // existingMenuItem.cuisine = cuisine || existingMenuItem.cuisine;
+    existingMenuItem.image =
+      image.length > 0 ? image : existingMenuItem.image;
+    await existingMenuItem.save();
+
+    res.status(201).json({
+      message: "Menu Item Updated Successfully",
+    });
   } catch (error) {
     next(error);
   }

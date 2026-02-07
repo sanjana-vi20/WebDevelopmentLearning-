@@ -15,6 +15,7 @@ import {
   Upload,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import api from '../../../config/Api'
 
 const AddMenuModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -24,54 +25,87 @@ const AddMenuModal = ({ onClose }) => {
     price: "",
     servingsize: "",
     availability: "",
-    type: "Veg",
+    preparationTime: "",
+    type: "veg",
   });
 
-  const [photo , setPhoto] = useState([]);
-  const [preview , setPreview] = useState([])
-  const [loading  ,setloading] = useState(false);
-
-
-  const UploadPhoto = () =>{
-
-    if(photo.length === 0)
-    {
-      toast.error("Kam se kam ek photo upload karo.");
-    }
-
-    setloading(true);
-
-    const form_data = new FormData();
-    photo.forEach((file) => {
-      form_data.append("image" , file);
-    })
-  }
+  const [photo, setPhoto] = useState([]);
+  const [preview, setPreview] = useState([]);
+  const [loading, setloading] = useState(false);
 
   const handlePhotoUpload = (e) => {
     const files = Array.from(e.target.files);
-    console.log(e);
-    
-    if (photo.length + files.length > 3) {
-      toast.error("Only 3 photos are Allowed")
+    // console.log(e);
+    setPreview(files);
+    setPhoto(files);
+
+    if (preview.length + files.length > 3) {
+      toast.error("Only 3 photos are Allowed");
       return;
     }
-
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
-    setPreview((prev) => {[... prev,...newPreviews]});
-    setPhoto(prev => [...prev, ...files]);
-    UploadPhoto();
   };
 
-  const handleSubmit = async(e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
 
+    setloading(true);
 
-  } 
+    try {
+      const form_data = new FormData();
+      form_data.append("dishName", formData.dishName);
+      form_data.append("availability", formData.availability);
+      form_data.append("cuisine", formData.cuisine);
+      form_data.append("type", formData.type);
+      form_data.append("description", formData.description);
+      form_data.append("price", formData.price);
+      form_data.append("servingsize", formData.servingsize);
+      form_data.append("preparationTime", formData.preparationTime);
+
+      photo.forEach((img) => {
+        form_data.append("image", img);
+      });
+
+      console.log(photo);
+      
+      const res = await api.post("/restaurant/addMenu", form_data);
+      toast.success(res.data.message);
+      console.log(res.data.data);
+      setTimeout(handleClose, 1500);
+    } catch (error) {
+      // console.log(error);
+      toast.error(error.response?.data?.message);
+    } finally {
+      setloading(false);
+    }
+  };
+
+  const handleClose = () => {
+    setFormData({
+      dishName: "",
+      description: "",
+      price: "",
+      cuisine: "",
+      type: "",
+      preparationTime: "",
+      availability: true,
+    });
+
+    setPreview([]);
+    setPhoto([]);
+
+    setloading(false);
+
+    onClose();
+  };
 
   const handleOnchange = (e) => {
     e.preventDefault();
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, checked  ,type} = e.target;
+
+      setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
+    
+    
   };
 
   return (
@@ -118,14 +152,14 @@ const AddMenuModal = ({ onClose }) => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-3 gap-6 cursor-pointer">
                 {preview.map((url, index) => (
                   <div
                     key={index}
                     className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden shadow-lg group border-4 border-white"
                   >
                     <img
-                      src={url}
+                      src={URL.createObjectURL(url)}
                       alt="preview"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
@@ -136,8 +170,8 @@ const AddMenuModal = ({ onClose }) => {
                       <Trash2 size={24} className="text-white" />
                     </button>
                   </div>
-                ))} 
-                {/* {formData.image.length < 3 && ( */}
+                ))}
+                {preview.length < 3 && (
                   <label className="aspect-[3/4] rounded-[2.5rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-[#842A3B] hover:bg-[#842A3B]/5 transition-all group">
                     <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-[#842A3B] group-hover:scale-110 transition-all">
                       <Plus size={24} strokeWidth={3} />
@@ -148,11 +182,13 @@ const AddMenuModal = ({ onClose }) => {
                     <input
                       type="file"
                       className="hidden"
+                      name="image"
+                      accept="image/*"
                       multiple
                       onChange={handlePhotoUpload}
                     />
                   </label>
-                {/* )} */}
+                )}
               </div>
             </div>
 
@@ -165,6 +201,7 @@ const AddMenuModal = ({ onClose }) => {
                 </label>
                 <input
                   type="text"
+                  name="dishName"
                   placeholder="Truffle Infused Pasta"
                   className="w-full bg-transparent outline-none text-lg font-black text-slate-800 placeholder:text-slate-200"
                   onChange={handleOnchange}
@@ -181,10 +218,11 @@ const AddMenuModal = ({ onClose }) => {
                   <span className="text-slate-300 font-black text-lg">₹</span>
                   <input
                     type="number"
+                    name="price"
                     placeholder="499.00"
                     className="w-full bg-transparent outline-none text-lg font-black text-slate-800 placeholder:text-slate-200"
                     onChange={handleOnchange}
-                  value={formData.price}
+                    value={formData.price}
                   />
                 </div>
               </div>
@@ -197,23 +235,24 @@ const AddMenuModal = ({ onClose }) => {
                 <div className="flex gap-2  bg-slate-100/50 p-1.5 rounded-2xl border border-slate-100 shadow-inner">
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, type: "Veg" })}
-                    className={`flex-1 py-3 rounded-xl flex items-center gap-2 p-2 text-[10px] font-black tracking-widest transition-all ${formData.type === "Veg" ? "bg-white text-green-600 shadow-md" : "text-slate-400 uppercase"}`}
+                    name="type"
+                    onClick={() => setFormData({ ...formData, type: "veg" })}
+                    className={`flex-1 py-3 rounded-xl flex items-center gap-2 p-2 text-[10px] font-black tracking-widest transition-all ${formData.type === "veg" ? "bg-white text-green-600 shadow-md" : "text-slate-400 uppercase"}`}
                     onChange={handleOnchange}
-                  value={formData.type}
-                  
+                    value={formData.type}
                   >
                     <Leaf />
                     VEG
                   </button>
                   <button
                     type="button"
+                    name="type"
                     onClick={() =>
-                      setFormData({ ...formData, type: "Non-Veg" })
+                      setFormData({ ...formData, type: "non-veg" })
                     }
-                    className={`flex-1 py-3 rounded-xl text-[10px] font-black flex p-2 items-center gap-2 tracking-widest transition-all ${formData.type === "Non-Veg" ? "bg-white text-red-600 shadow-md" : "text-slate-400 uppercase"}`}
+                    className={`flex-1 py-3 rounded-xl text-[10px] font-black flex p-2 items-center gap-2 tracking-widest transition-all ${formData.type === "non-veg" ? "bg-white text-red-600 shadow-md" : "text-slate-400 uppercase"}`}
                     onChange={handleOnchange}
-                  value={formData.type}
+                    value={formData.type}
                   >
                     <Drumstick />
                     NON-VEG
@@ -227,16 +266,14 @@ const AddMenuModal = ({ onClose }) => {
                   Cuisine
                 </label>
                 <div className="relative">
-                  <select className="w-full bg-slate-100/50 px-5 py-4 rounded-2xl border border-slate-100  font-bold text-slate-700 appearance-none outline-none cursor-pointer" onChange={handleOnchange}
-                  value={formData.cuisine}>
-                    <option>Mediterranean</option>
-                    <option>Pan Asian</option>
-                    <option>Royal Indian</option>
-                  </select>
-                  <ChevronDown
-                    size={14}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                  />
+                   <input
+                  type="text"
+                  name="cuisine"
+                  placeholder="indian"
+                  className="w-full bg-slate-100/50 px-5 py-4 rounded-2xl border border-slate-100  font-bold text-slate-700 outline-none"
+                  onChange={handleOnchange}
+                  value={formData.cuisine}
+                />
                 </div>
               </div>
 
@@ -247,12 +284,47 @@ const AddMenuModal = ({ onClose }) => {
                 </label>
                 <input
                   type="text"
+                  name="servingsize"
                   placeholder="2 Adults"
                   className="w-full bg-slate-100/50 px-5 py-4 rounded-2xl border border-slate-100  font-bold text-slate-700 outline-none"
-                onChange={handleOnchange}
+                  onChange={handleOnchange}
                   value={formData.servingsize}
                 />
+
+                <div className="space-y-3">
+                  <label className=" flex items-center gap-2 font-bold ml-1">
+                  Description
+                </label>
+                <textarea name="description" className=" border w-full p-2 rounded" id="" onChange={handleOnchange} value={formData.description}></textarea>
+                </div>
+                
               </div>
+
+              <div className="p-3 flex justify-between">
+                  <div>
+                    <input
+                    type="checkbox"
+                    onChange={handleOnchange}
+                    name="availability"
+                  />{" "}
+                  Available
+                  </div>
+
+                  <div>
+                    <label className=" flex items-center gap-2 font-bold ml-1">
+                  <Users />
+                  Preparation Time
+                </label>
+                <input
+                  type="number"
+                  name="preparationTime"
+                  placeholder="time"
+                  className="w-full bg-slate-100/50 px-5 py-4 rounded-2xl border border-slate-100  font-bold text-slate-700 outline-none"
+                  onChange={handleOnchange}
+                  value={formData.preparationTime}
+                />
+                  </div>
+                </div>
             </div>
 
             {/* --- Action Buttons --- */}
@@ -260,13 +332,14 @@ const AddMenuModal = ({ onClose }) => {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-8 bg-[#842A3B] text-white py-4 rounded-4xl font-black hover:text-slate-600 transition-colors"
+                className="px-8 bg-[#842A3B] text-white py-4 rounded-4xl hover:text-slate-600 transition-colors"
               >
                 Discard
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-[#842A3B] text-white py-6 rounded-[2rem]  font-black shadow-[0_20px_40px_-10px_rgba(132,42,59,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(132,42,59,0.5)] hover:-translate-y-1 active:scale-[0.98] transition-all"
+                className="flex-1 bg-[#842A3B] text-white py-6 rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(132,42,59,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(132,42,59,0.5)] hover:-translate-y-1 active:scale-[0.98] transition-all"
+                onClick={handleSubmit}
               >
                 Finalize Entry
               </button>
