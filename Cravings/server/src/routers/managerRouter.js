@@ -13,7 +13,12 @@ import multer from "multer";
 const router = express.Router();
 const upload = multer();
 
-router.put("/update", Protect, upload.array("restaurantImages", 5), ResUserUpdate);
+router.put(
+  "/update",
+  Protect,
+  upload.array("restaurantImages", 5),
+  ResUserUpdate,
+);
 router.patch(
   "/photo-update",
   Protect,
@@ -37,5 +42,7 @@ router.put(
   upload.array("image", 5),
   RestaurantEditMenuItem,
 );
+
+
 
 export default router;
