@@ -118,10 +118,13 @@ const userSchema = mongoose.Schema(
       opening: {
         type: String,
         required: true,
+        default : "N/A"
       },
       closing: {
         type: String,
         required: true,
+        default : "N/A"
+
       },
     },
     cuisine: {

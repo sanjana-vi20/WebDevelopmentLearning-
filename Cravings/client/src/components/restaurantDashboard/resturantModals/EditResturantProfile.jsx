@@ -121,6 +121,8 @@ const EditResturantProfile = ({ onClose }) => {
     if (!validateForm()) return;
     setLoading(true);
 
+    console.log(formData.restaurantName);
+    
     const form_data = new FormData();
     form_data.append("fullName", formData.fullName);
     form_data.append("restaurantName", formData.restaurantName);
@@ -153,7 +155,7 @@ const EditResturantProfile = ({ onClose }) => {
     } catch (error) {
       console.log(error);
       
-      toast.error();
+      toast.error(error.response?.data?.message);
     } finally {
       setLoading(false);
     }

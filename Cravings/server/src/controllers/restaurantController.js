@@ -33,24 +33,24 @@ export const ResUserUpdate = async (req, res, next) => {
     // }
     console.log("Old data ", currentUser);
 
-    currentUser.fullName = fullName;
-    currentUser.restaurantName = restaurantName;
-    currentUser.email = email;
-    currentUser.mobnumber = mobnumber;
-    currentUser.dob = dob;
-    currentUser.gender = gender;
-    currentUser.city = city;
-    currentUser.address = address;
-    currentUser.pin = pin;
-    currentUser.geoLocation.lat = lat;
-    currentUser.geoLocation.lon = lon;
-    currentUser.paymentDetails.upi = upi;
-    currentUser.paymentDetails.account_number = account_number;
-    currentUser.paymentDetails.ifs_Code = ifs_Code;
+    currentUser.fullName = fullName || currentUser.fullName;
+    currentUser.restaurantName = restaurantName || currentUser.restaurantName;
+    currentUser.email = email || currentUser.email;
+    currentUser.mobnumber = mobnumber || currentUser.mobnumber;
+    currentUser.dob = dob || currentUser.dob;
+    currentUser.gender = gender || currentUser.gender;
+    currentUser.city = city|| currentUser.city;
+    currentUser.address = address || currentUser.address;
+    currentUser.pin = pin || currentUser.pin;
+    currentUser.geoLocation.lat = lat || currentUser.geoLocation.lat;
+    currentUser.geoLocation.lon = lon || currentUser.geoLocation.lon;
+    currentUser.paymentDetails.upi = upi || currentUser.paymentDetails.upi;
+    currentUser.paymentDetails.account_number = account_number || currentUser.paymentDetails.account_numbe;
+    currentUser.paymentDetails.ifs_Code = ifs_Code || currentUser.paymentDetails.ifs_Code;
     // currentUser.documents.uidai = uidai;
     // currentUser.documents.pan = pan;
-    currentUser.restaurantTiming.opening = opening;
-    currentUser.restaurantTiming.closing = closing;
+    currentUser.restaurantTiming.opening = opening || currentUser.restaurantTiming.opening;
+    currentUser.restaurantTiming.closing = closing || currentUser.restaurantTiming.closing;
 
     let restaurantImages = [];
     // console.log(req.files);
@@ -63,27 +63,13 @@ export const ResUserUpdate = async (req, res, next) => {
       currentUser.restaurantImages = restaurantImages;
     }
 
-    const existingUser = await User.findOne({ email: email });
+    // const existingUser = await User.findOne({ email: currentUser.email });
     
-    existingUser.fullName = fullName || existingUser.fullName;
-    existingUser.restaurantName = restaurantName || existingUser.restaurantName;
-    existingUser.email = email || existingUser.email;
-    existingUser.mobnumber = mobnumber || existingUser.mobnumber;
-    existingUser.dob = dob || existingUser.dob;
-    existingUser.gender = gender || existingUser.gender;      
-    existingUser.city = city || existingUser.city;
-    existingUser.address = address || existingUser.address;
-    existingUser.pin = pin || existingUser.pin;
-    existingUser.geoLocation.lat = lat || existingUser.geoLocation.lat;
-    existingUser.geoLocation.lon = lon || existingUser.geoLocation.lon;
-    existingUser.paymentDetails.upi = upi || existingUser.paymentDetails.upi;
-    existingUser.paymentDetails.account_number = account_number || existingUser.paymentDetails.account_number;
-    existingUser.paymentDetails.ifs_Code = ifs_Code || existingUser.paymentDetails.ifs_Code;
-    existingUser.restaurantTiming.opening = opening || existingUser.restaurantTiming.opening;
-    existingUser.restaurantTiming.closing = closing || existingUser.restaurantTiming.closing;
-      if (restaurantImages.length > 0) {    
-        existingUser.restaurantImages = restaurantImages;
-      } 
+    
+    
+      // if (restaurantImages.length > 0) {    
+      //   existingUser.restaurantImages = restaurantImages;
+      // } 
 
 
 
@@ -258,7 +244,6 @@ export const RestaurantEditMenuItem = async (req, res, next) => {
 
     const { id } = req.params;
 
-    const CurrentUser = req.user;
 
     if (
       !dishName ||

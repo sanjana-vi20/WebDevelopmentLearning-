@@ -17,6 +17,7 @@ import {
 import video from '../assets/video.mp4'
 
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const steps = [
@@ -95,7 +96,7 @@ const Home = () => {
       icon: <ShieldCheck size={18} />,
     },
   ];
-
+   const navigate = useNavigate();
   return (
     <div className="font-sans text-[#1a1a1a] bg-white overflow-hidden">
       {/* 1. HERO SECTION */}
@@ -136,7 +137,7 @@ const Home = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center pt-6 animate-slide-up"
             style={{ animationDelay: "0.4s" }}
           >
-            <button className="bg-[#842A3B] text-white px-10 py-5 rounded-xl font-bold  shadow-lg hover:bg-[#662222] hover:-translate-y-1 transition-all">
+            <button className="bg-[#842A3B] text-white px-10 py-5 rounded-xl font-bold  shadow-lg hover:bg-[#662222] hover:-translate-y-1 transition-all" onClick={() =>navigate('/order-now')}>
               Order Your Feast
             </button>
             <button className="bg-white text-[#842A3B] px-10 py-5 rounded-xl font-bold  hover:bg-[#FAF7F2] hover:-translate-y-1 transition-all">

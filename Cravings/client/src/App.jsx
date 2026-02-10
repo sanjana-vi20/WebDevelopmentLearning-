@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/dashboards/AdminDashboard";
 import RideDashboard from "./pages/dashboards/RideDashboard";
 // import Footer from "./components/Footer";
 import OrderNow from "./pages/OrderNow";
+import RestaurantDetails from "./pages/RestaurantDetails";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/ride-dashboard" element={<RideDashboard />} />
           <Route path="/restaurant-dashboard" element={<RestaurantDashboard />} />
+          <Route path="/restaurant-details/:id" element={<RestaurantDetails />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
         {/* <Footer/> */}
