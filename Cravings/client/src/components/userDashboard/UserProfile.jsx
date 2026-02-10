@@ -233,7 +233,7 @@ const UserProfile = () => {
       </div>
 
       {isEditModal && (
-        <EditResturantProfile onClose={() => setIsEditModalOpen(false)} />
+        <EditProfileModal onClose={() => setIsEditModalOpen(false)} />
       )}
     </>
   );

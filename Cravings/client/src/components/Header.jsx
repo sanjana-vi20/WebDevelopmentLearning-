@@ -1,5 +1,5 @@
 import React from "react";
-import circle from "../assets/cravings.png";
+import circle from "../assets/finallogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import toast from "react-hot-toast";
@@ -46,31 +46,31 @@ function Header() {
   };
   return (
     <>
-      <div className="bg-(--color-primary) sticky top-0 z-99 py-3  px-3 flex justify-between items-center">
+      <div className=" sticky top-0 z-100 bg-(--color-primary) py-3  px-3 flex justify-between items-center">
         <Link to={"/"}>
           <img
             src={circle}
             alt=""
-            className="rounded-full object-cover w-20 h-20"
+            className="rounded-full object-cover w-50 h-20 text-shadow-lg"
           />
         </Link>
 
         <div className="flex gap-4 text-2xl px-5 items-center ">
           <Link
             to={"/"}
-            className="text-decoration-none text-(--text-secondary) hover:text-(--text-primary)"
+            className="text-decoration-none text-(--text-secondary) font-semibold hover:text-(--color-accent)"
           >
             Home
           </Link>
           <Link
             to={"/about"}
-            className="text-decoration-none text-(--text-secondary) hover:text-(--text-primary)"
+            className="text-decoration-none text-(--text-secondary) font-semibold hover:text-(--color-accent)"
           >
             About
           </Link>
           <Link
             to={"/contact"}
-            className="text-decoration-none text-(--text-secondary) hover:text-(--text-primary)"
+            className="text-decoration-none text-(--text-secondary) font-semibold hover:text-(--color-accent)"
           >
             Contact
           </Link>
@@ -87,13 +87,13 @@ function Header() {
           ) : (
             <div className="flex gap-3">
               <button
-                className="bg-(--color-accent) px-4 py-2 rounded text-(--text-primary) hover:text-(--color-secondary-hover)"
+                className="border-2 border-(--color-accent) px-6 py-2 rounded-3xl text-(--text-secondary) text-[20px] hover:text-(--text-primary) hover:bg-(--color-accent) font-bold"
                 onClick={() => navigate("/login")}
               >
                 Login
               </button>
               <button
-                className="bg-(--color-accent) px-4 py-2 rounded text-(--text-primary) hover:text-(--color-secondary-hover)"
+                className="border-2 border-(--color-accent) px-6 py-2 rounded-3xl text-(--text-secondary) text-[20px] hover:text-(--text-primary) hover:bg-(--color-accent) font-bold"
                 onClick={() => navigate("/register")}
               >
                 Register

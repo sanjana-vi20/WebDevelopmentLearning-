@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    restaurantName:{
+    restaurantName: {
       type: String,
       required: true,
     },
@@ -106,6 +106,24 @@ const userSchema = mongoose.Schema(
       required: true,
       default: "N/A",
     },
+    restaurantImages: {
+      type: [
+        {
+          url: { type: String, required: true },
+          publicID: { type: String, required: true },
+        },
+      ],
+    },
+    restaurantTiming: {
+      opening: {
+        type: String,
+        required: true,
+      },
+      closing: {
+        type: String,
+        required: true,
+      },
+    },
     cuisine: {
       type: String,
       required: true,
@@ -143,12 +161,12 @@ const userSchema = mongoose.Schema(
         default: "N/A",
       },
     },
-    isActive:{
-      type:String,
-      enum:['active' , 'inactive' , 'blocked'],
-      required:true,
-      default:"active",
-    }
+    isActive: {
+      type: String,
+      enum: ["active", "inactive", "blocked"],
+      required: true,
+      default: "active",
+    },
   },
   { timestamps: true },
 );

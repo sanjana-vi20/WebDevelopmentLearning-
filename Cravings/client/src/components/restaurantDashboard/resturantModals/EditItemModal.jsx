@@ -57,7 +57,7 @@ const EditItemModal = ({ onClose  , selectedItem}) => {
 
       console.log(photo);
       
-      const res = await api.put( `/restaurant/updateMenuItem/${selectedItem._id}`);
+      const res = await api.put( `/restaurant/updateMenuItem/${selectedItem._id}` , form_data);
       toast.success(res.data.message);
       console.log(res.data.data);
       setTimeout(handleClose, 1500);
@@ -161,7 +161,7 @@ const EditItemModal = ({ onClose  , selectedItem}) => {
                     ) : (
                       <label className="absolute inset-0 flex items-center justify-center cursor-pointer hover:bg-[#662222] transition-colors">
                         <Plus size={20} className="text-[#F5DAA7]/20" />
-                        <input type="file" className="hidden" onChange={handlePhotoUpload} multiple accept='image/*'  disabled={previews.length >= 5} />
+                        <input type="file" className="hidden" onChange={(e)=>{handlePhotoUpload(e) ; handleImageChange(e)} }multiple accept='image/*'  disabled={previews.length >= 5} />
                       </label>
                     )}
                   </div>

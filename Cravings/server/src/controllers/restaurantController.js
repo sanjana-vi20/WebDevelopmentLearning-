@@ -2,6 +2,7 @@ import cloudinary from "../config/cloudinary.js";
 import bcrypt from "bcrypt";
 import { UploadMultipleToCloudinary } from "../utils/imageUploader.js";
 import Menu from "../models/menuSchema.js";
+import User from "../models/userModels.js";
 
 export const ResUserUpdate = async (req, res, next) => {
   try {
@@ -15,17 +16,21 @@ export const ResUserUpdate = async (req, res, next) => {
       city,
       address,
       pin,
-      geoLocation, // Extract the object
-      paymentDetails, // Extract the object
-      documents,
+      upi,  
+      ifs_Code,
+      account_number,
+      opening,
+      closing,
+      lat, 
+      lon,
     } = req.body;
     const currentUser = req.user;
 
-    if (!fullName || !email || !mobnumber) {
-      const error = new Error("All Fields are Required");
-      error.statusCode = 400;
-      return next(error);
-    }
+    // if (fullName || email || mobnumber) {
+    //   const error = new Error("All Fields are Required");
+    //   error.statusCode = 400;
+    //   return next(error);
+    // }
     console.log("Old data ", currentUser);
 
     currentUser.fullName = fullName;
@@ -37,13 +42,50 @@ export const ResUserUpdate = async (req, res, next) => {
     currentUser.city = city;
     currentUser.address = address;
     currentUser.pin = pin;
-    currentUser.geoLocation.lat = geoLocation.lat;
-    currentUser.geoLocation.lon = geoLocation.lon;
-    currentUser.paymentDetails.upi = paymentDetails.upi;
-    currentUser.paymentDetails.account_number = paymentDetails.account_number;
-    currentUser.paymentDetails.ifs_Code = paymentDetails.ifs_Code;
-    currentUser.documents.uidai = documents.uidai;
-    currentUser.documents.pan = documents.pan;
+    currentUser.geoLocation.lat = lat;
+    currentUser.geoLocation.lon = lon;
+    currentUser.paymentDetails.upi = upi;
+    currentUser.paymentDetails.account_number = account_number;
+    currentUser.paymentDetails.ifs_Code = ifs_Code;
+    // currentUser.documents.uidai = uidai;
+    // currentUser.documents.pan = pan;
+    currentUser.restaurantTiming.opening = opening;
+    currentUser.restaurantTiming.closing = closing;
+
+    let restaurantImages = [];
+    // console.log(req.files);
+    
+    if (req.files) {
+      restaurantImages = await UploadMultipleToCloudinary(req.files);
+      console.log(restaurantImages);
+    }
+    if (restaurantImages.length > 0) {
+      currentUser.restaurantImages = restaurantImages;
+    }
+
+    const existingUser = await User.findOne({ email: email });
+    
+    existingUser.fullName = fullName || existingUser.fullName;
+    existingUser.restaurantName = restaurantName || existingUser.restaurantName;
+    existingUser.email = email || existingUser.email;
+    existingUser.mobnumber = mobnumber || existingUser.mobnumber;
+    existingUser.dob = dob || existingUser.dob;
+    existingUser.gender = gender || existingUser.gender;      
+    existingUser.city = city || existingUser.city;
+    existingUser.address = address || existingUser.address;
+    existingUser.pin = pin || existingUser.pin;
+    existingUser.geoLocation.lat = lat || existingUser.geoLocation.lat;
+    existingUser.geoLocation.lon = lon || existingUser.geoLocation.lon;
+    existingUser.paymentDetails.upi = upi || existingUser.paymentDetails.upi;
+    existingUser.paymentDetails.account_number = account_number || existingUser.paymentDetails.account_number;
+    existingUser.paymentDetails.ifs_Code = ifs_Code || existingUser.paymentDetails.ifs_Code;
+    existingUser.restaurantTiming.opening = opening || existingUser.restaurantTiming.opening;
+    existingUser.restaurantTiming.closing = closing || existingUser.restaurantTiming.closing;
+      if (restaurantImages.length > 0) {    
+        existingUser.restaurantImages = restaurantImages;
+      } 
+
+
 
     await currentUser.save();
 
