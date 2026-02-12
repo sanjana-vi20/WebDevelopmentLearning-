@@ -173,6 +173,18 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true },
 );
+userSchema.virtual('myMenu', {
+  ref: 'Menu',      // The model to link to
+  localField: '_id',      // The ID in the User model
+  foreignField: 'restaurantID' // The field in Restaurant model that points to User
+});
+
+// Ensure virtuals are included in JSON
+userSchema.set('toObject', { virtuals: true });
+userSchema.set('toJSON', { virtuals: true });
 
 const User = mongoose.model("User", userSchema);
+
+
+
 export default User;

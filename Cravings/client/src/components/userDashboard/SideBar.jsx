@@ -34,8 +34,8 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
   const handleLogout = async() => {
     try {
       const res = await api.get("/auth/logout"); // cookie clear
-      console.log(res);
-      toast.success(res?.data?.message);
+      console.log(res.data);
+      toast.success(res?.data?.data?.message);
       setUser(false); // user clear
       setIsLogin(false); // login clear
       navigate("/");

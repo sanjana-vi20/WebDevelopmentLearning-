@@ -15,7 +15,7 @@ import {
   Upload,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import api from '../../../config/Api'
+import api from "../../../config/Api";
 
 const AddMenuModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -54,8 +54,8 @@ const AddMenuModal = ({ onClose }) => {
     try {
       const form_data = new FormData();
       form_data.append("dishName", formData.dishName);
+      form_data.append("cuisine", formData.cuisine); // Moved up
       form_data.append("availability", formData.availability);
-      form_data.append("cuisine", formData.cuisine);
       form_data.append("type", formData.type);
       form_data.append("description", formData.description);
       form_data.append("price", formData.price);
@@ -67,7 +67,7 @@ const AddMenuModal = ({ onClose }) => {
       });
 
       console.log(photo);
-      
+
       const res = await api.post("/restaurant/addMenu", form_data);
       toast.success(res.data.message);
       console.log(res.data.data);
@@ -100,12 +100,10 @@ const AddMenuModal = ({ onClose }) => {
   };
 
   const handleOnchange = (e) => {
-    e.preventDefault();
-    const { name, value, checked  ,type} = e.target;
+    // e.preventDefault();
+    const { name, value, checked, type } = e.target;
 
-      setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
-    
-    
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
   return (
@@ -266,14 +264,14 @@ const AddMenuModal = ({ onClose }) => {
                   Cuisine
                 </label>
                 <div className="relative">
-                   <input
-                  type="text"
-                  name="cuisine"
-                  placeholder="indian"
-                  className="w-full bg-slate-100/50 px-5 py-4 rounded-2xl border border-slate-100  font-bold text-slate-700 outline-none"
-                  onChange={handleOnchange}
-                  value={formData.cuisine}
-                />
+                  <input
+                    type="text"
+                    name="cuisine"
+                    placeholder="indian"
+                    className="w-full bg-slate-100/50 px-5 py-4 rounded-2xl border border-slate-100  font-bold text-slate-700 outline-none"
+                    onChange={handleOnchange}
+                    value={formData.cuisine}
+                  />
                 </div>
               </div>
 
@@ -293,38 +291,43 @@ const AddMenuModal = ({ onClose }) => {
 
                 <div className="space-y-3">
                   <label className=" flex items-center gap-2 font-bold ml-1">
-                  Description
-                </label>
-                <textarea name="description" className=" border w-full p-2 rounded" id="" onChange={handleOnchange} value={formData.description}></textarea>
+                    Description
+                  </label>
+                  <textarea
+                    name="description"
+                    className=" border w-full p-2 rounded"
+                    id=""
+                    onChange={handleOnchange}
+                    value={formData.description}
+                  ></textarea>
                 </div>
-                
               </div>
 
               <div className="p-3 flex justify-between">
-                  <div>
-                    <input
+                <div>
+                  <input
                     type="checkbox"
                     onChange={handleOnchange}
                     name="availability"
                   />{" "}
                   Available
-                  </div>
-
-                  <div>
-                    <label className=" flex items-center gap-2 font-bold ml-1">
-                  <Users />
-                  Preparation Time
-                </label>
-                <input
-                  type="number"
-                  name="preparationTime"
-                  placeholder="time"
-                  className="w-full bg-slate-100/50 px-5 py-4 rounded-2xl border border-slate-100  font-bold text-slate-700 outline-none"
-                  onChange={handleOnchange}
-                  value={formData.preparationTime}
-                />
-                  </div>
                 </div>
+
+                <div>
+                  <label className=" flex items-center gap-2 font-bold ml-1">
+                    <Users />
+                    Preparation Time
+                  </label>
+                  <input
+                    type="number"
+                    name="preparationTime"
+                    placeholder="time"
+                    className="w-full bg-slate-100/50 px-5 py-4 rounded-2xl border border-slate-100  font-bold text-slate-700 outline-none"
+                    onChange={handleOnchange}
+                    value={formData.preparationTime}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* --- Action Buttons --- */}

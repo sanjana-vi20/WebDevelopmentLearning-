@@ -9,61 +9,78 @@ import {
   Navigation,
   Phone,
 } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../config/Api";
 import toast from "react-hot-toast";
+import ResOverview from "../components/userDashboard/restaurantDetails/ResOverview";
+import OrderOnline from "../components/userDashboard/restaurantDetails/OrderOnline";
+import RestaurantReview from "../components/userDashboard/restaurantDetails/RestaurantReview";
+import DishPhotos from "../components/userDashboard/restaurantDetails/DishPhotos";
+import MenuDetails from "../components/userDashboard/restaurantDetails/MenuDetails";
 
 const RestaurantDetails = () => {
   const [activeTab, setActiveTab] = useState("Overview");
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
-
-  const {id} = useParams();
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const fetchMenu = async () => {
+    setLoading(true);
     try {
-        console.log(id);
-        
+      console.log(id);
+
       const res = await api.get(`/public/single-menu/${id}`);
       setItems(res.data.data);
-      console.log(res);
-      
-      toast.success(res.data.message);
+      console.log(res.data.data);
+
+      // toast.success(res.data.message);
     } catch (error) {
       console.error(error);
       toast.error(
         error?.response?.data?.message || "Failed to load restaurants",
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchMenu();
-  } ,[])
+  }, [id]);
 
+  if (loading) return <p>Loading...</p>;
+  if (items.length === 0) return <p>No restaurant data found.</p>;
+
+  console.log("items", items);
 
   return (
     <div className="min-h-screen bg-white font-sans text-[#1a1a1a] px-40">
       {/* HEADER & INFO (Inspired by image_000801.jpg) */}
-      <section className="pt-24 pb-8 container mx-auto px-6">
-        <nav className="flex gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-tight mb-6">
-          <span>Home</span> / <span>Bhopal</span> /{" "}
-          <span className="text-[#842A3B]">Restaurant Profile</span>
+      <section className="pt-10 pb-8 container mx-auto px-6">
+        <nav className="flex gap-2 text-[13px] font-bold text-gray-400 uppercase tracking-tight mb-6 cursor-pointer">
+          <span onClick={() => navigate("/")}>Home</span> /{" "}
+          <span>{items[0].city}</span> /{" "}
+          <span className="text-[#842A3B]">{items[0].restaurantName}</span>
         </nav>
 
         <div className="flex flex-col md:flex-row justify-between items-start gap-6">
           <div className="space-y-2">
             <h1 className="text-5xl font-black tracking-tighter leading-none text-gray-900">
-              Tanishk Da Dhaba
+              {items[0].restaurantName}
             </h1>
-            <p className="text-sm font-medium text-gray-500">
-              North Indian • Mughlai • Gourmet
-            </p>
+            <div className="text-sm flex gap-2 font-medium text-gray-500">
+              {items[0].myMenu.map((c, idx) => (
+                <p key={idx}>{c.cuisine},</p>
+              ))}
+            </div>
             <div className="flex items-center gap-4 pt-2">
-              <span className="bg-[#842A3B]/10 text-[#842A3B] px-3 py-1 rounded-lg text-[10px] font-black uppercase">
+              <span className="bg-[#842A3B]/10 text-[#842A3B] px-3 py-1 rounded-lg text-[15px] font-black uppercase">
                 Open Now
               </span>
-              <span className="text-[10px] font-bold text-gray-400">
-                11:00 AM – 11:30 PM
+              <span className="text-[15px] font-bold text-gray-400">
+                {items[0].restaurantTiming.opening} AM –{" "}
+                {items[0].restaurantTiming.closing} PM
               </span>
             </div>
           </div>
@@ -89,13 +106,13 @@ const RestaurantDetails = () => {
       </section>
 
       {/* GALLERY (Ditto image_000801.jpg) */}
-      <section className="container mx-auto px-6 mb-12">
+      <section className="container mx-auto px-6 mb-12 relative">
         <div className="grid grid-cols-12 gap-2 h-[450px]">
           {/* 1. Main Large Image */}
-          <div className="col-span-6 overflow-hidden rounded-l-[3rem] group relative">
+          <div className="col-span-6 overflow-hidden rounded-l-[3rem] h-[70vh] group relative">
             <img
-              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800"
-              className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+              src={items[0].restaurantImages[0].url}
+              className="w-full object-cover transition-transform h-full absolute duration-700 ease-in-out group-hover:scale-110"
               alt="Main"
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500"></div>
@@ -105,15 +122,15 @@ const RestaurantDetails = () => {
           <div className="col-span-3 grid grid-rows-2 gap-2">
             <div className="overflow-hidden group relative">
               <img
-                src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=400"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src={items[0].restaurantImages[1].url}
+                className="w-full h-full object-cover transition-transform absolute duration-700 group-hover:scale-110"
                 alt="Chef"
               />
             </div>
             <div className="overflow-hidden group relative">
               <img
-                src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=400"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src={items[0].restaurantImages[2].url}
+                className="w-full h-full object-cover absolute transition-transform duration-700 group-hover:scale-110"
                 alt="Interior"
               />
             </div>
@@ -122,7 +139,7 @@ const RestaurantDetails = () => {
           {/* 3. Right Image with View Gallery Overlay */}
           <div className="col-span-3 relative overflow-hidden rounded-r-[3rem] group">
             <img
-              src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400"
+              src={items[0].restaurantImages[0].url}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               alt="Food"
             />
@@ -142,51 +159,38 @@ const RestaurantDetails = () => {
       {/* TABS & CONTENT */}
       <section className="border-b border-gray-100 sticky top-0 bg-white z-50">
         <div className="container mx-auto px-6 flex gap-10">
-          {["Overview", "Order Online", "Reviews", "Photos"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`py-4 text-[11px] font-black uppercase tracking-tight transition-all relative ${
-                activeTab === tab
-                  ? "text-[#842A3B]"
-                  : "text-gray-400 hover:text-gray-900"
-              }`}
-            >
-              {tab}
-              {activeTab === tab && (
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-[#842A3B] rounded-full"></div>
-              )}
-            </button>
-          ))}
+          {["Overview", "Order Online", "Reviews", "Photos", "Menu"].map(
+            (tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`py-4 font-black uppercase tracking-tight transition-all relative ${
+                  activeTab === tab
+                    ? "text-[#842A3B]"
+                    : "text-gray-400 hover:text-gray-900"
+                }`}
+              >
+                {tab}
+              </button>
+            ),
+          )}
+        </div>
+
+        <div className="p-4">
+          {activeTab === "Overview" ? (
+                  <ResOverview data={items} />
+                ) : activeTab === "Order Online" ? (
+                  <OrderOnline data={items} />
+                ) : activeTab === "Reviews" ? (
+                  <RestaurantReview data={items}/>
+                ) : (
+                  activeTab === "Photos" ? <DishPhotos data={items}/> : activeTab === "Menu" ? <MenuDetails data={items}/> : <ResOverview/>
+                )}
         </div>
       </section>
 
       {/* ABOUT (Inspired by image_412819.jpg styling) */}
-      <section className="py-16 bg-[#FAF7F2]">
-        <div className="container mx-auto px-6 grid lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-8 bg-white p-12 rounded-[4rem] border border-gray-100 shadow-sm">
-            <h3 className="text-2xl font-black tracking-tighter mb-4 text-gray-900 uppercase">
-              About this place
-            </h3>
-            <p className="text-gray-500 font-medium leading-relaxed">
-              Experience the authentic soul of Bhopal at Tanishk Da Dhaba. Using
-              traditional wood-fired techniques, we serve gourmet Indian cuisine
-              that is the talk of the town.
-            </p>
-          </div>
-          <div className="lg:col-span-4 bg-[#1a1a1a] text-white p-10 rounded-[4rem] shadow-2xl">
-            <h4 className="text-lg font-black uppercase tracking-tight text-[#F5DAA7] mb-6">
-              Contact Us
-            </h4>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 bg-[#842A3B] rounded-2xl flex items-center justify-center">
-                <Phone size={24} />
-              </div>
-              <p className="text-xl font-black">+91 6268797783</p>
-            </div>
-          </div>
-        </div>
-      </section>
+     
     </div>
   );
 };

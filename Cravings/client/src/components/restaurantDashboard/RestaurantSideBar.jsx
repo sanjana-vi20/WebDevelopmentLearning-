@@ -53,7 +53,7 @@ const RestaurantSideBar = ({
   };
   return (
     <>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between ">
         <div className=" p-3">
           <div className="text-xl font-bold flex h-12 items-center gap-2 ">
             <button

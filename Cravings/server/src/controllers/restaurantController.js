@@ -170,6 +170,8 @@ export const AddRestaurantMenuItem = async (req, res, next) => {
       servingsize,
     } = req.body;
 
+    console.log(" body",req.body);
+    
     if (
       !dishName ||
       !description ||
