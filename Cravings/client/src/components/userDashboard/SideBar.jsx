@@ -47,7 +47,7 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
   };
   return (
     <>
-      <div className="bg-(--bg-accent) h-screen flex flex-col justify-between">
+      <div className="bg-(--bg-accent) h-[83vh]  flex flex-col rounded-2xl justify-between">
         <div className=" p-3">
           <div className="text-xl font-bold flex h-12 items-center gap-2 ">
             <button

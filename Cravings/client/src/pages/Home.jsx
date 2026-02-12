@@ -140,7 +140,7 @@ const Home = () => {
             <button className="bg-[#842A3B] text-white px-10 py-5 rounded-xl font-bold  shadow-lg hover:bg-[#662222] hover:-translate-y-1 transition-all" onClick={() =>navigate('/order-now')}>
               Order Your Feast
             </button>
-            <button className="bg-white text-[#842A3B] px-10 py-5 rounded-xl font-bold  hover:bg-[#FAF7F2] hover:-translate-y-1 transition-all">
+            <button className="bg-white text-[#842A3B] px-10 py-5 rounded-xl font-bold  hover:bg-[#FAF7F2] hover:-translate-y-1 transition-all" onClick={() => navigate('/explore-menu')}>
               Explore Menu
             </button>
           </div>

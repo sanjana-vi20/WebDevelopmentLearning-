@@ -1,4 +1,5 @@
 import Contact from "../models/contactModel.js";
+import Menu from "../models/menuSchema.js";
 // import Menu from "../models/menuSchema.js";
 import User from "../models/userModels.js";
 
@@ -60,3 +61,20 @@ export const GetRestaurantItems = async (req, res, next) => {
     next(error);
   }
 };
+
+export const AllMenu = async(req ,res ,next) => {
+
+  try {
+    const AllMenuItems = await Menu.find({})
+    console.log( "Menu :", AllMenuItems);
+    
+    res.status(200).json({
+      message : "data fetched successfully",
+      data:AllMenuItems,
+    })
+    
+  } catch (error) {
+    next(error);
+    
+  }
+}
