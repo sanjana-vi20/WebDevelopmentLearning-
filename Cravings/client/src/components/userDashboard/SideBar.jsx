@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../config/Api";
 import { useNavigate } from "react-router-dom";
+import { FaCartPlus } from "react-icons/fa6";
 
 const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
   const { setUser, setIsLogin } = useAuth();
@@ -17,6 +18,7 @@ const SideBar = ({ active, setActive, isCollapse, setIsCollapse }) => {
     { key: "overview", title: "Overview", icon: <CiGrid41 size={20} /> },
     { key: "profile", title: "Profile", icon: <CgProfile size={20} /> },
     { key: "order", title: "Order", icon: <IoCart size={20} /> },
+     { key: "add-to-cart", title: "Carts", icon: <FaCartPlus size={20} /> },
     {
       key: "transaction",
       title: "Transaction",

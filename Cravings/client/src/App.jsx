@@ -15,7 +15,7 @@ import RideDashboard from "./pages/dashboards/RideDashboard";
 import OrderNow from "./pages/OrderNow";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import ExploreMenu from "./components/restaurantDashboard/ExploreMenu";
-import AddToCart from "./pages/AddToCart";
+import CartPage from "./pages/CartPage";
 
 const App = () => {
   return (
@@ -36,7 +36,7 @@ const App = () => {
           <Route path="/explore-menu" element={<ExploreMenu />} />
           <Route path="/restaurant-details/:id" element={<RestaurantDetails />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          <Route path="/add-to-cart" element={<AddToCart/>} />
+          <Route path="/add-to-cart" element={<CartPage/>} />
         </Routes>
         {/* <Footer/> */}
       </BrowserRouter>

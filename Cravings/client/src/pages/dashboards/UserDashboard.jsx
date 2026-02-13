@@ -5,6 +5,7 @@ import UserProfile from "../../components/userDashboard/UserProfile";
 import UserOrder from "../../components/userDashboard/UserOrder";
 import UserTransaction from "../../components/userDashboard/UserTransaction";
 import UserHelp from "../../components/userDashboard/UserHelp";
+import CartPage from "../CartPage";
 
 
 const UserDashboard = () => {
@@ -21,6 +22,7 @@ const UserDashboard = () => {
         {active === 'overview' && <UserOverview/>}
         {active === 'profile' && <UserProfile/>}
         {active === 'order' && <UserOrder/>}
+        {active === 'add-to-cart' && <CartPage/>}
         {active === 'transaction' && <UserTransaction/>}
         {active === 'helpdesk' && <UserHelp/>}
         </div>

@@ -12,19 +12,21 @@ import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const UserOverview = ({ data }) => {
-   const {isLogin } = useAuth();
+   const {isLogin , user } = useAuth();
   const navigate = useNavigate();
   if(!isLogin)
   {
     navigate("/login");
   }
   // Dummy User Data (Aap isse AuthContext se bhi le sakte hain)
-  const user = {
-    name: "Tanishk",
+  const userdetail = {
+    name: user.fullName,
     totalOrders: 42,
     favCuisine: "North Indian",
     points: 850
   };
+  // console.log(user);
+  
 
   const recentOrders = [
     { id: "#ORD-123", restaurant: "Tanishk Da Dhaba", date: "Today, 2:30 PM", status: "Delivered", price: "₹450" },
@@ -42,13 +44,13 @@ const UserOverview = ({ data }) => {
       {/* --- 1. Welcome Section --- */}
       <div className="bg-gradient-to-r from-[#842A3B] to-[#b03a51] rounded-[3rem] p-10 text-white relative overflow-hidden shadow-xl">
         <div className="relative z-10">
-          <h1 className="text-4xl font-black tracking-tighter mb-2">Welcome, {user.name}! 🙏</h1>
-          <p className="opacity-80 font-medium">Hungry? You have {user.points} reward points to spend on your next meal!</p>
+          <h1 className="text-4xl font-black tracking-tighter mb-2">Welcome, {userdetail.name}!👋</h1>
+          <p className="opacity-80 font-medium">Hungry? You have {userdetail.points} reward points to spend on your next meal!</p>
           <button className="mt-6 bg-white text-[#842A3B] px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-all" onClick={() =>navigate('/order-now')}>
             Order Now
           </button>
         </div>
-        <Gift className="absolute -bottom-6 -right-6 w-48 h-48 text-white/10" />
+        {/* <Gift className="absolute -bottom-6 -right-6 w-48 h-48 text-white/10" /> */}
       </div>
 
       {/* --- 2. Stats Cards --- */}
@@ -56,14 +58,14 @@ const UserOverview = ({ data }) => {
         <div className="bg-white p-6 rounded-[2.5rem] border border-slate-100 flex items-center gap-5 shadow-sm">
           <div className="p-4 bg-orange-50 text-orange-600 rounded-2xl"><ShoppingBag /></div>
           <div>
-            <p className="text-2xl font-black text-slate-800">{user.totalOrders}</p>
+            <p className="text-2xl font-black text-slate-800">{userdetail.totalOrders}</p>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Orders</p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-[2.5rem] border border-slate-100 flex items-center gap-5 shadow-sm">
           <div className="p-4 bg-red-50 text-red-600 rounded-2xl"><Heart /></div>
           <div>
-            <p className="text-2xl font-black text-slate-800">{user.favCuisine}</p>
+            <p className="text-2xl font-black text-slate-800">{userdetail.favCuisine}</p>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Fav Cuisine</p>
           </div>
         </div>
