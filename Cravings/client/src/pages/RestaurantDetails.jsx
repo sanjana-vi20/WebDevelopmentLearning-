@@ -69,10 +69,9 @@ const RestaurantDetails = () => {
             <h1 className="text-5xl font-black tracking-tighter leading-none text-gray-900">
               {items[0].restaurantName}
             </h1>
-            <div className="text-sm flex gap-2 font-medium text-gray-500">
-              {items[0].myMenu.map((c, idx) => (
-                <p key={idx}>{c.cuisine},</p>
-              ))}
+            <div className="text-sm flex gap-2 px-3 font-medium text-gray-500">
+                <p>{items[0].cuisine}</p>
+              
             </div>
             <div className="flex items-center gap-4 pt-2">
               <span className="bg-[#842A3B]/10 text-[#842A3B] px-3 py-1 rounded-lg text-[15px] font-black uppercase">
@@ -146,7 +145,7 @@ const RestaurantDetails = () => {
             {/* Animated Overlay */}
             <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center font-black text-white text-[10px] uppercase tracking-widest cursor-pointer opacity-90 group-hover:bg-black/40 transition-all duration-500">
               <div className="transform group-hover:scale-125 transition-transform duration-500 mb-2">
-                <Camera size={24} className="text-[#F5DAA7]" />
+                <Camera size={24} className="text-[#F5DAA7]" onClick={()=>setActiveTab("Photos")} />
               </div>
               <span className="group-hover:tracking-[0.2em] transition-all duration-500">
                 View Gallery

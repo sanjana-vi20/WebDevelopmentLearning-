@@ -7,12 +7,17 @@ import {
   Flame,
   Star,
   ShoppingCart,
+  ArrowBigRight,
+  ArrowRight,
 } from "lucide-react";
 import api from '../../config/Api';
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import ItemDetailModal from "./resturantModals/ItemDetailModal";
 
 const ExploreMenu = () => {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [isItemDetailModalOpen , setIsItemDetailModalOpen] = useState(false);
 
   // Dummy Categories
   const categories = [
@@ -26,7 +31,8 @@ const ExploreMenu = () => {
 
   const [menu, setMenu] = useState();
   const [loading, setLoading] = useState();
-  const navigate = useNavigate()
+  const [item , setItem] = useState();
+  // const navigate = useNavigate()
 
   const fetchMenu = async () => {
     // e.preventDefault();
@@ -39,6 +45,38 @@ const ExploreMenu = () => {
       console.log(error);
     } finally {
       setLoading(false);
+    }
+    console.log(menu);
+    
+  };
+
+
+    const handleAddToCart = async (item) => {
+    // const menu = menuItems.item;
+    // console.log(item);
+    try {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      //check the item is already exist or not
+      const existItem = cart.findIndex((cartItem) => cartItem.id === item._id);
+
+      //findIndex method return -1 if any of the item is not matched
+      if (existItem > -1) {
+        cart[existItem].quantity += 1;
+      } else {
+        cart.push(
+          {
+            id: item._id,
+            quantity: 1,
+          }
+        );
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      window.dispatchEvent(new Event("cartUpdated"));
+      toast.success(`${item.dishName} added to cart!`);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -161,19 +199,22 @@ const ExploreMenu = () => {
                   fill="currentColor"
                   className="text-yellow-500"
                 />
-                {item.rating}
+                4{item.rating}
               </div>
             </div>
 
             {/* Content Section */}
-            <div className="p-6 space-y-4">
+            <div className="p-6 space-y-1">
               <div className="space-y-1">
-                <p className="text-[10px] font-black text-[#842A3B] uppercase tracking-widest">
-                  {item.dishName}
+                <p className="text-[10px] font-black text-slate-800 uppercase -tracking-tighter">
+                  {item?.restaurantID?.restaurantName}
                 </p>
                 <h3 className="text-xl font-black text-slate-800 leading-tight group-hover:text-[#842A3B] transition-colors">
                   {item.dishName}
                 </h3>
+                <button className="text-[13px] flex gap-3 items-center rounded-4xl py-1 pl-2 font-bold mt-3 pr-4 text-slate-700 border border-gray-300 tracking-tighter" onClick={()=>{setIsItemDetailModalOpen(true); setItem(item)}}>
+                 More details <span><ArrowRight size={13}/></span>
+                </button>
               </div>
 
               <div className="flex justify-between items-center pt-2">
@@ -183,8 +224,8 @@ const ExploreMenu = () => {
                   </span>
                   {item.price}
                 </div>
-                <button className="p-4 bg-[#842A3B] text-white rounded-2xl shadow-lg shadow-[#842A3B]/20 hover:scale-110 active:scale-95 transition-all" onClick={() => navigate('/add-to-cart')}>
-                  <Plus size={20} strokeWidth={3} />
+                <button className="p-4 bg-[#842A3B] text-white rounded-2xl shadow-lg shadow-[#842A3B]/20 hover:scale-110 active:scale-95 transition-all">
+                  <Plus size={20} strokeWidth={3} onClick={()=>handleAddToCart(item)}/>
                 </button>
               </div>
             </div>
@@ -201,6 +242,8 @@ const ExploreMenu = () => {
           </span>
         </button>
       </div>
+
+      {isItemDetailModalOpen && <ItemDetailModal onClose={()=> setIsItemDetailModalOpen(false)} item={item} onAdd={handleAddToCart}/>}
     </div>
   );
 };

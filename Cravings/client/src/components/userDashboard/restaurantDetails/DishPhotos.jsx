@@ -32,7 +32,7 @@ const DishPhotos = ({ data }) => {
         {allPhotos.map((photo, index) => (
           <div 
             key={index} 
-            className="relative group overflow-hidden rounded-[2rem] border-4 border-white shadow-sm hover:shadow-xl transition-all duration-500 break-inside-avoid"
+            className="relative w-[19rem] group overflow-hidden rounded-[2rem] border-4 border-white shadow-sm hover:shadow-xl transition-all duration-500 break-inside-avoid"
           >
             <img
               src={photo.url}

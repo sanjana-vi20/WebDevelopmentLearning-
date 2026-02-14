@@ -1,9 +1,12 @@
 import React from "react";
 import { Utensils, Star, Clock, Flame, Leaf, Info, Plus } from "lucide-react";
+import toast from "react-hot-toast";
 
 const MenuDetails = ({ data }) => {
   const restaurant = data[0];
   const menuItems = restaurant?.myMenu || [];
+  console.log(menuItems);
+  
 
   if (menuItems.length === 0) {
     return (
@@ -13,6 +16,34 @@ const MenuDetails = ({ data }) => {
       </div>
     );
   }
+    const handleAddToCart = async(item) => {
+    // const menu = menuItems.item;
+    console.log(item);
+    try {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      //check the item is already exist or not
+      const existItem = cart.findIndex((cartItem) => cartItem.id === item._id);
+
+      //findIndex method return -1 if any of the item is not matched
+      if (existItem > -1) {
+        cart[existItem].quantity += 1;
+      } else {
+        cart.push(
+          {
+            id: item._id,
+            quantity: 1,
+          }
+        );
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      window.dispatchEvent(new Event("cartUpdated"));
+      toast.success(`${item.dishName} added to cart!`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto py-12 px-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
@@ -81,7 +112,7 @@ const MenuDetails = ({ data }) => {
               </div>
 
               <p className="text-slate-500 text-sm leading-relaxed line-clamp-2 italic">
-                "{dish.description}"
+                {dish.description}
               </p>
 
               {/* Bottom Specs */}
@@ -98,7 +129,7 @@ const MenuDetails = ({ data }) => {
                 </div>
                 
                <button className="h-12 w-12 rounded-2xl bg-white border-2 border-slate-100 flex items-center justify-center text-[#842A3B] hover:bg-[#842A3B] hover:text-white hover:border-[#842A3B] transition-all shadow-sm active:scale-90">
-                  <Plus size={24} strokeWidth={3} />
+                  <Plus size={24} strokeWidth={3} onClick={()=>handleAddToCart(dish)}/>
                 </button>
               </div>
             </div>

@@ -51,7 +51,7 @@ export const GetRestaurantItems = async (req, res, next) => {
   console.log("id : ", id);
 
   try {
-    const items = await User.find({ _id : id }).populate('myMenu');
+    const items = await User.find({ _id: id }).populate("myMenu");
     console.log(items);
     res.status(200).json({
       message: "Restaurants items fetched successfully",
@@ -62,19 +62,19 @@ export const GetRestaurantItems = async (req, res, next) => {
   }
 };
 
-export const AllMenu = async(req ,res ,next) => {
-
+export const AllMenu = async (req, res, next) => {
   try {
-    const AllMenuItems = await Menu.find({})
-    console.log( "Menu :", AllMenuItems);
-    
+    const AllMenuItems = await Menu.find({}).populate(
+      "restaurantID",
+      "restaurantName",
+    );
+    console.log("Menu :", AllMenuItems);
+
     res.status(200).json({
-      message : "data fetched successfully",
-      data:AllMenuItems,
-    })
-    
+      message: "data fetched successfully",
+      data: AllMenuItems,
+    });
   } catch (error) {
     next(error);
-    
   }
-}
+};

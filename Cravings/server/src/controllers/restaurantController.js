@@ -8,6 +8,7 @@ export const ResUserUpdate = async (req, res, next) => {
   try {
     const {
       fullName,
+      cuisine,
       restaurantName,
       email,
       mobnumber,
@@ -34,6 +35,7 @@ export const ResUserUpdate = async (req, res, next) => {
     console.log("Old data ", currentUser);
 
     currentUser.fullName = fullName || currentUser.fullName;
+    currentUser.cuisine = cuisine || currentUser.cuisine;
     currentUser.restaurantName = restaurantName || currentUser.restaurantName;
     currentUser.email = email || currentUser.email;
     currentUser.mobnumber = mobnumber || currentUser.mobnumber;

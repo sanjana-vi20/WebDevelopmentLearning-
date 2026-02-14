@@ -24,6 +24,7 @@ const EditResturantProfile = ({ onClose }) => {
 
   const [formData, setFormData] = useState({
     fullName: user?.fullName || "",
+    cuisine:user?.cuisine || "",
     restaurantName: user?.restaurantName || "",
     email: user?.email || "",
     mobnumber: user?.mobnumber || "",
@@ -125,6 +126,7 @@ const EditResturantProfile = ({ onClose }) => {
     
     const form_data = new FormData();
     form_data.append("fullName", formData.fullName);
+    form_data.append("cuisine", formData.cuisine);
     form_data.append("restaurantName", formData.restaurantName);
     form_data.append("mobnumber", formData.mobnumber);
     form_data.append("address", formData.address);
@@ -325,6 +327,18 @@ const EditResturantProfile = ({ onClose }) => {
                   value={formData.email}
                   disabled
                   className="w-full p-4 bg-gray-100 border border-gray-100 rounded-2xl text-gray-400 cursor-not-allowed font-medium"
+                />
+              </div>
+               <div className="space-y-2">
+                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                  Cuisine
+                </label>
+                <input
+                  type="cuisine"
+                  name="cuisine"
+                  value={formData.cuisine}
+                  onChange={handleInputChange}
+                  className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none font-bold"
                 />
               </div>
             </div>
