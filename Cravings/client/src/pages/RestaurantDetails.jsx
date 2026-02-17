@@ -59,7 +59,7 @@ const RestaurantDetails = () => {
       {/* HEADER & INFO (Inspired by image_000801.jpg) */}
       <section className="pt-10 pb-8 container mx-auto px-6">
         <nav className="flex gap-2 text-[13px] font-bold text-gray-400 uppercase tracking-tight mb-6 cursor-pointer">
-          <span onClick={() => navigate("/")}>Home</span> /{" "}
+          <span onClick={() => navigate("/")}>Home</span>{" "}
           <span>{items[0].city}</span> /{" "}
           <span className="text-[#842A3B]">{items[0].restaurantName}</span>
         </nav>

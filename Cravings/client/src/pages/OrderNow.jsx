@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import api from "../config/Api";
 import {useNavigate} from 'react-router-dom'
 import { ArrowRight, Clock, Filter, Heart, MapPin, Search, Star } from "lucide-react";
-import { toast } from "react-hot-toast"; // Ensure toast is imported
+import { toast } from "react-hot-toast"; 
 
 const OrderNow = () => {
   const [activeFilter, setActiveFilter] = useState('All');
-  const [restaurants, setRestaurants] = useState([]); // Initialize with empty array
+  const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const fetchAllRestaurant = async () => {
     setLoading(true);
     try {
       const res = await api.get("/public/allRestaurants");
-      // Safety: Checking if data exists before setting
       setRestaurants(res.data.data || []);
     } catch (error) {
       console.error(error);
@@ -31,31 +30,25 @@ const OrderNow = () => {
     <div className="min-h-screen bg-[#FAF7F2] font-sans text-[#1a1a1a]">
       
       {/* 1. TOP SEARCH & LOCATION BAR */}
-      <section className="bg-white pt-24 pb-12 shadow-sm border-b border-gray-100">
+      <section className="bg-white pt-9 pb-12 shadow-sm border-b border-gray-100">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div className="space-y-1">
-              <h1 className="text-4xl font-black tracking-tight leading-none text-gray-900">
-                Order <span className="text-[#842A3B]">Now.</span>
+            <div className="space-y-1 pb-6 mx-auto">
+              <h1 className="text-5xl font-black tracking-tight leading-none text-gray-900">
+                Order <span className="text-[#842A3B]  ">Now</span>
               </h1>
-              <div className="flex items-center gap-2 text-gray-400">
+              {/* <div className="flex items-center gap-2 text-gray-400">
                 <MapPin size={14} className="text-[#842A3B]" />
                 <span className="text-xs font-bold uppercase tracking-tight">Delivering to Arera Colony, Bhopal</span>
-              </div>
+              </div> */}
             </div>
 
-            <div className="relative w-full md:w-[400px]">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search for restaurants..." 
-                className="w-full bg-[#FAF7F2] border-none p-4 pl-12 rounded-2xl outline-none focus:ring-2 focus:ring-[#842A3B]/20 transition-all font-medium text-sm"
-              />
-            </div>
+           
           </div>
 
           {/* Filters Row */}
-          <div className="flex gap-3 mt-10 overflow-x-auto pb-2 scrollbar-hide">
+         <div className="flex justify-between items-center">
+           <div className="flex gap-3 mt-10 overflow-x-auto pb-2 scrollbar-hide">
             {['All', 'Fast Food', 'Healthy', 'Indian', 'Continental', 'Deserts'].map((f) => (
               <button 
                 key={f}
@@ -70,6 +63,16 @@ const OrderNow = () => {
               </button>
             ))}
           </div>
+
+           <div className="relative w-full float-end md:w-[400px]">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+              <input 
+                type="text" 
+                placeholder="Search for restaurants..." 
+                className="w-full bg-[#FAF7F2] border-none p-4 pl-12 rounded-2xl outline-none focus:ring-2 focus:ring-[#842A3B]/20 transition-all font-medium text-sm"
+              />
+            </div>
+         </div>
         </div>
       </section>
 
@@ -86,7 +89,7 @@ const OrderNow = () => {
                Finding the best flavors for you...
              </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-5">
               {restaurants.map((res) => (
                 <div key={res._id}  onClick={ ()=>navigate(`/restaurant-details/${res._id}`)} className="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-50">
                   
@@ -130,9 +133,9 @@ const OrderNow = () => {
                           {res.restaurantTiming?.opening || "10:00 AM"} - {res.restaurantTiming?.closing || "10:00 PM"}
                         </div>
                       </div>
-                      
+                      <p className="pl-31 text-(--color-primary) font-bold ">Explore Menu</p>
                       <button className="flex items-center justify-center w-10 h-10 bg-[#FAF7F2] text-[#842A3B] rounded-xl group-hover:bg-[#842A3B] group-hover:text-white transition-all">
-                        <ArrowRight size={18}/>
+                         <ArrowRight size={18}/> 
                       </button>
                     </div>
                   </div>

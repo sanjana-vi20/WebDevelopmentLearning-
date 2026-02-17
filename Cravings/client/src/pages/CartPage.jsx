@@ -80,7 +80,7 @@ const CartPage = () => {
   const handleQuantity = (id, change) => {
     const updated = cartItems.map(item => {
       if (item._id === id) {
-        const newQty = Math.max(1, item.quantity + change);
+        const newQty = Math.max(0, item.quantity + change);
         return { ...item, quantity: newQty };
       }
       return item;
