@@ -62,9 +62,14 @@ export const GetRestaurantItems = async (req, res, next) => {
   }
 };
 
-export const AllMenu = async (req, res, next) => {
+export const filteredMenu = async (req, res, next) => {
   try {
-    const AllMenuItems = await Menu.find({}).populate(
+
+    const allId = req.body;
+    console.log("allId : " , allId);
+    const ids = allId.arrayId
+    
+    const AllMenuItems = await Menu.find({_id: { $in: ids }}).populate(
       "restaurantID",
       "restaurantName",
     );
@@ -78,3 +83,21 @@ export const AllMenu = async (req, res, next) => {
     next(error);
   }
 };
+
+export const AllMenu = async(req ,res, next) => {
+  try {
+
+    const menus = await Menu.find();
+    console.log("menus: " , menus);
+    
+    res.status(200).json({
+      message: "Restaurants items fetched successfully",
+      data: menus,
+    });
+
+    
+  } catch (error) {
+    next(error)
+    
+  }
+}

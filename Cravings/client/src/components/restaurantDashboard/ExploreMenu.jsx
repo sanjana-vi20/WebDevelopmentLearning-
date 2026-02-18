@@ -39,7 +39,9 @@ const ExploreMenu = () => {
     setLoading(true);
 
     try {
-      const res = await api.get("/public/fetchMenu");
+      const res = await api.get("/public/fetchAllMenu");
+      console.log(res.data.data);
+      
       setMenu(res.data.data);
     } catch (error) {
       console.log(error);
@@ -64,12 +66,18 @@ const ExploreMenu = () => {
       if (existItem > -1) {
         cart[existItem].quantity += 1;
       } else {
-        cart.push(
+       if(cart.restaurantID === item.restaurantID)
+       {
+         cart.push(
           {
             id: item._id,
             quantity: 1,
           }
         );
+       }
+       else{
+        toast.error("Please clear the cart first");
+       }
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
