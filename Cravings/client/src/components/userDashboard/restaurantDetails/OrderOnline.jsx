@@ -9,6 +9,10 @@ const OrderOnline = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all"); // all, veg, non-veg
 
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart")) || {},
+  );
+
   // Filter Logic
   const filteredMenu = menuItems.filter((item) => {
     const matchesSearch = item.dishName
@@ -18,35 +22,51 @@ const OrderOnline = ({ data }) => {
     return matchesSearch && matchesFilter;
   });
 
-  const handleAddToCart = async (item) => {
-    // const menu = menuItems.item;
-    console.log(item);
-    try {
-      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const handleAddToCart = (restaurantName, item) => {
+    // 1. Pehle pura cart object uthao (Local Storage se)
+    // Structure: { "restId1": {details}, "restId2": {details} }
 
-      //check the item is already exist or not
-      const existItem = cart.findIndex((cartItem) => cartItem.id === item._id);
+    console.log("cart :", cart);
 
-      //findIndex method return -1 if any of the item is not matched
-      if (existItem > -1) {
-        cart[existItem].quantity += 1;
-      } else {
-        cart.push(
-          {
-            id: item._id,
-            quantity: 1,
-          }
-        );
-      }
+    console.log(restaurant.restaurantName);
 
-      localStorage.setItem("cart", JSON.stringify(cart));
-      window.dispatchEvent(new Event("cartUpdated"));
-      toast.success(`${item.dishName} added to cart!`);
-    } catch (error) {
-      console.log(error);
+    let currentCart = { ...cart };
+
+    const restId = item.restaurantID;
+
+    if (!currentCart[restId]) {
+      currentCart[restId] = {
+        restaurantName: restaurantName,
+        restaurantId: restId,
+        items: [],
+        totalPrice: 0,
+      };
     }
-  };
 
+    const itemIndex = currentCart[restId].items.findIndex((i) => i._id === item._id);
+
+    if (itemIndex > -1) {
+      currentCart[restId].items[itemIndex].quantity += 1;
+    } else {
+      currentCart[restId].items.push({
+        _id: item._id,
+        price: Number(item.price),
+        quantity: 1,
+      });
+    }
+
+  currentCart[restId].totalPrice = currentCart[restId].items.reduce(
+      (acc, curr) => acc + curr.price * curr.quantity,
+      0,
+    );
+
+    setCart(currentCart)
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    window.dispatchEvent(new Event("cartUpdated"));
+
+    toast.success(`Added to ${restaurant.restaurantName}'s cart!`);
+  };
 
   return (
     <div className="flex flex-col md:flex-row gap-8 animate-in fade-in duration-500">
@@ -160,7 +180,9 @@ const OrderOnline = ({ data }) => {
                   <Plus
                     size={24}
                     strokeWidth={3}
-                    onClick={() => handleAddToCart(item)}
+                    onClick={() =>
+                      handleAddToCart(restaurant.restaurantName, item)
+                    }
                   />
                 </button>
               </div>

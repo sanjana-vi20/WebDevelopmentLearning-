@@ -32,6 +32,7 @@ const ExploreMenu = () => {
   const [menu, setMenu] = useState();
   const [loading, setLoading] = useState();
   const [item , setItem] = useState();
+  const [cart , setCart] = useState(JSON.parse(localStorage.getItem("cart")) || {})
   // const navigate = useNavigate()
 
   const fetchMenu = async () => {
@@ -53,40 +54,59 @@ const ExploreMenu = () => {
   };
 
 
-    const handleAddToCart = async (item) => {
-    // const menu = menuItems.item;
-    // console.log(item);
-    try {
-      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const handleAddToCart = ( restaurantName, dish) => {
+  // 1. Pehle pura cart object uthao (Local Storage se)
+  // Structure: { "restId1": {details}, "restId2": {details} }
 
-      //check the item is already exist or not
-      const existItem = cart.findIndex((cartItem) => cartItem.id === item._id);
+  // console.log("item : ",  user );
+  let currentCart = { ...cart };
+  
+  console.log("cart :"  , cart);
+  console.log("item :" , dish.restaurantID._id);
+  
+  
+  const restId = dish.restaurantID._id;
 
-      //findIndex method return -1 if any of the item is not matched
-      if (existItem > -1) {
-        cart[existItem].quantity += 1;
-      } else {
-       if(cart.restaurantID === item.restaurantID)
-       {
-         cart.push(
-          {
-            id: item._id,
-            quantity: 1,
-          }
-        );
-       }
-       else{
-        toast.error("Please clear the cart first");
-       }
-      }
+  // 2. Check karo: Kya is restaurant ka cart pehle se bana hai?
+  if (!currentCart[restId]) {
+    // Agar nahi, toh naya entry create karo
+    currentCart[restId] = {
+      restaurantName: restaurantName,
+      restaurantId: restId,
+      items: [],
+      totalPrice: 0
+    };
+  }
 
-      localStorage.setItem("cart", JSON.stringify(cart));
-      window.dispatchEvent(new Event("cartUpdated"));
-      toast.success(`${item.dishName} added to cart!`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // 3. Check karo: Kya yeh ITEM pehle se is restaurant ke cart mein hai?
+  const itemIndex = currentCart[restId].items.findIndex((i) => i._id === dish._id);
+
+  if (itemIndex > -1) {
+    // Agar hai, toh sirf quantity badhao
+    currentCart[restId].items[itemIndex].quantity += 1;
+  } else {
+    // Agar nahi hai, toh naya item object push karo
+    currentCart[restId].items.push({
+      _id: dish._id,
+      price: Number(dish.price),
+      quantity: 1
+    });
+  }
+
+  // 4. Uss specific restaurant ka Total Price calculate karo
+  currentCart[restId].totalPrice = currentCart[restId].items.reduce(
+    (acc, curr) => acc + curr.price * curr.quantity, 
+    0
+  );
+
+  setCart(currentCart);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  // Yeh line Header ko batayegi ki "Update ho jao!"
+  window.dispatchEvent(new Event("cartUpdated"));
+
+  toast.success(`Added to ${restaurantName}'s cart!`);
+};
 
   useEffect(() => {
     fetchMenu();
@@ -233,7 +253,7 @@ const ExploreMenu = () => {
                   {item.price}
                 </div>
                 <button className="p-4 bg-[#842A3B] text-white rounded-2xl shadow-lg shadow-[#842A3B]/20 hover:scale-110 active:scale-95 transition-all">
-                  <Plus size={20} strokeWidth={3} onClick={()=>handleAddToCart(item)}/>
+                  <Plus size={20} strokeWidth={3} onClick={()=>handleAddToCart(item.restaurantID.restaurantName,item)}/>
                 </button>
               </div>
             </div>

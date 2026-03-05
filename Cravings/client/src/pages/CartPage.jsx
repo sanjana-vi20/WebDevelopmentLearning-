@@ -15,42 +15,45 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [activeBill, setActiveBill] = useState(null);
 
   const getCartDetails = async () => {
-    try {
-      const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const localCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      if (localCart.length === 0) {
+    try {
+      if (Object.keys(localCart).length === 0) {
         setCartItems([]);
         setLoading(false);
         return;
       }
 
-      console.log(localCart);
-      const arrayId = localCart.map((item) => item.id);
-      console.log("arrayId: ", arrayId);
+      console.log("localCart: ", localCart);
+      const itemsArray = Object.values(localCart).flatMap(
+        (restaurant) => restaurant.items,
+      );
+      console.log("itemsArray: ", itemsArray);
+
+      const arrayId = itemsArray.map((item) => item._id);
+      // console.log("ArrayID: ", arrayId);
+
+      const qtyMap = {};
+      itemsArray.forEach((item) => {
+        qtyMap[item._id] = item.quantity;
+      });
+
+      // console.log("qty : ", qtyMap);
 
       const res = await api.post(`/public/fetchMenu/`, { arrayId });
       const allData = res.data.data;
-      console.log("allData : ", allData);
 
-      const quantityMap = {};
-      localCart.forEach((item) => {
-        quantityMap[item.id] = item.quantity;
-      });
+      const finalCart = allData.map((item) => ({
+        ...item,
+        quantity: qtyMap[item._id] || 0,
+      }));
 
-      
-      const mergeData = allData.map((dish) => {
-        return {
-          ...dish,
-          // Loop chalane ke bajaye direct key se value uthao
-          quantity: quantityMap[dish._id] || 1,
-        };
-      });
-      console.log("Mergedata: " , mergeData);
-      
+      // console.log("finalCart : ", finalCart);
 
-      setCartItems(mergeData);
+      setCartItems(finalCart);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -63,44 +66,79 @@ const CartPage = () => {
     getCartDetails();
   }, []);
 
-  const handleQuantity = (id, change) => {
-    const updated = cartItems.map((item) => {
-      if (item._id === id) {
-        const newQty = Math.max(0, item.quantity + change);
-        return { ...item, quantity: newQty };
-      }
-      return item;
-    });
-    setCartItems(updated);
+  const handleQuantity = (id, resId, change) => {
+    const updatedCart = JSON.parse(localStorage.getItem("cart")) || {};
 
-    // Sync with LocalStorage
-    const storageCart = updated.map((item) => ({
-      id: item._id,
-      quantity: item.quantity,
-    }));
-    localStorage.setItem("cart", JSON.stringify(storageCart));
+    if (updatedCart[resId]) {
+      updatedCart[resId].items = updatedCart[resId].items.map((i) =>
+        i._id === id ? { ...i, quantity: Math.max(1, i.quantity + change) } : i,
+      );
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    }
+
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item._id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          : item,
+      ),
+    );
+
     window.dispatchEvent(new Event("cartUpdated")); // Header update ke liye
   };
 
   // 3. Remove Item Logic
-  const removeItem = (id) => {
-    const filtered = cartItems.filter((item) => item._id !== id);
-    setCartItems(filtered);
-    const storageCart = filtered.map((item) => ({
-      id: item._id,
-      quantity: item.quantity,
-    }));
-    localStorage.setItem("cart", JSON.stringify(storageCart));
+  const removeItem = (id, resId) => {
+    const updatedCart = JSON.parse(localStorage.getItem("cart")) || {};
+    const filtered = updatedCart[resId].items.filter((item) => item._id !== id);
+    console.log("filtered : ", filtered);
+
+    const filteredCart = {
+      ...updatedCart,
+      [resId]: {
+        ...updatedCart[resId],
+        items: filtered,
+      },
+    };
+    console.log("fitersCart : ", filteredCart);
+
+    const updatedStateArray = cartItems.filter((item) => item._id !== id);
+    setCartItems(updatedStateArray);
+    console.log("Carts : ", cartItems);
+
+    localStorage.setItem("cart", JSON.stringify(filteredCart));
     window.dispatchEvent(new Event("cartUpdated"));
     toast.success("Item removed");
   };
 
+  const groupedItems = cartItems.reduce((acc, item) => {
+    const restName = item.restaurantID.restaurantName;
+    if (!acc[restName]) {
+      acc[restName] = [];
+    }
+    acc[restName].push(item);
+    return acc;
+  }, {});
+
+  // console.log("grouped : ", groupedItems);
+
   // 4. Calculations
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  );
-  const delivery = subtotal > 500 ? 0 : 40;
+  const calculateRestBill = (items) => {
+    const itemTotal = items.reduce(
+      (sum, i) => sum + Number(i.price) * i.quantity,
+      0,
+    );
+    const delivery = itemTotal > 500 ? 0 : 40;
+    const gst = Math.round(itemTotal * 0.05);
+    const platform = 5;
+    return {
+      itemTotal,
+      delivery,
+      gst,
+      platform,
+      grandTotal: itemTotal + delivery + gst + platform,
+    };
+  };
 
   if (loading)
     return (
@@ -140,96 +178,220 @@ const CartPage = () => {
               </button>
             </div>
           ) : (
-            cartItems.map((item) => (
-              <div
-                key={item._id}
-                className="bg-white p-5 rounded-[1.5rem]  shadow-sm flex items-center gap-4 hover:shadow-md transition-all"
-              >
-                <img
-                  src={item.image[0]?.url}
-                  className="w-29 h-29 rounded-2xl object-cover shadow-inner"
-                  alt=""
-                />
-
-                <div className="flex-1 ">
-                  <h3 className="font-black text-2xl pb-2 text-slate-800">{item.dishName}</h3>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
-                    {item.cuisine}
-                  </p>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
-                    {item.restaurantID.restaurantName}
-                  </p>
-                  <p className="font-black text-[#842A3B] mt-2">
-                    ₹{item.price}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 bg-slate-100 p-1.5 rounded-xl">
-                  <button
-                    onClick={() => handleQuantity(item._id, -1)}
-                    className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm hover:text-[#842A3B]"
-                  >
-                    <Minus size={14} />
-                  </button>
-                  <span className="font-black w-4 text-center text-sm">
-                    {item.quantity}
-                  </span>
-                  <button
-                    onClick={() => handleQuantity(item._id, 1)}
-                    className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm hover:text-[#842A3B]"
-                  >
-                    <Plus size={14} />
-                  </button>
-                </div>
-
-                <button
-                  onClick={() => removeItem(item._id)}
-                  className="p-3 text-slate-300 hover:text-red-500 transition-colors"
+            <div className="lg:col-span-8 space-y-8">
+              {Object.entries(groupedItems).map(([restaurantName, items]) => (
+                <div
+                  key={restaurantName}
+                  className="bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100"
                 >
-                  <Trash2 size={20} />
-                </button>
-              </div>
-            ))
+                  {/* Restaurant Header */}
+                  <div className="bg-[#842A3B]/5 px-8 py-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                      <h2 className="font-black text-xl text-slate-800 tracking-tighter uppercase italic">
+                        {restaurantName}
+                      </h2>
+                      <p className="text-[10px] font-bold text-[#842A3B] uppercase tracking-widest">
+                        {items.length} Items from this kitchen
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Items List for this specific restaurant */}
+                  <div className="p-4 space-y-4">
+                    {items.map((item) => (
+                      <div
+                        key={item._id}
+                        className="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-slate-50 transition-all group"
+                      >
+                        <img
+                          src={item.image[0]?.url}
+                          className="w-24 h-24 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform"
+                          alt={item.dishName}
+                        />
+
+                        <div className="flex-1">
+                          <h3 className="font-black text-lg text-slate-800">
+                            {item.dishName}
+                          </h3>
+                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                            {item.cuisine}
+                          </p>
+                          <p className="font-black text-[#842A3B] mt-1">
+                            ₹{item.price}
+                          </p>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="flex items-center gap-3 bg-white border border-slate-200 p-2 rounded-xl shadow-sm">
+                          <button
+                            onClick={() =>
+                              handleQuantity(
+                                item._id,
+                                item.restaurantID._id,
+                                -1,
+                              )
+                            }
+                            className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-[#842A3B]"
+                          >
+                            <Minus size={14} />
+                          </button>
+                          <span className="font-black text-sm w-4 text-center">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() =>
+                              handleQuantity(item._id, item.restaurantID._id, 1)
+                            }
+                            className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-[#842A3B]"
+                          >
+                            <Plus size={14} />
+                          </button>
+                        </div>
+
+                        <button
+                          onClick={() =>
+                            removeItem(item._id, item.restaurantID._id)
+                          }
+                          className="p-3 text-slate-200 hover:text-red-500 transition-colors"
+                        >
+                          <Trash2 size={20} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Restaurant Specific Total (Optional) */}
+                  <div className="px-8 py-4 bg-slate-50/50 text-right border-t border-slate-100">
+                    <span className="text-xs font-bold text-slate-400 uppercase mr-2">
+                      Restaurant Subtotal:
+                    </span>
+                    <span className="font-black text-lg text-slate-800">
+                      ₹{items.reduce((sum, i) => sum + i.price * i.quantity, 0)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
         {/* Right: Bill Details (4 Cols) */}
-        <div className="lg:col-span-4">
-          <div className="bg-white p-8 rounded-[2rem] shadow-xl border border-slate-100 sticky top-24">
-            <h2 className="font-black text-slate-800 mb-6 text-lg uppercase tracking-tighter">
-              Bill Details
-            </h2>
+        <div className="lg:col-span-4 space-y-4">
+          <h2 className="font-black text-slate-800 text-xl uppercase tracking-tighter italic px-2">
+            Billing Breakdown
+          </h2>
 
-            <div className="space-y-4 border-b pb-6">
-              <div className="flex justify-between text-slate-500 font-medium">
-                <span>Item Total</span>
-                <span>₹{subtotal}</span>
-              </div>
-              <div className="flex justify-between text-slate-500 font-medium">
-                <span>Delivery Fee</span>
-                <span
-                  className={delivery === 0 ? "text-green-500 font-bold" : ""}
+          {Object.entries(groupedItems).map(
+            ([restaurantName, items], index) => {
+              const bill = calculateRestBill(items);
+              const isOpen = activeBill === restaurantName; // Kya ye wala bill khula hai?
+
+              return (
+                <div
+                  key={restaurantName}
+                  className={`transition-all duration-500 rounded-[2rem] border overflow-hidden ${
+                    isOpen
+                      ? "bg-white shadow-xl border-[#842A3B]/20"
+                      : "bg-white shadow-sm border-slate-100"
+                  }`}
                 >
-                  {delivery === 0 ? "FREE" : `₹${delivery}`}
-                </span>
-              </div>
-              <div className="flex justify-between text-slate-500 font-medium">
-                <span>Platform Fee</span>
-                <span>₹5</span>
-              </div>
-            </div>
+                  {/* Clickable Header */}
+                  <div
+                    onClick={() =>
+                      setActiveBill(isOpen ? null : restaurantName)
+                    }
+                    className="p-6 cursor-pointer flex justify-between items-center hover:bg-slate-50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${
+                          isOpen
+                            ? "bg-[#842A3B] text-white"
+                            : "bg-slate-100 text-slate-400"
+                        }`}
+                      >
+                        {index + 1}
+                      </div>
+                      <h3 className="font-black text-slate-800 text-sm uppercase truncate max-w-[150px]">
+                        {restaurantName}
+                      </h3>
+                    </div>
 
-            <div className="flex justify-between items-center pt-6 mb-8">
-              <span className="font-black text-slate-800 text-xl tracking-tighter">
-                TO PAY
-              </span>
-              <span className="font-black text-3xl text-slate-800 tracking-tighter">
-                ₹{subtotal + delivery + 5}
-              </span>
-            </div>
+                    <div className="flex items-center gap-3">
+                      {!isOpen && (
+                        <span className="font-black text-slate-900 text-sm">
+                          ₹{bill.grandTotal}
+                        </span>
+                      )}
+                      <ChevronRight
+                        size={18}
+                        className={`transition-transform duration-300 ${isOpen ? "rotate-90 text-[#842A3B]" : "text-slate-300"}`}
+                      />
+                    </div>
+                  </div>
 
-            <button className="w-full bg-[#842A3B] text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#842A3B]/30">
-              Proceed to Checkout <ChevronRight size={18} />
+                  {/* Expandable Bill Content */}
+                  <div
+                    className={`transition-all duration-500 ease-in-out ${
+                      isOpen
+                        ? "max-h-[500px] opacity-100 p-6 pt-0"
+                        : "max-h-0 opacity-0 pointer-events-none"
+                    }`}
+                  >
+                    <div className="space-y-3 pt-4 border-t border-dashed border-slate-100">
+                      <div className="flex justify-between text-xs font-bold text-slate-500">
+                        <span>Items Total</span>
+                        <span className="text-slate-800">
+                          ₹{bill.itemTotal}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-xs font-bold text-slate-500">
+                        <span>Delivery Fee</span>
+                        <span className="text-slate-800">₹{bill.delivery}</span>
+                      </div>
+                      <div className="flex justify-between text-xs font-bold text-slate-500">
+                        <span>GST & Taxes</span>
+                        <span className="text-slate-800">₹{bill.gst}</span>
+                      </div>
+                      <div className="flex justify-between pt-3 mt-2">
+                        <span className="text-[#842A3B] font-black uppercase text-[14px] tracking-tight">
+                          Payable
+                        </span>
+                        <span className="text-2xl font-black text-slate-900 tracking-tighter">
+                          ₹{bill.grandTotal}
+                        </span>
+                      </div>
+                      <button
+                          onClick={() =>
+                            handleCheckout(restaurantName, items, bill)
+                          }
+                          className="w-full mt-4 px-3 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest hover:bg-[#842A3B] transition-all flex items-center justify-center gap-2"
+                        >
+                          Order from {restaurantName} <ChevronRight size={16} />
+                        </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            },
+          )}
+
+          {/* Final Total (Ye hamesha dikhega) */}
+          <div className="mt-8 bg-[#1a1a1a] p-8 rounded-[2.5rem] shadow-2xl text-white">
+            <div className="flex justify-between items-center mb-6">
+              <p className="font-black text-xs uppercase tracking-[0.2em] text-[#842A3B]">
+                Grand Total
+              </p>
+              <h2 className="text-3xl font-black tracking-tighter">
+                ₹
+                {Object.values(groupedItems).reduce(
+                  (sum, items) => sum + calculateRestBill(items).grandTotal,
+                  0,
+                )}
+              </h2>
+            </div>
+            <button className="w-full bg-[#842A3B] py-5 rounded-2xl font-black uppercase text-sm tracking-widest hover:scale-[1.02] active:scale-95 transition-all">
+              Checkout All Orders
             </button>
           </div>
         </div>

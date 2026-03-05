@@ -64,12 +64,11 @@ export const GetRestaurantItems = async (req, res, next) => {
 
 export const filteredMenu = async (req, res, next) => {
   try {
-
     const allId = req.body;
-    console.log("allId : " , allId);
-    const ids = allId.arrayId
-    
-    const AllMenuItems = await Menu.find({_id: { $in: ids }}).populate(
+    console.log("allId : ", allId);
+    const ids = allId.arrayId;
+
+    const AllMenuItems = await Menu.find({ _id: { $in: ids } }).populate(
       "restaurantID",
       "restaurantName",
     );
@@ -84,20 +83,19 @@ export const filteredMenu = async (req, res, next) => {
   }
 };
 
-export const AllMenu = async(req ,res, next) => {
+export const AllMenu = async (req, res, next) => {
   try {
+    const menus = await Menu.find().populate({
+      path: "restaurantID", // Menu schema ki woh field jo User ko point karti hai
+      select: "restaurantName",
+    });
+    console.log("menus: ", menus);
 
-    const menus = await Menu.find();
-    console.log("menus: " , menus);
-    
     res.status(200).json({
       message: "Restaurants items fetched successfully",
       data: menus,
     });
-
-    
   } catch (error) {
-    next(error)
-    
+    next(error);
   }
-}
+};

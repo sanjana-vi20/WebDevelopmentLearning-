@@ -1,8 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import api from "../config/Api";
-import { IoPerson } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import {
+  User,
+  Mail,
+  Phone,
+  Lock,
+  ChevronRight,
+  UserCircle,
+  Truck,
+  ChefHat,
+  Trash2,
+} from "lucide-react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -18,6 +30,10 @@ function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [validationError, setValidationError] = useState({});
 
+  useEffect(() => {
+    AOS.init({ duration: 800 });
+  }, []);
+
   const handleClear = () => {
     setFormData({
       fullName: "",
@@ -27,37 +43,27 @@ function Register() {
       confirmPass: "",
       role: "",
     });
+    setValidationError({});
+    toast.success("Form Cleared");
   };
 
   const validate = () => {
     let Error = {};
-
-    if (formData.fullName.length < 3) {
-      Error.fullName = "Name should be More Than 3 Characters";
-    } else {
-      if (!/^[A-Za-z ]+$/.test(formData.fullName)) {
-        Error.fullName = "Only Contain A-Z , a-z and space";
-      }
-    }
-
+    if (formData.fullName.length < 3) Error.fullName = "Name is too short";
     if (
       !/^[\w\.]+@(gmail|outlook|ricr|yahoo)\.(com|in|co.in)$/.test(
         formData.email,
       )
-    ) {
-      Error.email = "Use Proper Email Format";
-    }
-
-    if (!/^[6-9]\d{9}$/.test(formData.mobnumber)) {
-      Error.mobnumber = "Only Indian Mobile Number allowed";
-    }
-    if (!formData.role) {
-      Error.role = "Please choose anyone";
-    }
+    )
+      Error.email = "Invalid email format";
+    if (!/^[6-9]\d{9}$/.test(formData.mobnumber))
+      Error.mobnumber = "Enter 10-digit Indian number";
+    if (!formData.role) Error.role = "Please select a role";
+    if (formData.password !== formData.confirmPass)
+      Error.confirmPass = "Passwords don't match";
 
     setValidationError(Error);
-
-    return Object.keys(Error).length > 0 ? false : true;
+    return Object.keys(Error).length === 0;
   };
 
   const handleChange = (e) => {
@@ -68,193 +74,234 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
     if (!validate()) {
       setIsLoading(false);
-      toast.error("Fill the Form Correctly");
+      toast.error("Please fill the form correctly");
       return;
     }
-
     try {
-      // console.log(formData);
       const res = await api.post("/auth/register", formData);
       toast.success(res.data.message);
       handleClear();
+      navigate("/login");
     } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.message || "Unknown error");
+      toast.error(error?.response?.data?.message || "Error occurred");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <>
-      <div className="bg-(--bg-accent)">
-        <h1 className="text-center font-bold p-7 text-4xl text-(--text-primary)">
-          Student Registration
-        </h1>
-        <div className="m-auto bg-(--bg-light) shadow shadow-gray-400 p-5  rounded-2xl w-4xl">
-          <form onSubmit={handleSubmit} onReset={handleClear}>
-            <div className=" relative m-10">
-              <div className="space-y-8 p-6">
-                <div className="flex justify-between"> 
-                  <label htmlFor="">I am</label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="role"
-                      id="manager"
-                      checked={formData.role === "manager"}
-                      value={"manager"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="manager">Restaurant Manager</label>
-                  </div>
-                   <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="role"
-                      id="partner"
-                      checked={formData.role === "partner"}
-                      value={"partner"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="manager">Delivery Partner</label>
-                  </div>
-                   <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="role"
-                      id="customer"
-                      checked={formData.role === "customer"}
-                      value={"customer"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="partner">Customer</label>
-                  </div>
-                  {validationError.role && (
-                    <span className="text-xs text-red-500">
-                      {validationError.role}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">
-                    FullName :
-                  </label>
-                  <input
-                    type="text"
-                    className="border rounded border-gray-300 p-2 w-2xl bg-(--text-secondary) focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed disabled:bg-gray-200"
-                    name="fullName"
-                    placeholder="Enter your name"
-                    onChange={handleChange}
-                    value={formData.fullName}
-                    disabled={isLoading}
-                  />
-                  {validationError.fullName && (
-                    <span className="text-xs text-red-500">
-                      {validationError.fullName}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">
-                    Email :
-                  </label>
-                  <input
-                    type="email"
-                    className="border rounded border-gray-300 p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                    name="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    disabled={isLoading}
-                  />
-                  {validationError.email && (
-                    <span className="text-xs text-red-500">
-                      {validationError.email}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">
-                    Mobile Number :
-                  </label>
-                  <input
-                    type="number"
-                    className="border rounded border-gray-300 p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                    name="mobnumber"
-                    placeholder="Enter your Phone Number"
-                    onChange={handleChange}
-                    value={formData.mobnumber}
-                    disabled={isLoading}
-                  />
-                  {validationError.mobnumber && (
-                    <span className="text-xs text-red-500">
-                      {validationError.mobnumber}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">
-                    Password :
-                  </label>
-                  <input
-                    type="password"
-                    className="border rounded border-gray-300 p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                    name="password"
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    value={formData.password}
-                    disabled={isLoading}
-                  />
-                </div>
-                <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">
-                    Confirm Password :
-                  </label>
-                  <input
-                    type="password"
-                    className="border rounded border-gray-300 p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                    name="confirmPass"
-                    placeholder="Confirm Your Password"
-                    onChange={handleChange}
-                    value={formData.confirmPass}
-                    disabled={isLoading}
-                  />
-                </div>
-              </div>
-            </div>
+    <div className="min-h-screen bg-[#FDF6E3]/40 py-16 px-4 flex justify-center items-center font-sans">
+      <div
+        className="w-full max-w-2xl bg-white rounded-[3rem] shadow-[0_25px_70px_rgba(132,42,59,0.08)] border border-white p-8 md:p-12"
+        data-aos="zoom-in-up"
+      >
+        {/* Header */}
+        <div className="text-center mb-10">
+          <div className="inline-flex p-3 bg-[#842A3B]/5 rounded-2xl text-[#842A3B] mb-4">
+            <User size={32} />
+          </div>
+          <h1 className="text-3xl font-black text-slate-800 tracking-tight">
+            Create Account
+          </h1>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-2">
+            Join the Cravings Community
+          </p>
+        </div>
 
-            <div className="flex justify-center gap-4">
-              <button
-                disabled={isLoading}
-                className="border px-7 py-2 bg-(--color-primary) hover:bg-(--color-primary-hover) trans text-amber-50 rounded-2xl transition duration-300 transform hover:scale-105  disabled:scale-100 disabled:cursor-not-allowed "
-              >
-                Clear Form
-              </button>
-              <button
-                disabled={isLoading}
-                className="border px-7 py-2 bg-(--color-primary) hover:bg-(--color-primary-hover) trans text-amber-50 rounded-2xl transition duration-300 transform hover:scale-105  disabled:scale-100 disabled:cursor-not-allowed "
-              >
-                {isLoading ? "Submitting" : "Submit"}
-              </button>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Role Selection (Single Row) */}
+          <div className="space-y-3">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">
+              I am registering as:
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                {
+                  id: "customer",
+                  label: "Customer",
+                  icon: <UserCircle size={20} />,
+                },
+                {
+                  id: "manager",
+                  label: "Manager",
+                  icon: <ChefHat size={20} />,
+                },
+                { id: "partner", label: "Partner", icon: <Truck size={20} /> },
+              ].map((role) => (
+                <label
+                  key={role.id}
+                  className={`cursor-pointer flex items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 ${
+                    formData.role === role.id
+                      ? "border-[#842A3B] bg-[#842A3B]/5 text-[#842A3B] shadow-sm"
+                      : "border-slate-50 bg-slate-50 text-slate-400 hover:border-slate-200"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="role"
+                    value={role.id}
+                    className="hidden"
+                    onChange={handleChange}
+                    checked={formData.role === role.id}
+                  />
+                  {role.icon}
+                  <span className="text-xs font-black uppercase">
+                    {role.label}
+                  </span>
+                </label>
+              ))}
             </div>
-          </form>
-          <div className="ml-80 mt-8">
-            Already have Account?
+            {validationError.role && (
+              <p className="text-[10px] text-red-500 font-bold ml-2 uppercase">
+                {validationError.role}
+              </p>
+            )}
+          </div>
+
+          {/* Form Fields - All in Column */}
+          <div className="space-y-5">
+            <InputGroup
+              label="Full Name"
+              icon={<User size={18} />}
+              name="fullName"
+              placeholder="Enter your name"
+              value={formData.fullName}
+              onChange={handleChange}
+              error={validationError.fullName}
+              disabled={isLoading}
+            />
+            <InputGroup
+              label="Email Address"
+              icon={<Mail size={18} />}
+              name="email"
+              placeholder="example@gmail.com"
+              value={formData.email}
+              onChange={handleChange}
+              error={validationError.email}
+              disabled={isLoading}
+            />
+            <InputGroup
+              label="Mobile Number"
+              icon={<Phone size={18} />}
+              name="mobnumber"
+              placeholder="91XXXXXXXX"
+              value={formData.mobnumber}
+              onChange={handleChange}
+              error={validationError.mobnumber}
+              disabled={isLoading}
+              type="number"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <InputGroup
+                label="Password"
+                icon={<Lock size={18} />}
+                name="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                disabled={isLoading}
+                type="password"
+              />
+              <InputGroup
+                label="Confirm Password"
+                icon={<Lock size={18} />}
+                name="confirmPass"
+                placeholder="••••••••"
+                value={formData.confirmPass}
+                onChange={handleChange}
+                error={validationError.confirmPass}
+                disabled={isLoading}
+                type="password"
+              />
+            </div>
+          </div>
+
+          {/* Buttons Stack */}
+          <div className="space-y-4 pt-4">
             <button
-              className="text-blue-700"
-              onClick={() => navigate("/login")}
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-4 bg-[#842A3B] text-white rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-xl shadow-[#842A3B]/20 hover:bg-[#662222] transition-all flex items-center justify-center gap-3 group"
             >
-              Login
+              {isLoading ? (
+                "Creating Account..."
+              ) : (
+                <>
+                  Sign Up Now{" "}
+                  <ChevronRight
+                    size={16}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                </>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleClear}
+              className="w-full py-3 text-slate-400 font-black uppercase text-[10px] tracking-widest hover:text-red-500 flex items-center justify-center gap-2 transition-colors"
+            >
+              <Trash2 size={14} /> Clear Form
             </button>
           </div>
-        </div>
+
+          <div className="text-center">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-">
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={() => navigate("/login")}
+                className="text-[#842A3B] hover:underline text-[15px] font-black ml-1"
+              >
+                Log In
+              </button>
+            </p>
+          </div>
+        </form>
       </div>
-    </>
+    </div>
   );
 }
+
+const InputGroup = ({
+  label,
+  icon,
+  name,
+  placeholder,
+  value,
+  onChange,
+  error,
+  disabled,
+  type = "text",
+}) => (
+  <div className="space-y-2">
+    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">
+      {label}
+    </label>
+    <div
+      className={`group flex items-center border-2 px-5 py-3.5 rounded-2xl transition-all ${error ? "border-red-100 bg-red-50/30" : "border-slate-50 bg-slate-50 focus-within:border-[#842A3B]/20 focus-within:bg-white focus-within:shadow-sm"}`}
+    >
+      <span className="text-slate-400 group-focus-within:text-[#842A3B] transition-colors">
+        {icon}
+      </span>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        placeholder={placeholder}
+        className="bg-transparent border-none outline-none focus:outline-none focus:ring-0 w-full px-3 text-sm font-bold text-slate-700 placeholder:text-slate-300"
+      />
+    </div>
+    {error && (
+      <p className="text-[9px] text-red-500 font-black ml-2 uppercase tracking-wide">
+        {error}
+      </p>
+    )}
+  </div>
+);
 
 export default Register;

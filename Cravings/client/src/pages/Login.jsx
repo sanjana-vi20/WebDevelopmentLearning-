@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../config/Api";
-import { IoPerson } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { BsSend } from "react-icons/bs";
-import { FiLock } from "react-icons/fi";
-import { IoMdPerson } from "react-icons/io";
+import { FiLock, FiMail } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext.jsx";
 import ForgetPasswordModal from "../components/publicModals/ForgetPasswordModal.jsx";
 
 function Login() {
   const { setUser, setIsLogin, setRole } = useAuth();
   const [isForgetPassword, setIsForgetPassword] = useState(false);
-
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,25 +21,16 @@ function Login() {
   const [validationError, setValidationError] = useState({});
 
   const handleClear = () => {
-    setFormData({
-      email: "",
-      password: "",
-    });
+    setFormData({ email: "", password: "" });
   };
 
   const validate = () => {
     let Error = {};
-    if (
-      !/^[\w\.]+@(gmail|outlook|ricr|yahoo)\.(com|in|co.in)$/.test(
-        formData.email,
-      )
-    ) {
-      Error.email = "Use Proper Email Format";
+    if (!/^[\w\.]+@(gmail|outlook|ricr|yahoo)\.(com|in|co.in)$/.test(formData.email)) {
+      Error.email = "Please use a valid email format";
     }
-
     setValidationError(Error);
-
-    return Object.keys(Error).length > 0 ? false : true;
+    return Object.keys(Error).length === 0;
   };
 
   const handleChange = (e) => {
@@ -55,130 +44,137 @@ function Login() {
 
     if (!validate()) {
       setIsLoading(false);
-      toast.error("Fill the Form Correctly");
+      toast.error("Please fill the form");
       return;
     }
 
     try {
-      // console.log(formData);
       const res = await api.post("/auth/login", formData);
       toast.success(res.data.message);
       setUser(res.data.data);
       setIsLogin(true);
       sessionStorage.setItem("CravingUser", JSON.stringify(res.data.data));
-      // navigate("/user-dashboard");
+      
       handleClear();
-      switch (res.data.data.role) {
-        case "manager": {
-          setRole("manager");
-          navigate("/restaurant-dashboard");
-          break;
-        }
-        case "partner": {
-          setRole("partner");
-          navigate("/ride-dashboard");
-          break;
-        }
-        case "customer": {
-          setRole("customer");
-          navigate("/user-dashboard");
-          break;
-        }
-        case "admin": {
-          setRole("admin");
-          navigate("/admin-dashboard");
-          break;
-        }
-      }
+      
+      const role = res.data.data.role;
+      setRole(role);
+      
+      const dashboardMap = {
+        manager: "/restaurant-dashboard",
+        partner: "/ride-dashboard",
+        customer: "/user-dashboard",
+        admin: "/admin-dashboard"
+      };
+      
+      navigate(dashboardMap[role] || "/");
+
     } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.message || "Unknown error");
+      console.error(error);
+      toast.error(error?.response?.data?.message || "Login Failed");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <>
-      <div className=" p-6 h-full">
-        <h1 className="text-center font-bold p-7 text-4xl text-(--text-primary)">
-          Student Login
-        </h1>
-        <div className="m-auto bg-(--bg-light) shadow shadow-gray-400 p-5  rounded-2xl w-2xl">
-          <form onSubmit={handleSubmit} onReset={handleClear}>
-            <div className=" relative m-10">
-              <div className="space-y-8 p-6">
-                <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">
-                    Email :
-                  </label>
-                  <div className="flex border-1  border-gray-300 items-center hover:border-blue-600 px-3 rounded">
-                    <IoMdPerson className="text-(--text-primary) text-2xl" />
-                    <input
-                      type="email"
-                      className=" rounded p-2 w-2xl  focus:outline-none  disabled:cursor-not-allowed  disabled:bg-gray-200"
-                      name="email"
-                      placeholder="Enter your email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      disabled={isLoading}
-                    />
-                  </div>
-                  {validationError.email && (
-                    <span className="text-xs text-red-500">
-                      {validationError.email}
-                    </span>
-                  )}
-                </div>
+    <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-6 font-sans text-[#1a1a1a]">
+      <div className="w-full max-w-xl">
+        
+        {/* Header Section */}
+        <div className="text-center mb-10 space-y-2">
+          <h1 className="text-5xl font-black tracking-tighter leading-none text-gray-900">
+            Welcome <span className="text-[#842A3B]">Back.</span>
+          </h1>
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+            Login to your craving account
+          </p>
+        </div>
 
-                <div className="flex flex-col justify-between">
-                  <label htmlFor="fullName" className="text-(--text-primary)">
-                    Password :
-                  </label>
-                  <div className="flex border  border-gray-300 items-center px-3 rounded">
-                    <input
-                      type="password"
-                      className=" rounded  p-2 w-2xl focus:ring-1 focus:outline-none focus:ring-blue-600 disabled:cursor-not-allowed  disabled:bg-gray-200"
-                      name="password"
-                      placeholder="Enter Password"
-                      onChange={handleChange}
-                      value={formData.password}
-                      disabled={isLoading}
-                    />
-                  </div>
+        {/* Form Card */}
+        <div className="bg-white p-12 rounded-[3.5rem] shadow-2xl shadow-gray-200/50 border border-gray-100">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            
+            {/* Email Field */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">
+                Email Address
+              </label>
+              <div className="relative group text-[#1a1a1a]">
+                <FiMail className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#842A3B] transition-colors" size={18} />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="name@example.com"
+                  className="w-full bg-[#FAF7F2] p-5 pl-14 rounded-2xl outline-none border-2 border-transparent focus:border-[#842A3B]/10 focus:bg-white transition-all font-bold text-sm"
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
+              {validationError.email && (
+                <span className="text-[10px] font-black text-red-500 ml-2 uppercase tracking-tight">
+                  {validationError.email}
+                </span>
+              )}
+            </div>
 
-                  <div className="text-blue-700 flex justify-end text-xs">
-                    <button
-                      onClick={(e) => {
-                        (e.preventDefault());
-                        setIsForgetPassword(true);
-                      }}
-                    >
-                      Forget Password?
-                    </button>
-                  </div>
-                </div>
+            {/* Password Field */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">
+                Password
+              </label>
+              <div className="relative group">
+                <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#842A3B] transition-colors" size={18} />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  className="w-full bg-[#FAF7F2] p-5 pl-14 rounded-2xl outline-none border-2 border-transparent focus:border-[#842A3B]/10 focus:bg-white transition-all font-bold text-sm"
+                  value={formData.password}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="flex justify-end pr-2">
+                <button
+                  type="button"
+                  onClick={() => setIsForgetPassword(true)}
+                  className="text-[10px] font-black text-[#842A3B] uppercase border-b border-transparent hover:border-[#842A3B] transition-all"
+                >
+                  Forgot Password?
+                </button>
               </div>
             </div>
 
-            <div className="flex justify-center items-center gap-4">
-              <button
-                disabled={isLoading}
-                className="border flex items-center gap-2 px-7 py-2 bg-(--color-primary) hover:bg-(--color-primary-hover) trans text-amber-50 rounded-2xl transition duration-300 transform hover:scale-105  disabled:scale-100 disabled:cursor-not-allowed "
-              >
-                <BsSend />
-                {isLoading ? "Submitting" : "Submit"}
-              </button>
-            </div>
-          </form>
-          <div className="ml-50 mt-8">
-            Don't have any Account?{" "}
+            {/* Submit Button */}
             <button
-              className="text-blue-700"
-              onClick={() => navigate("/register")}
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-[#842A3B] text-white p-5 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-[#842A3B]/20 hover:scale-[1.02] active:scale-95 disabled:opacity-70 disabled:scale-100 transition-all"
             >
-              Register
+              {isLoading ? (
+                <span className="animate-pulse">Authenticating...</span>
+              ) : (
+                <>
+                  <BsSend size={16} /> 
+                  Enter Dashboard
+                </>
+              )}
             </button>
+          </form>
+
+          {/* Footer Link */}
+          <div className="mt-10 text-center">
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-tight">
+              New to Craving?{" "}
+              <button
+                className="text-[#842A3B] font-black hover:underline underline-offset-4"
+                onClick={() => navigate("/register")}
+              >
+                Create Account
+              </button>
+            </p>
           </div>
         </div>
       </div>
@@ -186,7 +182,7 @@ function Login() {
       {isForgetPassword && (
         <ForgetPasswordModal onClose={() => setIsForgetPassword(false)} />
       )}
-    </>
+    </div>
   );
 }
 
