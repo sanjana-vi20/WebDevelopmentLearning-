@@ -5,7 +5,6 @@ export const UserUpdate = async (req, res, next) => {
   try {
     const {
       fullName,
-      restaurantName,
       email,
       mobnumber,
       gender,
@@ -27,7 +26,6 @@ export const UserUpdate = async (req, res, next) => {
     console.log("Old data ", currentUser);
 
     currentUser.fullName = fullName;
-    currentUser.restaurantName = restaurantName;
     currentUser.email = email;
     currentUser.mobnumber = mobnumber;
     currentUser.dob = dob;

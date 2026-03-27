@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema(
     },
     restaurantName: {
       type: String,
-      required: true,
+      
     },
     email: {
       type: String,

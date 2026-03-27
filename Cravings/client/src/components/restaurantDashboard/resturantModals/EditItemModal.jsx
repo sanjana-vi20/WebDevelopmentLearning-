@@ -218,7 +218,7 @@ const EditItemModal = ({ onClose  , selectedItem}) => {
              <input type="text" className="px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none" placeholder="15-20 Mins" name='servingsize' value={formData.servingsize} onChange={handleOnchange} />
             </div>
             <div>
-              <input type="radio" name='availability' value={formData.availability} onChange={handleOnchange}/> Availability
+              <input type="checkbox" name='availability' checked={formData.availability} value={formData.availability} onChange={handleOnchange}/> Availability
             </div>
            </div>
 

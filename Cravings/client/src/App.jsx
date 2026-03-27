@@ -16,6 +16,7 @@ import OrderNow from "./pages/OrderNow";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import ExploreMenu from "./components/restaurantDashboard/ExploreMenu";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/restaurant-details/:id" element={<RestaurantDetails />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/add-to-cart" element={<CartPage/>} />
+          <Route path="/checkoutPage" element={<CheckoutPage/>} />
         </Routes>
         {/* <Footer/> */}
       </BrowserRouter>

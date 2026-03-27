@@ -85,7 +85,9 @@ export const filteredMenu = async (req, res, next) => {
 
 export const AllMenu = async (req, res, next) => {
   try {
-    const menus = await Menu.find().populate({
+    const menus = await Menu.find({
+      availability: { $eq: true },
+    }).populate({
       path: "restaurantID", // Menu schema ki woh field jo User ko point karti hai
       select: "restaurantName",
     });

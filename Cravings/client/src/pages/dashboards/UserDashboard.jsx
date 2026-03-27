@@ -14,7 +14,7 @@ const UserDashboard = () => {
   return (
     <>
       <div className="flex w-full min-h-screen bg-slate-50">
-        <div className={` bg-(--bg-accent) fixed duration-300 rounded-2xl m-2.5 ${isCollapse ? "w-3/60" : "w-12/60"} h-screen`}>
+        <div className={`  fixed duration-300 rounded-2xl m-2.5 ${isCollapse ? "w-3/60" : "w-12/60"} h-screen`}>
           <SideBar active={active} setActive={setActive} isCollapse= {isCollapse} setIsCollapse = {setIsCollapse} />
         </div>
         <div className={`duration-300 w-full 

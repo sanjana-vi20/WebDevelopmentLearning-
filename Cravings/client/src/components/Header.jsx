@@ -12,7 +12,7 @@ function Header() {
   const location = useLocation();
   const [cartCount, setCartCount] = useState(0);
   const [lastSeenCount, setLastSeenCount] = useState(
-    Number(localStorage.getItem("lastSeenCount")) || 0
+    Number(localStorage.getItem("lastSeenCount")) || 0,
   );
 
   // const updateCartCount = () => {
@@ -32,7 +32,8 @@ function Header() {
   //   return () => window.removeEventListener("cartUpdated", updateCartCount);
   // }, [location.pathname]);
 
-  const showBadge = cartCount > lastSeenCount && location.pathname !== "/add-to-cart";
+  const showBadge =
+    cartCount > lastSeenCount && location.pathname !== "/add-to-cart";
 
   const handleNavigate = () => {
     const routes = {
@@ -64,8 +65,7 @@ function Header() {
   ];
 
   return (
-    <nav className="sticky top-0 z-[100] bg-white/80 backdrop-blur-md border-b border-gray-100 py-3 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
-      
+    <nav className="sticky top-0 z-100 bg-white/80 backdrop-blur-md border-b border-gray-100 py-3 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
       {/* --- LOGO --- */}
       <Link to="/" className="flex items-center group">
         <div className="relative overflow-hidden rounded-full p-1 bg-gradient-to-tr from-[#842A3B] to-[#F5DAA7]">
@@ -87,11 +87,15 @@ function Header() {
             key={link.name}
             to={link.path}
             className={`text-sm font-black uppercase tracking-widest transition-all duration-300 hover:text-[#842A3B] relative group ${
-              location.pathname === link.path ? "text-[#842A3B]" : "text-gray-500"
+              location.pathname === link.path
+                ? "text-[#842A3B]"
+                : "text-gray-500"
             }`}
           >
             {link.name}
-            <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-[#842A3B] transition-all duration-300 group-hover:w-full ${location.pathname === link.path ? "w-full" : ""}`}></span>
+            <span
+              className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-[#842A3B] transition-all duration-300 group-hover:w-full ${location.pathname === link.path ? "w-full" : ""}`}
+            ></span>
           </Link>
         ))}
 
@@ -101,7 +105,9 @@ function Header() {
           className="relative flex items-center gap-2 text-gray-500 font-black uppercase text-sm tracking-widest hover:text-[#842A3B] transition-colors"
         >
           <ShoppingCart size={20} />
-          <span className="hidden xl:inline">Cart</span>
+          <span className="hidden xl:inline">
+            Cart
+          </span>
           {showBadge && (
             <span className="absolute -top-3 -right-3 bg-[#842A3B] text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center animate-bounce shadow-lg border-2 border-white">
               {cartCount - lastSeenCount}
@@ -114,19 +120,21 @@ function Header() {
       <div className="flex gap-4 items-center">
         {isLogin ? (
           <div className="flex items-center gap-4 bg-[#FDF6E3] p-1 pr-4 rounded-full border border-[#F5DAA7]/30 shadow-sm">
-            <div 
+            <div
               className="w-10 h-10 bg-[#842A3B] rounded-full flex items-center justify-center text-white cursor-pointer hover:rotate-12 transition-transform shadow-md"
               onClick={handleNavigate}
             >
               <User size={20} />
             </div>
             <div className="hidden md:block">
-              <p className="text-[10px] font-black text-gray-400 uppercase leading-none">Welcome</p>
-              <p 
+              <p className="text-[10px] font-black text-gray-400 uppercase leading-none">
+                Welcome
+              </p>
+              <p
                 className="text-xs font-black text-[#1a1a1a] cursor-pointer hover:text-[#842A3B]"
                 onClick={handleNavigate}
               >
-                {user.fullName.split(' ')[0]}
+                {user.fullName.split(" ")[0]}
               </p>
             </div>
             <button

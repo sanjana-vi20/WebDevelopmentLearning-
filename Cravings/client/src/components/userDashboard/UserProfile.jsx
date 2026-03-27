@@ -148,11 +148,6 @@ const UserProfile = () => {
                     icon={<Phone size={16} />}
                   />
                   <InfoBlock
-                    label="Restaurant Name"
-                    value={user?.restaurantName || "N/A"}
-                    icon={<Landmark size={16} />}
-                  />
-                  <InfoBlock
                     label="Gender"
                     value={user?.gender || "Not Set"}
                     icon={<Calendar size={16} />}

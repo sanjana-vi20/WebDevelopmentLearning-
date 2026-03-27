@@ -10,12 +10,14 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [activeBill, setActiveBill] = useState(null);
+  const { user, isLogin } = useAuth();
 
   const getCartDetails = async () => {
     const localCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -65,6 +67,8 @@ const CartPage = () => {
   useEffect(() => {
     getCartDetails();
   }, []);
+
+  console.log("CurrentUser: ", user);
 
   const handleQuantity = (id, resId, change) => {
     const updatedCart = JSON.parse(localStorage.getItem("cart")) || {};
@@ -138,6 +142,21 @@ const CartPage = () => {
       platform,
       grandTotal: itemTotal + delivery + gst + platform,
     };
+  };
+
+  const handleCheckout = (resName, items, bill) => {
+    if (isLogin) {
+      navigate("/checkoutPage", {
+        state: {
+          restaurantName: resName,
+          items: items,
+          billDetails: bill,
+        },
+      });
+    } else {
+      toast.error("please Login First");
+      navigate("/login");
+    }
   };
 
   if (loading)
@@ -362,13 +381,13 @@ const CartPage = () => {
                         </span>
                       </div>
                       <button
-                          onClick={() =>
-                            handleCheckout(restaurantName, items, bill)
-                          }
-                          className="w-full mt-4 px-3 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest hover:bg-[#842A3B] transition-all flex items-center justify-center gap-2"
-                        >
-                          Order from {restaurantName} <ChevronRight size={16} />
-                        </button>
+                        onClick={() =>
+                          handleCheckout(restaurantName, items, bill)
+                        }
+                        className="w-full mt-4 px-3 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-[11px] tracking-widest hover:bg-[#842A3B] transition-all flex items-center justify-center gap-2"
+                      >
+                        Order from {restaurantName} <ChevronRight size={16} />
+                      </button>
                     </div>
                   </div>
                 </div>

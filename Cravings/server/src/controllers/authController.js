@@ -87,7 +87,7 @@ export const UserLogin = async (req, res, next) => {
 export const UserLogout = async (req, res, next) => {
   try {
     res.clearCookie("oreo");
-    res.status(200).json({ mesasge: "Logout Successfully" });
+    res.status(200).json({ message: "Logout Successfully" });
   } catch (error) {
     console.log(error);
     next(error);
